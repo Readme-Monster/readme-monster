@@ -1,0 +1,6 @@
+#!/bin/sh
+export PATH="$(yarn bin):$PATH"
+if [ -n "$(git diff --cached --name-only --diff-filter=ACM | grep \\.js$)" ]; then
+  echo "Running linters..."
+  yarn lint-staged
+fi
