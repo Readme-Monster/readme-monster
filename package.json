@@ -4,21 +4,29 @@
   "devDependencies": {
     "@babel/core": "^7.24.4",
     "@babel/eslint-parser": "^7.24.1",
+    "@babel/preset-env": "^7.24.4",
     "@commitlint/cli": "^19.2.2",
     "@commitlint/config-conventional": "^19.2.2",
     "@types/babel__core": "^7",
-    "eslint": "^9.1.0",
+    "@types/babel__preset-env": "^7",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "@yarnpkg/eslint-config": "^1.0.0",
+    "eslint": "8",
     "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-react": "^7.34.1",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
     "prettier": "^3.2.5"
   },
   "lint-staged": {
     "*.js": [
-      "eslint --fix --config ./path/to/your/eslintrc.json",
-      "prettier --write",
-      "git add"
+      "yarn eslint --fix --config ./.eslintrc.json",
+      "yarn prettier --write"
     ]
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   }
-  
 }

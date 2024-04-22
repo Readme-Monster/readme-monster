@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-const {existsSync} = require(`fs`);
-const {createRequire} = require(`module`);
-const {resolve} = require(`path`);
+const { existsSync } = require(`fs`);
+const { createRequire } = require(`module`);
+const { resolve } = require(`path`);
 
 const relPnpApiPath = "../../../../.pnp.cjs";
 
@@ -11,10 +11,10 @@ const absRequire = createRequire(absPnpApiPath);
 
 if (existsSync(absPnpApiPath)) {
   if (!process.versions.pnp) {
-    // Setup the environment to be able to require typescript
+    // Setup the environment to be able to require eslint
     require(absPnpApiPath).setup();
   }
 }
 
-// Defer to the real typescript your application uses
-module.exports = absRequire(`typescript`);
+// Defer to the real eslint your application uses
+module.exports = absRequire(`eslint`);
