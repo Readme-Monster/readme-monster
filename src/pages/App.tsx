@@ -1,10 +1,11 @@
 import React from "react";
-import Test from "../components/Test";
+import Builder from "./builder/Builder";
 
 function App() {
   return (
-    <div className="flex-Center h-[100vh]">
-      <Test/>
+    <div className="h-[100vh]">
+      <div className="h-[64px]"></div>
+      <Builder/>
     </div>
   );
 }
