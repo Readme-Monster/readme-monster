@@ -1,9 +1,10 @@
 import React from "react";
+import Test from "../components/Test";
 
 function App() {
   return (
-    <div className="App">
-      <h1>ReadMe Monster 개발 시작</h1>
+    <div className="flex-Center h-[100vh]">
+      <Test/>
     </div>
   );
 }
