@@ -7,7 +7,12 @@ const EditorPreviewContainer = () => {
   return (
     <>
       <div className="w-1/2">
-        <Editor/>
+        <div className="w-full h-full flex flex-col gap-[10px]">
+          <div className="min-h-[30px] mx-[15px] flex items-center">
+            <p className="text-textBlue font-semibold">Edior</p>
+          </div>
+          <Editor/>
+        </div>
       </div>
       <div className="w-1/2">
         <div className="w-full h-full flex flex-col gap-[10px]">

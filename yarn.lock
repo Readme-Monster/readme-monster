@@ -1663,6 +1663,28 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@carbon/icon-helpers@npm:^10.47.0":
+  version: 10.47.0
+  resolution: "@carbon/icon-helpers@npm:10.47.0"
+  dependencies:
+    "@ibm/telemetry-js": "npm:^1.2.1"
+  checksum: 10c0/4ff57b2c506c2e6af5f95fa842539e0cb61f663ec9a72687bfd4e2c378b3cda6b4370fd437f3250e6dac37be08b4abbc7cb7b753449b52f9d01b94751a44ccdd
+  languageName: node
+  linkType: hard
+
+"@carbon/icons-react@npm:^11.39.0":
+  version: 11.39.0
+  resolution: "@carbon/icons-react@npm:11.39.0"
+  dependencies:
+    "@carbon/icon-helpers": "npm:^10.47.0"
+    "@ibm/telemetry-js": "npm:^1.2.1"
+    prop-types: "npm:^15.7.2"
+  peerDependencies:
+    react: ">=16"
+  checksum: 10c0/23e93755d7e74f0ae393880bcad8149ed42cb3c49dea3e46cf5e4df63f75b5cf3e4dbab96bee94aa499e87fff3b7f5e0e09917a185ac4d95ed4800f19c82b020
+  languageName: node
+  linkType: hard
+
 "@commitlint/cli@npm:^19.2.2":
   version: 19.2.2
   resolution: "@commitlint/cli@npm:19.2.2"
@@ -2092,6 +2114,15 @@ __metadata:
   version: 2.0.3
   resolution: "@humanwhocodes/object-schema@npm:2.0.3"
   checksum: 10c0/80520eabbfc2d32fe195a93557cef50dfe8c8905de447f022675aaf66abc33ae54098f5ea78548d925aa671cd4ab7c7daa5ad704fe42358c9b5e7db60f80696c
+  languageName: node
+  linkType: hard
+
+"@ibm/telemetry-js@npm:^1.2.1":
+  version: 1.5.0
+  resolution: "@ibm/telemetry-js@npm:1.5.0"
+  bin:
+    ibmtelemetry: dist/collect.js
+  checksum: 10c0/40c7ad6e34fb5f6756bfd086be08f6f038dcf7a56000689378f1201749811556300a2a4882eecda6178dcbf13f6fcc9045cd4db23d347aaafe7a15c36eaa358c
   languageName: node
   linkType: hard
 
@@ -5056,6 +5087,13 @@ __metadata:
     strip-ansi: "npm:^6.0.1"
     wrap-ansi: "npm:^7.0.0"
   checksum: 10c0/4bda0f09c340cbb6dfdc1ed508b3ca080f12992c18d68c6be4d9cf51756033d5266e61ec57529e610dacbf4da1c634423b0c1b11037709cc6b09045cbd815df5
+  languageName: node
+  linkType: hard
+
+"clsx@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "clsx@npm:2.1.1"
+  checksum: 10c0/c4c8eb865f8c82baab07e71bfa8897c73454881c4f99d6bc81585aecd7c441746c1399d08363dc096c550cceaf97bd4ce1e8854e1771e9998d9f94c4fe075839
   languageName: node
   linkType: hard
 
@@ -11829,7 +11867,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.8.1":
+"prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -12152,6 +12190,7 @@ __metadata:
     "@babel/eslint-parser": "npm:^7.24.1"
     "@babel/preset-env": "npm:^7.24.4"
     "@babel/preset-react": "npm:^7.24.1"
+    "@carbon/icons-react": "npm:^11.39.0"
     "@commitlint/cli": "npm:^19.2.2"
     "@commitlint/config-conventional": "npm:^19.2.2"
     "@testing-library/jest-dom": "npm:^6.4.2"
@@ -12166,6 +12205,7 @@ __metadata:
     "@typescript-eslint/parser": "npm:^7.7.0"
     "@yarnpkg/eslint-config": "npm:^1.0.0"
     autoprefixer: "npm:^10.4.19"
+    clsx: "npm:^2.1.1"
     eslint: "npm:8"
     eslint-config-prettier: "npm:^9.1.0"
     eslint-plugin-react: "npm:^7.34.1"

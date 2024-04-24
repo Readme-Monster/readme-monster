@@ -1,11 +1,11 @@
 import React from "react";
-import Builder from "./builder/Builder";
+import ReadmeBuilder from "./builder/ReadmeBuilder";
 
 function App() {
   return (
     <div className="h-[100vh]">
       <div className="h-[64px]"></div>
-      <Builder/>
+      <ReadmeBuilder/>
     </div>
   );
 }

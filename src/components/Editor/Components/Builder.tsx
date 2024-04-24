@@ -1,8 +1,17 @@
 import React from "react";
+import SelectSections from "./SelectSections";
+import EditSections from "./EditSections";
 
 const Builder = () => {
   return (
-    <div>Builder</div>
+    <div className="w-full h-full flex flex-col gap-[20px]">
+      <div className="w-full h-auto">
+        <EditSections/>
+      </div>
+      <div className="w-full h-auto">
+        <SelectSections/>
+      </div>
+    </div>
   );
 };
 
