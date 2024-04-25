@@ -6,4 +6,10 @@
     .flex-Center {
         @apply flex items-center justify-center
     }
+    .line-sm {line-height: 1em !important;}
+    .line-lg {line-height: 1.2em !important;}
+
+    @media (max-width: 768px) { /* Tailwind의 md 브레이크포인트는 기본적으로 768px입니다. */
+        .display-contents {display: contents;}
+    }
 }

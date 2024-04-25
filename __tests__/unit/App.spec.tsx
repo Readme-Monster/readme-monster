@@ -14,7 +14,7 @@ describe('Routes 테스트', () => {
               <AppRoutes />
           </MemoryRouter>
       );
-      expect(screen.getByText(/HomePage/)).toBeInTheDocument();
+      expect(screen.getByTestId('home')).toBeInTheDocument();
   });
 
   test('잘못된 경로에 접근했을 때 루트 경로("/")로 리다이렉트되어야 함', () => {
@@ -23,6 +23,18 @@ describe('Routes 테스트', () => {
               <AppRoutes />
           </MemoryRouter>
       );
-      expect(screen.getByText(/HomePage/)).toBeInTheDocument();
+      expect(screen.getByTestId('home')).toBeInTheDocument();
   });
 });
+
+describe('App',()=>{
+  test('App 컴포넌트가 성공적으로 렌더링되어야 함', async () => {
+    renderWithRouter(<App />, { route: '/' });
+    const linkElement = screen.getByTestId('home');
+    expect(await linkElement).toBeInTheDocument();
+  });
+
+  function renderWithRouter(Component: ReactElement, options: { route: string }) {
+    return render(<MemoryRouter initialEntries={[options.route]}>{Component}</MemoryRouter>);
+  }
+})

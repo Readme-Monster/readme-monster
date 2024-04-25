@@ -7,6 +7,8 @@ module.exports = {
         textPrimary: "#343A40",
         textSecondary: "#868E96",
         textBlue: "#4B88FF",
+        textBlueHover: "#2F73FA",
+        textgreyHover:"#E0DEDE"
       }
     },
   },
