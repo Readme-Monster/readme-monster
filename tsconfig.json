@@ -23,5 +23,5 @@
   },
   "include": [
     "src"
-  ]
+, "jest.config.js", "App.test.tsx"  ]
 }
