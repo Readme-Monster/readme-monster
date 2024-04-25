@@ -21,7 +21,7 @@ const SelectSections = () => {
   return (
     <div className="flex flex-col gap-[10px]">
       <div className="flex-Center flex-row justify-between pt-[10px]">
-        <p className="text-textSecondary ml-[5px]">Select Section</p>
+        <p className="text-textSecondary ml-[5px] mb-0">Select Section</p>
         <Add size={35} className="fill-textBlue cursor-pointer" onClick={openModalAlert} />
       </div>
       <div className="flex flex-col gap-[10px]">

@@ -16,19 +16,19 @@ const EditorPreviewContainer = () => {
       <div className="w-1/2">
         <div className="w-full h-full flex flex-col gap-[10px]">
           <div className="min-h-[30px] mx-[15px] flex items-center">
-            <p className="text-textBlue font-semibold">Edior</p>
+            <p className="text-textBlue font-semibold mb-0">Edior</p>
           </div>
-          <Editor/>
+          <Editor />
         </div>
       </div>
       <div className="w-1/2">
         <div className="w-full h-full flex flex-col gap-[10px]">
-          <Tabs >
+          <Tabs>
             <Tab value="preview">Preview</Tab>
             <Tab value="raw">Raw</Tab>
           </Tabs>
-          { selectedTab === "preivew" && <Preview/> }
-          { selectedTab === "raw" && <Raw /> }
+          {selectedTab === "preivew" && <Preview />}
+          {selectedTab === "raw" && <Raw />}
         </div>
       </div>
     </>
