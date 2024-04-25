@@ -11,7 +11,6 @@ const AddSectionModal = ({modalRef, modalOutSideClick, onClose, openModal} : Pro
 
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-
   useEffect(() => {
     if (openModal) {
       inputRef.current?.focus();

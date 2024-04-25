@@ -34,7 +34,11 @@ const AutoForm = () => {
           formList?.map(({title, placeholder}) => (
             <div className="w-full h-[70px]" key={title}>
               <p className="text-textPrimary mb-[10px] ml-[10px]">{title}</p>
-              <input type="text" className="w-full h-[45px] p-[10px] rounded-[8px] border-solid border border-[#DEE2E6]" placeholder={placeholder}></input>
+              <input 
+                type="text" 
+                className="w-full h-[45px] p-[10px] rounded-[8px] border-solid border border-[#DEE2E6]" 
+                placeholder={placeholder}
+              />
             </div>
           ))
         }
