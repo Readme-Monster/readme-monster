@@ -1,10 +1,15 @@
 import React from "react";
-import Test from "../components/Test";
+import { Route, Routes } from "react-router-dom";
+import AppLayout from "../layout/AppLayout";
+import NotFoundPage from "./NotFoundPage/NotFoundPage";
 
 function App() {
   return (
     <div className="flex-Center h-[100vh]">
-      <Test/>
+      <Routes>
+        <Route path="/" element={<AppLayout />}></Route>
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
     </div>
   );
 }
