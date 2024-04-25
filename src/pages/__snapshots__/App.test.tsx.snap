@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App Component renders correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="App"
+  >
+    <div>
+      <div
+        class="stiky z-10 w-full h-12 text-white top-0"
+      >
+        <div
+          class="flex w-full h-12 relative justify-between items-center my-0 mx-auto py-0 px-4"
+        >
+          <div
+            class="h-full flex justify-center items-center"
+          >
+            <a
+              href="/"
+            >
+              <img
+                alt="logo"
+                class="h-8 w-8"
+                src="/images/rm-logo.png"
+              />
+            </a>
+          </div>
+          <div
+            class="flex justify-center items-center"
+          >
+            <a
+              href="https://github.com/"
+            >
+              <img
+                alt="github"
+                class="h-8 w-8 mr-3"
+                src="/images/github-logo.svg"
+              />
+            </a>
+            <img
+              alt="dark"
+              class="h-8 w-8 mr-3"
+              src="/images/light-to-dark.svg"
+            />
+            <button
+              class="p-0 btn btn-transparent"
+              type="button"
+            >
+              <img
+                alt="mypage"
+                class="h-8 w-8"
+                src="/images/mypage.svg"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+      <div>
+        Homepage
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
