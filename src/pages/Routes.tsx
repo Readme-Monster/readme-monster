@@ -7,7 +7,6 @@ import NotFoundPage from "./NotFoundPage/NotFoundPage";
 export const Routes = () => {
   return (
     <ReactRouterRoutes>
-      {/* <Route path="*" element={<Navigate replace to="/" />} /> */}
       <Route path="/" element={<AppLayout />}>
         <Route index element={<HomePage />} />
       </Route>

@@ -138,30 +138,22 @@ const moduleWrapper = tsserver => {
 
   function fromEditorPath(str) {
     switch (hostInfo) {
-      case `coc-nvim`:
-        {
-          str = str.replace(/\.zip::/, `.zip/`);
-          // The path for coc-nvim is in format of /<pwd>/zipfile:/<pwd>/.yarn/...
-          // So in order to convert it back, we use .* to match all the thing
-          // before `zipfile:`
-          return process.platform === `win32` ? str.replace(/^.*zipfile:\//, ``) : str.replace(/^.*zipfile:/, ``);
-        }
-        break;
-
-      case `neovim`:
-        {
-          str = str.replace(/\.zip::/, `.zip/`);
-          // The path for neovim is in format of zipfile:///<pwd>/.yarn/...
-          return str.replace(/^zipfile:\/\//, ``);
-        }
-        break;
-
+      case `coc-nvim`: {
+        str = str.replace(/\.zip::/, `.zip/`);
+        // The path for coc-nvim is in format of /<pwd>/zipfile:/<pwd>/.yarn/...
+        // So in order to convert it back, we use .* to match all the thing
+        // before `zipfile:`
+        return process.platform === `win32` ? str.replace(/^.*zipfile:\//, ``) : str.replace(/^.*zipfile:/, ``);
+      }
+      case `neovim`: {
+        str = str.replace(/\.zip::/, `.zip/`);
+        // The path for neovim is in format of zipfile:///<pwd>/.yarn/...
+        return str.replace(/^zipfile:\/\//, ``);
+      }
       case `vscode`:
-      default:
-        {
-          return str.replace(/^\^?(zip:|\/zip(\/ts-nul-authority)?)\/+/, process.platform === `win32` ? `` : `/`);
-        }
-        break;
+      default: {
+        return str.replace(/^\^?(zip:|\/zip(\/ts-nul-authority)?)\/+/, process.platform === `win32` ? `` : `/`);
+      }
     }
   }
 

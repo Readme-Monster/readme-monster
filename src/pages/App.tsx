@@ -4,7 +4,7 @@ import { Routes } from "./Routes";
 function App() {
   return (
     <div className="flex-Center h-[100vh]">
-      <Routes/>
+      <Routes />
     </div>
   );
 }
