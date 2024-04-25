@@ -1,6 +1,7 @@
 #!/bin/sh
 export PATH="$(yarn bin):$PATH"
-if [ -n "$(git diff --cached --name-only --diff-filter=ACM | grep \\.js$)" ]; then
+# Check for any .js or .tsx files that have been added, copied, or modified
+if [ -n "$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(js|tsx)$')" ]; then
   echo "Running linters..."
   yarn lint-staged
 fi
