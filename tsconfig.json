@@ -19,7 +19,8 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "types": ["jest"]
+    "types": ["jest"],
+    "baseUrl": "./src",
   },
   "include": [
     "src"
