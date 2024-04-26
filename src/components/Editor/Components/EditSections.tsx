@@ -3,9 +3,9 @@ import EditSection from "./EditSection";
 
 const EditSections = () => {
   return (
-    <div className="flex flex-col gap-[10px]">
-      <div className="flex-Center flex-row justify-between pt-[10px] h-[45px]">
-        <p className="text-textSecondary ml-[5px] mb-0">Edit Section</p>
+    <div className="flex flex-col gap-[10px] px-[10px]">
+      <div className="flex-Center flex-row justify-between min-h-[30px]">
+        <p className="text-textPrimary ml-[5px] mb-0 text-sm">Edit Section</p>
       </div>
       <div className="flex flex-col gap-[10px]">
         <EditSection />
