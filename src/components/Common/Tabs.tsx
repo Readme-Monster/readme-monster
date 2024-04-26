@@ -13,7 +13,7 @@ interface TabProps extends TabsProps {
 
 export const Tabs = ({ children, onClick, value }: TabsProps) => {
   return (
-    <div className="w-full min-h-[30px] flex flex-row gap-[40px] mx-[10px]">
+    <div className="w-full min-h-[30px] flex flex-row gap-[40px] mx-[5px]">
       {Children.toArray(children).map((child, idx) => (
         <Tab
           key={idx}
