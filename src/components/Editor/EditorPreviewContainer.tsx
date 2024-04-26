@@ -5,9 +5,9 @@ import Raw from "./Components/Raw";
 import { Tab, Tabs } from "../Common/Tabs";
 
 const EditorPreviewContainer = () => {
-  const [selectedTab, setSelectedTab] = useState<string | undefined>("preivew");
+  const [selectedTab, setSelectedTab] = useState<string | undefined>("Preview");
 
-  const onChange = (value?: string) => {
+  const handleTabClick = (value?: string | undefined) => {
     setSelectedTab(value);
   };
 
@@ -15,7 +15,7 @@ const EditorPreviewContainer = () => {
     <>
       <div className="w-1/2">
         <div className="w-full h-full flex flex-col gap-[10px]">
-          <div className="min-h-[30px] mx-[15px] flex items-center">
+          <div className="min-h-[30px] mx-[10px] flex items-center">
             <p className="text-textBlue font-semibold mb-0">Edior</p>
           </div>
           <Editor />
@@ -23,12 +23,12 @@ const EditorPreviewContainer = () => {
       </div>
       <div className="w-1/2">
         <div className="w-full h-full flex flex-col gap-[10px]">
-          <Tabs>
-            <Tab value="preview">Preview</Tab>
-            <Tab value="raw">Raw</Tab>
+          <Tabs value={selectedTab} onClick={handleTabClick}>
+            <Tab value="Preview">Preview</Tab>
+            <Tab value="Raw">Raw</Tab>
           </Tabs>
-          {selectedTab === "preivew" && <Preview />}
-          {selectedTab === "raw" && <Raw />}
+          {selectedTab === "Preview" && <Preview />}
+          {selectedTab === "Raw" && <Raw />}
         </div>
       </div>
     </>

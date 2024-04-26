@@ -1,15 +1,25 @@
-import React from "react";
+import { Tab, Tabs } from "components/Common/Tabs";
+import React, { useState } from "react";
 import Auto from "./Components/Auto";
 import Builder from "./Components/Builder";
 
-
 const SectionsContainer = () => {
+  const [selectedTab, setSelectedTab] = useState<string | undefined>("Builder");
+
+  const handleTabClick = (value?: string | undefined) => {
+    setSelectedTab(value);
+  };
+
   return (
     <div className="w-full h-full flex flex-col gap-[10px]">
-      <div className="min-h-[30px] mx-[15px] flex items-center">
+      <Tabs value={selectedTab} onClick={handleTabClick}>
+        <Tab value="Builder">Builder</Tab>
+        <Tab value="Auto">Auto</Tab>
+      </Tabs>
+      <div className="w-full h-full flex flex-col gap-[10px]">
+        {selectedTab === "Builder" && <Builder />}
+        {selectedTab === "Auto" && <Auto />}
       </div>
-      {/* <Auto/> */}
-      <Builder/>
     </div>
   );
 };
