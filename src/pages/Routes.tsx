@@ -11,10 +11,10 @@ export const Routes = () => {
     <ReactRouterRoutes>
       <Route path="/" element={<AppLayout />}>
         <Route index element={<HomePage />} />
-        <Route path="/myPage" element={<MyPage />} />
+        <Route path="editor" element={<ReadmeBuilder />} />
+        <Route path="myPage" element={<MyPage />} />
       </Route>
       <Route path="*" element={<NotFoundPage />} />
-      <Route path="/editor" element={<ReadmeBuilder />} />
     </ReactRouterRoutes>
   );
 };

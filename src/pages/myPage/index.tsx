@@ -20,35 +20,37 @@ const MyPage = () => {
   };
 
   return (
-    <section className="w-full h-[calc(100%)]">
-      {/* 컴포넌트로 뺄 예정 */}
-      <div className={"w-full h-10 bg-slate-100 flex justify-start gap-3 p-2"}>
-        <button
-          className={tab.info ? "text-textBlue pointer-events-none" : "text-textSecondary"}
-          id="info"
-          onClick={handleChangeTab}
-        >
-          Info
-        </button>
-        <button
-          className={tab.previous ? "text-textBlue pointer-events-none" : "text-textSecondary"}
-          id="previous"
-          onClick={handleChangeTab}
-        >
-          Previous
-        </button>
-      </div>
-      {/* h-[calc(100vh-40px)] */}
-      <div className="flex-Center flex-col gap-5 ">
-        {tab.info ? (
-          // 회원정보 info
-          <UserInfo />
-        ) : (
-          // Previous
-          <UserPreviousList />
-        )}
-      </div>
-    </section>
+    <div className="w-full h-[calc(100vh-48px)] flex flex-col items-center justify-center">
+      <section className="w-full h-[calc(100%)]">
+        {/* 컴포넌트로 뺄 예정 */}
+        <div className={"w-full h-10 bg-slate-100 flex justify-start gap-3 p-2"}>
+          <button
+            className={tab.info ? "text-textBlue pointer-events-none" : "text-textSecondary"}
+            id="info"
+            onClick={handleChangeTab}
+          >
+            Info
+          </button>
+          <button
+            className={tab.previous ? "text-textBlue pointer-events-none" : "text-textSecondary"}
+            id="previous"
+            onClick={handleChangeTab}
+          >
+            Previous
+          </button>
+        </div>
+
+        <div className="flex-Center flex-col gap-5 h-[calc(100vh-40px)]">
+          {tab.info ? (
+            // 회원정보 info
+            <UserInfo />
+          ) : (
+            // Previous
+            <UserPreviousList />
+          )}
+        </div>
+      </section>
+    </div>
   );
 };
 
