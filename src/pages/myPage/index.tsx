@@ -38,8 +38,8 @@ const MyPage = () => {
           Previous
         </button>
       </div>
-
-      <div className="flex-Center flex-col gap-5 h-[calc(100vh-40px)]">
+      {/* h-[calc(100vh-40px)] */}
+      <div className="flex-Center flex-col gap-5 ">
         {tab.info ? (
           // 회원정보 info
           <UserInfo />
