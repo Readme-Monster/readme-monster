@@ -37,11 +37,17 @@ const Header = () => {
               hasDoneInitialMeasure: _hasDoneInitialMeasure,
               ...props
             }) => (
-              <div {...props} className="bg-black rounded p-3 mt-1">
-                <div className="p-1 cursor-pointer text-white" onClick={() => navigate("/mypage")}>
+              <div {...props} className="bg-black rounded p-3 mt-1 ">
+                <div
+                  className="p-1 cursor-pointer text-textWhite hover:text-textBlue"
+                  onClick={() => navigate("/mypage")}
+                >
                   마이페이지
                 </div>
-                <div className="p-1 cursor-pointer text-white" onClick={() => navigate("/login")}>
+                <div
+                  className="p-1 cursor-pointer text-textWhite hover:text-textBlue"
+                  onClick={() => navigate("/login")}
+                >
                   로그인
                 </div>
               </div>
