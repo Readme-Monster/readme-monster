@@ -11,8 +11,8 @@ const Header = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="stiky z-10 w-full h-12 text-white top-0">
-      <div className="flex w-full h-12 relative justify-between items-center my-0 mx-auto py-0 px-4">
+    <div className="stiky z-10 w-full h-[80px] text-white top-0">
+      <div className="flex w-full h-full relative justify-between items-center my-0 mx-auto py-0 px-4">
         <div className="h-full flex justify-center items-center">
           <Link to="/">
             <img src="/images/rm-logo.png" alt="logo" className="h-8 w-8" />
