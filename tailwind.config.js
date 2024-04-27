@@ -10,6 +10,8 @@ module.exports = {
         textBlue: "#4B88FF",
         textBlueHover: "#2F73FA",
         textgreyHover: "#E0DEDE",
+        textWhite: "#FFFFFF",
+        textBlack: "#000000",
       },
       screens: {
         mobile: "768px",
