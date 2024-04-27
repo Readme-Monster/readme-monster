@@ -22,7 +22,7 @@ const MyPage = () => {
   return (
     <section className="w-full h-[calc(100%)]">
       {/* 컴포넌트로 뺄 예정 */}
-      <div className={"w-full h-10 bg-slate-100 flex justify-start gap-5 p-2"}>
+      <div className={"w-full h-10 bg-slate-100 flex justify-start gap-3 p-2"}>
         <button
           className={tab.info ? "text-textBlue pointer-events-none" : "text-textSecondary"}
           id="info"
