@@ -12,7 +12,7 @@ interface ButtonProps {
 
 function HomePage() {
   return (
-    <div>
+    <div className="w-full h-[calc(100vh-48px)] flex flex-col items-center justify-center">
       <div className="flex-Center flex-col" data-testid="home">
         <img alt="로고" src="/img/logo.png" width="140" height="140" data-testid="logo" />
         <span className="text-textPrimary  text-3xl md:text-6xl sm:text-5xl font-bold line-lg" data-testid="title">

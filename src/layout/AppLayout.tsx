@@ -4,7 +4,7 @@ import Header from "../common/Header/Header";
 
 const AppLayout = () => {
   return (
-    <div>
+    <div className="w-full">
       <Header />
       <Outlet />
     </div>
