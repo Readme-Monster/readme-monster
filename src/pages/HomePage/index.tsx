@@ -1,5 +1,5 @@
 import React from "react";
-import { RoutePath, useRouter } from "./routing";
+import { RoutePath, useRouter } from "../routing";
 
 interface ButtonProps {
   url: RoutePath;
