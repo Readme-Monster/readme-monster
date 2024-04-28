@@ -14,7 +14,7 @@ function HomePage() {
   return (
     <div className="w-full h-[calc(100vh-80px)] flex flex-col items-center justify-center gap-[20px]">
       <div className="flex-Center flex-col" data-testid="home">
-        <img alt="로고" src="/img/logo.png" width="150" height="150" data-testid="logo" />
+        <img alt="로고" src="/images/rm-logo.png" width="150" height="150" data-testid="logo" />
         <span className="text-textPrimary  text-3xl md:text-6xl sm:text-5xl font-bold line-lg" data-testid="title">
           README-MONSTER
         </span>
