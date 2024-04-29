@@ -48,7 +48,7 @@ describe("HomePage 테스트", () => {
     // 첫 번째 버튼 클릭
     const firstButton = screen.getByTestId("firstButton");
     fireEvent.click(firstButton);
-    expect(pushMock).toHaveBeenCalledWith("/login");
+    expect(pushMock).toHaveBeenCalledWith("/editor");
 
     // 두 번째 버튼 클릭
     const secondButton = screen.getByTestId("secondButton");
