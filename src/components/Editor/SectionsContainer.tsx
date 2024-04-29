@@ -1,4 +1,4 @@
-import { Tab, Tabs } from "components/Common/Tabs";
+import { Tab, Tabs } from "../../components/Common/Tabs";
 import React, { useState } from "react";
 import Auto from "./Components/Auto";
 import Builder from "./Components/Builder";
