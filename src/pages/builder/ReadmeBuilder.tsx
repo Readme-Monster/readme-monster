@@ -1,4 +1,3 @@
-import Header from "common/Header/Header";
 import React from "react";
 import EditorPreviewContainer from "../../components/Editor/EditorPreviewContainer";
 import SectionsContainer from "../../components/Editor/SectionsContainer";
