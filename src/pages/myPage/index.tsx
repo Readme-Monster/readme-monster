@@ -1,5 +1,5 @@
-import UserInfo from "components/MyPage/UserInfo";
-import UserPreviousList from "components/MyPage/UserPrevious";
+import UserInfo from "../../components/MyPage/UserInfo";
+import UserPreviousList from "../../components/MyPage/UserPrevious";
 import React, { ChangeEvent, MouseEvent, useState } from "react";
 import { TabStateProps, UserInfoProps } from "./types";
 
