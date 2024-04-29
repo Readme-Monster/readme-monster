@@ -1,6 +1,6 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import Header from "../common/Header/Header";
+import Header from "../components/Common/Header/Header";
 
 const AppLayout = () => {
   return (
