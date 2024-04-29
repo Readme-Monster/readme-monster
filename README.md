@@ -5,8 +5,8 @@ Readme Monster는 사용자가 직관적인 인터페이스를 통해 README 파
 
 ## 링크
 
-- [서비스 바로가기](#)
-- [피그마](#)
+- [서비스 바로가기](https://readme-monster.netlify.app/)
+- [디자인](https://framer.com/projects/Untitled--Xf9L3K5EqFYT1UxUF3f9-8hseT)
 
 ## RM 팀원을 소개합니다
 |[![](https://avatars.githubusercontent.com/u/88364280?v=4)](https://github.com/lee-ji-hong)|[![](https://avatars.githubusercontent.com/u/81367886?v=4)](https://github.com/yonghyun421)|[![](https://avatars.githubusercontent.com/u/72785296?v=4)](https://github.com/JaeHyup0504)|[![](https://avatars.githubusercontent.com/u/66737450?v=4)](https://github.com/cks612)|
