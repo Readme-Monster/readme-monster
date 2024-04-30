@@ -11,9 +11,6 @@ interface Props {
 
 const EditSection = ({ id, title }: Props) => {
   const [hover, setHover] = useState<boolean>(false);
-  const [clicked, setClicked] = useState<boolean>(false);
-
-  const onClickDiv = () => setClicked(!clicked);
 
   const onMouseEnter = () => setHover(true);
   const onMouseLeave = () => setHover(false);
@@ -29,9 +26,7 @@ const EditSection = ({ id, title }: Props) => {
     <div
       ref={setNodeRef}
       {...attributes}
-      {...listeners}
       style={style}
-      onClick={() => onClickDiv()}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       className={clsx(
@@ -40,11 +35,11 @@ const EditSection = ({ id, title }: Props) => {
         "rounded-[8px] border-solid border bg-white border-[#F1F3F5] drop-shadow-[0_1px_1px_rgba(173,181,189,0.25)]",
         "cursor-pointer",
         {
-          "focus:outline-none focus:ring-2 focus:ring-textBlue": !clicked,
+          "focus:outline-none focus:ring-2 focus:ring-textBlue": true,
         },
       )}
     >
-      <List size={25} className="fill-textSecondary min-w-[25px]" />
+      <List {...listeners} size={25} className="fill-textSecondary min-w-[25px]" />
       <p className="text-textPrimary mb-0 truncate">{title}</p>
       {hover && (
         <div className="flex flex-row gap-[10px] ml-auto">

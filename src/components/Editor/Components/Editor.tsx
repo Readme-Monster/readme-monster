@@ -1,14 +1,12 @@
 import React from "react";
 
 const Editor = () => {
-  const test = [1];
-  return (
-    test.length > 0 ? <div className="w-full h-full rounded-[8px] bg-[#333333]"></div> : <EmptySections/>
-  );
+  const sectionsList = JSON.parse(localStorage.getItem("builder-sections-list") || "[]");
+
+  return sectionsList.length > 0 ? <div className="w-full h-full rounded-[8px] bg-[#333333]"></div> : <EmptySections />;
 };
 
 export default Editor;
-
 
 const EmptySections = () => {
   return (
