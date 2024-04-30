@@ -3,7 +3,7 @@ import React from "react";
 import { Route, Routes as ReactRouterRoutes } from "react-router-dom";
 import HomePage from "./HomePage";
 import NotFoundPage from "./NotFoundPage/NotFoundPage";
-import ReadmeBuilder from "./builder/ReadmeBuilder";
+import ReadmeBuilder from "./Builder/ReadmeBuilder";
 import MyPage from "./myPage";
 import LoginPage from "./LoginPage";
 import SignupPage from "./SignupPage";

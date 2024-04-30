@@ -17,23 +17,13 @@ import {
 } from "@dnd-kit/sortable";
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 
-const EditSections = () => {
-  const mockList: { id: number; title: string | undefined }[] = [
-    {
-      id: 1,
-      title: "drag & drop Test 1",
-    },
-    {
-      id: 2,
-      title: "drag & drop Test 2",
-    },
-    {
-      id: 3,
-      title: "drag & drop Test 3",
-    },
-  ];
+interface Props {
+  id: number;
+  title: string | undefined;
+}
 
-  const [sections, setSections] = useState(mockList);
+const EditSections = () => {
+  const [sections, setSections] = useState<Props[]>([]);
 
   const getIndex = (id: number) => sections.findIndex(el => el.id === id);
 
@@ -57,7 +47,14 @@ const EditSections = () => {
   );
 
   useEffect(() => {
-    localStorage.setItem("sections-list", JSON.stringify(sections));
+    const prevSectionsList = JSON.parse(localStorage.getItem("builder-sections-list") || "[]");
+    if (prevSectionsList.length > 0) {
+      setSections(prevSectionsList);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("builder-sections-list", JSON.stringify(sections));
   }, [sections]);
 
   return (
