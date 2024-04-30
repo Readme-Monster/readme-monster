@@ -1,12 +1,15 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { InputProps } from "../../components/Common/Input/types";
 import Input from "../../components/Common/Input";
+import { useRouter } from "../routing";
 
 const LoginPage = () => {
   const [credentials, setCredentials] = useState({
-    username: "",
+    id: "",
     password: "",
   });
+
+  const router = useRouter();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -32,21 +35,10 @@ const LoginPage = () => {
 
         <form className="mb-0 mt-6 space-y-4  p-4 sm:p-6 lg:p-8" onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="username" className="sr-only">
-              Username
-            </label>
-            <Input
-              value={credentials.username}
-              id="username"
-              placeholder="아이디를 입력해주세요"
-              onChange={handleChange}
-            />
+            <Input value={credentials.id} id="id" placeholder="아이디를 입력해주세요" onChange={handleChange} />
           </div>
 
           <div>
-            <label htmlFor="password" className="sr-only">
-              Password
-            </label>
             <Input
               value={credentials.password}
               id="password"
@@ -65,8 +57,11 @@ const LoginPage = () => {
 
           <p className="text-center text-sm text-gray-300">
             회원이 아니신가요?
-            <a className="underline text-gray-400" href="#">
-              {" "}
+            <a
+              className="underline text-gray-400 cursor-pointer"
+              onClick={() => router.push("/signup")}
+              data-testid="signup-url"
+            >
               회원가입하러가기
             </a>
           </p>
