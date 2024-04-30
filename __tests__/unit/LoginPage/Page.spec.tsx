@@ -23,18 +23,13 @@ describe("LoginPage 테스트", () => {
       </MemoryRouter>,
     );
 
-    const usernameInput = screen.getByPlaceholderText("아이디를 입력해주세요");
+    const userIdInput = screen.getByPlaceholderText("아이디를 입력해주세요");
     const passwordInput = screen.getByPlaceholderText("비밀번호를 입력해주세요");
     const loginButton = await screen.findByTestId("login-button");
 
     await act(async () => {
-      fireEvent.change(usernameInput, { target: { value: "testuser" } });
+      fireEvent.change(userIdInput, { target: { value: "testuser" } });
       fireEvent.change(passwordInput, { target: { value: "testpassword" } });
-    });
-
-    console.log("Current State:", {
-      username: usernameInput.value,
-      password: passwordInput.value,
     });
 
     const consoleSpy = jest.spyOn(console, "log");
@@ -43,8 +38,26 @@ describe("LoginPage 테스트", () => {
       fireEvent.click(loginButton);
     });
 
-    expect(consoleSpy).toHaveBeenCalledWith("Form Submitted:", { username: "testuser", password: "testpassword" });
+    expect(consoleSpy).toHaveBeenCalledWith("Form Submitted:", { id: "testuser", password: "testpassword" });
 
     consoleSpy.mockRestore();
+  });
+  test("url클릭 시 '/signup'로 이동한다", () => {
+    const pushMock = jest.fn();
+
+    const useRouterMock = jest.spyOn(require("../../../src/pages/routing"), "useRouter").mockReturnValue({
+      push: pushMock,
+    });
+    render(
+      <MemoryRouter initialEntries={["/"]}>
+        <LoginPage />
+      </MemoryRouter>,
+    );
+
+    const SignupUrl = screen.getByTestId("signup-url");
+    fireEvent.click(SignupUrl);
+    expect(pushMock).toHaveBeenCalledWith("/signup");
+
+    useRouterMock.mockRestore();
   });
 });
