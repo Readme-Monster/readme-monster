@@ -6,3 +6,12 @@ export interface InputProps {
   placeholder: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
+
+export const labels: { [key: string]: string } = {
+  id: "아이디",
+  name: "이름",
+  email: "이메일",
+  phone: "전화번호",
+  password: "비밀번호",
+  passwordCheck: "비밀번호 확인",
+};
