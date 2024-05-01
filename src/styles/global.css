@@ -12,4 +12,13 @@
     @media (max-width: 768px) { /* Tailwind의 md 브레이크포인트는 기본적으로 768px입니다. */
         .display-contents {display: contents;}
     }
+
+    .editor .w-md-editor-toolbar {
+        border-radius: 8px 8px 0px 0px !important;
+        padding: 10px;
+    }
+
+    .editor .w-md-editor-content {
+        padding: 5px
+    }
 }

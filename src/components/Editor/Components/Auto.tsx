@@ -14,7 +14,7 @@ const Auto = () => {
       {create ? (
         <>
           <div className="w-full h-auto">
-            <EditSections />
+            <EditSections keyName="auto-sections-list" />
           </div>
           <div className="w-full h-auto">
             <SelectSections />
