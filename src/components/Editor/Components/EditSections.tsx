@@ -8,6 +8,7 @@ import {
   KeyboardSensor,
   MouseSensor,
   TouchSensor,
+  DragEndEvent,
 } from "@dnd-kit/core";
 import {
   SortableContext,
@@ -27,12 +28,12 @@ const EditSections = () => {
 
   const getIndex = (id: number) => sections.findIndex(el => el.id === id);
 
-  const handleDragEnd = (event: any) => {
+  const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
-    if (active.id === over.id) return;
+    if (active.id === over?.id) return;
     setSections(sections => {
-      const oldIndex = getIndex(active.id);
-      const newIndex = getIndex(over.id);
+      const oldIndex = getIndex(active.id as number);
+      const newIndex = getIndex(over?.id as number);
 
       return arrayMove(sections, oldIndex, newIndex);
     });
@@ -46,10 +47,15 @@ const EditSections = () => {
     }),
   );
 
+  const onDeleteSection = (e: React.MouseEvent<HTMLElement, MouseEvent>, targetId: number) => {
+    e.stopPropagation();
+    setSections(prev => prev.filter(el => el.id !== targetId));
+  };
+
   useEffect(() => {
-    const prevSectionsList = JSON.parse(localStorage.getItem("builder-sections-list") || "[]");
-    if (prevSectionsList.length > 0) {
-      setSections(prevSectionsList);
+    const sectionsList = JSON.parse(localStorage.getItem("builder-sections-list") || "[]");
+    if (sectionsList.length > 0) {
+      setSections(sectionsList);
     }
   }, []);
 
@@ -71,7 +77,7 @@ const EditSections = () => {
         >
           <SortableContext items={sections} strategy={verticalListSortingStrategy}>
             {sections.map(section => (
-              <EditSection key={section.id} title={section.title} id={section.id} />
+              <EditSection key={section.id} title={section.title} id={section.id} onDeleteSection={onDeleteSection} />
             ))}
           </SortableContext>
         </DndContext>

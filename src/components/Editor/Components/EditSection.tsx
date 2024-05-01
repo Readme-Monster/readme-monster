@@ -7,9 +7,10 @@ import clsx from "clsx";
 interface Props {
   id: number;
   title: string | undefined;
+  onDeleteSection: (e: React.MouseEvent<HTMLElement, MouseEvent>, targetId: number) => void;
 }
 
-const EditSection = ({ id, title }: Props) => {
+const EditSection = ({ id, title, onDeleteSection }: Props) => {
   const [hover, setHover] = useState<boolean>(false);
 
   const onMouseEnter = () => setHover(true);
@@ -43,8 +44,16 @@ const EditSection = ({ id, title }: Props) => {
       <p className="text-textPrimary mb-0 truncate">{title}</p>
       {hover && (
         <div className="flex flex-row gap-[10px] ml-auto">
-          <Reset size={20} className="fill-[#ADB5BD]" onClick={() => alert("rest")} />
-          <TrashCan size={20} className="fill-textPrimary" onClick={() => alert("delete")} />
+          <button>
+            <Reset size={20} className="fill-[#ADB5BD]" onClick={() => alert("rest")} />
+          </button>
+          <button
+            onClick={e => {
+              onDeleteSection(e, id);
+            }}
+          >
+            <TrashCan size={20} className="fill-textPrimary" />
+          </button>
         </div>
       )}
     </div>
