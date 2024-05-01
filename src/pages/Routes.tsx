@@ -8,7 +8,11 @@ import MyPage from "./myPage";
 import LoginPage from "./LoginPage";
 import SignupPage from "./SignupPage";
 
-export const Routes = () => {
+interface RouterProps {
+  isAuthenticated: boolean;
+}
+
+export const Routes = ({isAuthenticated}: RouterProps) => {
   return (
     <ReactRouterRoutes>
       <Route path="/" element={<AppLayout />}>
