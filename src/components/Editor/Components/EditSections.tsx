@@ -17,14 +17,12 @@ import {
   sortableKeyboardCoordinates,
 } from "@dnd-kit/sortable";
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
+import { useSection } from "context/SectionContext";
+import { KeyNameType, SectionsType } from "../types";
 
-interface Props {
-  id: number;
-  title: string | undefined;
-}
-
-const EditSections = () => {
-  const [sections, setSections] = useState<Props[]>([]);
+const EditSections = ({ keyName }: KeyNameType) => {
+  const { value, setValue } = useSection();
+  const [sections, setSections] = useState<SectionsType[]>([]);
 
   const getIndex = (id: number) => sections.findIndex(el => el.id === id);
 
@@ -52,15 +50,22 @@ const EditSections = () => {
     setSections(prev => prev.filter(el => el.id !== targetId));
   };
 
+  const onResetSection = (e: React.MouseEvent<HTMLElement, MouseEvent>, targetId: number) => {
+    e.stopPropagation();
+  };
+
   useEffect(() => {
-    const sectionsList = JSON.parse(localStorage.getItem("builder-sections-list") || "[]");
+    const sectionsList = JSON.parse(localStorage.getItem(`${keyName}`) || "[]");
     if (sectionsList.length > 0) {
       setSections(sectionsList);
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("builder-sections-list", JSON.stringify(sections));
+    localStorage.setItem(`${keyName}`, JSON.stringify(sections));
+    const sectionsList = JSON.parse(localStorage.getItem(`${keyName}`) || "[]");
+    const markdownList = sectionsList.map((el: SectionsType) => el.markdown).join("");
+    setValue(markdownList);
   }, [sections]);
 
   return (
@@ -77,7 +82,13 @@ const EditSections = () => {
         >
           <SortableContext items={sections} strategy={verticalListSortingStrategy}>
             {sections.map(section => (
-              <EditSection key={section.id} title={section.title} id={section.id} onDeleteSection={onDeleteSection} />
+              <EditSection
+                key={section.id}
+                title={section.title}
+                id={section.id}
+                markdown={section.markdown}
+                onDeleteSection={onDeleteSection}
+              />
             ))}
           </SortableContext>
         </DndContext>

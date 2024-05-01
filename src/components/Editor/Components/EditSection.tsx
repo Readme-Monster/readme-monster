@@ -7,12 +7,12 @@ import clsx from "clsx";
 interface Props {
   id: number;
   title: string | undefined;
+  markdown: string | undefined;
   onDeleteSection: (e: React.MouseEvent<HTMLElement, MouseEvent>, targetId: number) => void;
 }
 
-const EditSection = ({ id, title, onDeleteSection }: Props) => {
+const EditSection = ({ id, title, markdown, onDeleteSection }: Props) => {
   const [hover, setHover] = useState<boolean>(false);
-
   const onMouseEnter = () => setHover(true);
   const onMouseLeave = () => setHover(false);
 

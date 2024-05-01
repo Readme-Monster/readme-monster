@@ -1,9 +1,35 @@
 import React from "react";
+import { useSection } from "context/SectionContext";
+import MDEditor, { commands } from "@uiw/react-md-editor";
 
 const Editor = () => {
-  const sectionsList = JSON.parse(localStorage.getItem("builder-sections-list") || "[]");
+  const { value: markdown, setValue } = useSection();
+  const commandsList = [...commands.getCommands()].slice(0, 17);
 
-  return sectionsList.length > 0 ? <div className="w-full h-full rounded-[8px] bg-[#333333]"></div> : <EmptySections />;
+  return markdown.length > 0 ? (
+    <div
+      className="w-full h-full rounded-[8px] border-solid border border-textTertiary overflow-y-auto"
+      data-color-mode="dark"
+    >
+      <MDEditor
+        className="editor"
+        value={markdown}
+        onChange={value => setValue(value!)}
+        preview="edit"
+        height="100%"
+        commands={commandsList}
+        extraCommands={[]}
+        visibleDragbar={false}
+        style={{
+          height: "100%",
+          overflow: "scroll",
+          border: "none",
+        }}
+      />
+    </div>
+  ) : (
+    <EmptySections />
+  );
 };
 
 export default Editor;

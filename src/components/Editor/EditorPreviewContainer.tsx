@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import Editor from "./Components/Editor";
 import Preview from "./Components/Preview";
 import Raw from "./Components/Raw";
 import { Tab, Tabs } from "../Common/Tabs";
+import { useSection } from "../../context/SectionContext";
+import Editor from "./Components/Editor";
 
 const EditorPreviewContainer = () => {
+  const { value } = useSection();
   const [selectedTab, setSelectedTab] = useState<string | undefined>("Preview");
 
   const handleTabClick = (value?: string | undefined) => {
@@ -27,8 +29,8 @@ const EditorPreviewContainer = () => {
             <Tab value="Preview">Preview</Tab>
             <Tab value="Raw">Raw</Tab>
           </Tabs>
-          {selectedTab === "Preview" && <Preview />}
-          {selectedTab === "Raw" && <Raw />}
+          {selectedTab === "Preview" && <Preview value={value} />}
+          {selectedTab === "Raw" && <Raw value={value} />}
         </div>
       </div>
     </>
