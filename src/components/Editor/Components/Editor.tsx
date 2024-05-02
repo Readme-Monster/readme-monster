@@ -6,7 +6,7 @@ const Editor = () => {
   const { value: markdown, setValue } = useSection();
   const commandsList = [...commands.getCommands()].slice(0, 17);
 
-  return markdown.length > 0 ? (
+  return (
     <div
       className="w-full h-full rounded-[8px] border-solid border border-textTertiary overflow-y-auto"
       data-color-mode="dark"
@@ -27,8 +27,6 @@ const Editor = () => {
         }}
       />
     </div>
-  ) : (
-    <EmptySections />
   );
 };
 
