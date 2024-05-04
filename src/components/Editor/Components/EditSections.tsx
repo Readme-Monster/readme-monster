@@ -81,7 +81,7 @@ const EditSections = ({ keyName }: KeyNameType) => {
           modifiers={[restrictToVerticalAxis]}
         >
           <SortableContext items={sections} strategy={verticalListSortingStrategy}>
-            {sections.map(section => (
+            {/* {sections.map(section => (
               <EditSection
                 key={section.id}
                 title={section.title}
@@ -89,7 +89,7 @@ const EditSections = ({ keyName }: KeyNameType) => {
                 markdown={section.markdown}
                 onDeleteSection={onDeleteSection}
               />
-            ))}
+            ))} */}
           </SortableContext>
         </DndContext>
       </div>
