@@ -1,7 +1,7 @@
 import React from "react";
 import { InputProps, labels } from "./types";
 
-const Input = ({ value, id, placeholder, onChange }: InputProps) => {
+const Input = ({ value, id, placeholder, onChange, error }: InputProps) => {
   const label = labels[id] || id;
 
   return (
@@ -14,6 +14,9 @@ const Input = ({ value, id, placeholder, onChange }: InputProps) => {
         id={id}
         onChange={onChange}
       />
+      <div className="form__block">
+        {error && <span className="text-red-400 text-sm">{error}</span>}
+      </div>
     </div>
   );
 };
