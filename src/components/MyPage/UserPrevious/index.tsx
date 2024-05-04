@@ -2,40 +2,40 @@ import React from "react";
 
 const UserPreviousList = () => {
   return (
-    <div className="w-3/5 grid grid-cols-5  gap-4">
-      <div className="w-36 h-32 bg-[#BBDDFF] flex-Center hover:scale-110 transition-transform ease-in-out duration-500">
+    <div className="w-full h-full grid grid-cols-5  gap-2 border-1 p-2 border-cyan-600">
+      <button className="h-32 bg-[#BBDDFF] flex-Center hover:scale-110 transition-transform ease-in-out duration-500 whitespace-wrap">
         ReadMe Monster
-      </div>
-      <div className="w-36 h-32 bg-[#BBDDFF] flex-Center hover:scale-110 transition-transform ease-in-out duration-500">
+      </button>
+      <button className=" h-32 bg-[#BBDDFF] flex-Center hover:scale-110 transition-transform ease-in-out duration-500">
         ReadMe Monster
-      </div>
-      <div className="w-36 h-32 bg-[#BBDDFF] flex-Center hover:scale-110 transition-transform ease-in-out duration-500">
+      </button>
+      <button className=" h-32 bg-[#BBDDFF] flex-Center hover:scale-110 transition-transform ease-in-out duration-500">
         ReadMe Monster
-      </div>
-      <div className="w-36 h-32 bg-[#BBDDFF] flex-Center hover:scale-110 transition-transform ease-in-out duration-500">
+      </button>
+      <button className=" h-32 bg-[#BBDDFF] flex-Center hover:scale-110 transition-transform ease-in-out duration-500">
         ReadMe Monster
-      </div>
-      <div className="w-36 h-32 bg-[#BBDDFF] flex-Center hover:scale-110 transition-transform ease-in-out duration-500">
+      </button>
+      <button className=" h-32 bg-[#BBDDFF] flex-Center hover:scale-110 transition-transform ease-in-out duration-500">
         ReadMe Monster
-      </div>
-      <div className="w-36 h-32 bg-[#BBDDFF] flex-Center hover:scale-110 transition-transform ease-in-out duration-500">
+      </button>
+      <button className=" h-32 bg-[#BBDDFF] flex-Center hover:scale-110 transition-transform ease-in-out duration-500">
         ReadMe Monster
-      </div>
-      <div className="w-36 h-32 bg-[#BBDDFF] flex-Center hover:scale-110 transition-transform ease-in-out duration-500">
+      </button>
+      <button className=" h-32 bg-[#BBDDFF] flex-Center hover:scale-110 transition-transform ease-in-out duration-500">
         ReadMe Monster
-      </div>
-      <div className="w-36 h-32 bg-[#BBDDFF] flex-Center hover:scale-110 transition-transform ease-in-out duration-500">
+      </button>
+      <button className=" h-32 bg-[#BBDDFF] flex-Center hover:scale-110 transition-transform ease-in-out duration-500">
         ReadMe Monster
-      </div>
-      <div className="w-36 h-32 bg-[#BBDDFF] flex-Center hover:scale-110 transition-transform ease-in-out duration-500">
+      </button>
+      <button className=" h-32 bg-[#BBDDFF] flex-Center hover:scale-110 transition-transform ease-in-out duration-500">
         ReadMe Monster
-      </div>
-      <div className="w-36 h-32 bg-[#BBDDFF] flex-Center hover:scale-110 transition-transform ease-in-out duration-500">
+      </button>
+      <button className=" h-32 bg-[#BBDDFF] flex-Center hover:scale-110 transition-transform ease-in-out duration-500">
         ReadMe Monster
-      </div>
-      <div className="w-36 h-32 bg-[#BBDDFF] flex-Center hover:scale-110 transition-transform ease-in-out duration-500">
+      </button>
+      <button className=" h-32 bg-[#BBDDFF] flex-Center hover:scale-110 transition-transform ease-in-out duration-500">
         ReadMe Monster
-      </div>
+      </button>
     </div>
   );
 };
