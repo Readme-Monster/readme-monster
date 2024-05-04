@@ -1,3 +1,6 @@
+<br />
+<img src="public/images/rm-logo.png" width="80"/>
+
 ## RM은 어떤 서비스인가요?
 ![제목을-입력해주세요_-001](https://github.com/Readme-Monster/readme-monster/assets/88364280/96e680e5-613f-4818-8603-8afbb0c9acb1)
 
