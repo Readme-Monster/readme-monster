@@ -5,6 +5,7 @@ export interface InputProps {
   id: string;
   placeholder: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  error?: string;
 }
 
 export const labels: { [key: string]: string } = {

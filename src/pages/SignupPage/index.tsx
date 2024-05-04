@@ -1,13 +1,22 @@
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import React, { useState, ChangeEvent, FormEvent } from "react";
+import { toast } from "react-toastify";
 import { InputProps } from "../../components/Common/Input/types";
 import Input from "../../components/Common/Input";
 import { useRouter } from "../routing";
+import { app } from "../../firebaseApp";
 
 function SignupPage() {
-  const [credentials, setCredentials] = useState({
-    id: "",
+  const [registerError, setRegisterError] = useState<string>("");
+  const [errors, setErrors] = useState({
     name: "",
-    phone: "",
+    email: "",
+    password: "",
+    passwordCheck: "",
+  });
+  const [credentials, setCredentials] = useState({
+    name: "",
+    email: "",
     password: "",
     passwordCheck: "",
   });
@@ -15,17 +24,88 @@ function SignupPage() {
   const router = useRouter();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = e.target;
+    const { id: targetId, value } = e.target;
     setCredentials(prev => ({
       ...prev,
-      [id]: value,
+      [targetId]: value,
     }));
+
+    if (targetId === "name") {
+      const nameRegex = /^[가-힣a-zA-Z]+$/;
+
+      if (!nameRegex.test(targetId) || credentials.name.length < 1) {
+        setErrors({ ...errors, name: "올바른 이름을 입력해주세요." });
+      } else {
+        setErrors({ ...errors, name: "" });
+      }
+    }
+
+    if (targetId === "email") {
+      const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+      if (!value?.match(validRegex)) {
+        setErrors({ ...errors, email: "이메일 형식이 올바르지 않습니다." });
+      } else {
+        setErrors({ ...errors, email: "" });
+      }
+    }
+
+    if (targetId === "password") {
+      if (value?.length < 8) {
+        setErrors({ ...errors, password: "비밀번호는 8자리 이상으로 입력해주세요" });
+      } else if (credentials.passwordCheck?.length > 0 && value !== credentials.passwordCheck) {
+        setErrors({ ...errors, password: "비밀번호와 비밀번호 확인 값이 다릅니다. 다시 확인해주세요." });
+      } else {
+        setErrors({ ...errors, password: "" });
+      }
+    }
+
+    if (targetId === "passwordCheck") {
+      if (value?.length < 8) {
+        setErrors({ ...errors, passwordCheck: "비밀번호는 8자리 이상으로 입력해주세요" });
+      } else if (value !== credentials.password) {
+        setErrors({ ...errors, passwordCheck: "비밀번호와 비밀번호 확인 값이 다릅니다. 다시 확인해주세요." });
+      } else {
+        setErrors({ ...errors, passwordCheck: "" });
+      }
+    }
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Form Submitted:", credentials);
+    const { email, password } = credentials;
+
+    try {
+      const auth = getAuth(app);
+      await createUserWithEmailAndPassword(auth, email, password);
+
+      toast.success("회원가입에 성공했습니다.");
+      router.push("/login");
+    } catch (error: any) {
+      handleFirebaseError(error);
+      console.log(error);
+    }
   };
+
+  function handleFirebaseError(error: { code: string; message: string }) {
+    let message = "";
+    switch (error.code) {
+    case "auth/invalid-email":
+      message = "이메일 주소를 찾을 수 없습니다.";
+      break;
+    case "auth/user-disabled":
+      message = "계정이 비활성화되었습니다. 관리자에게 문의하세요.";
+      break;
+    case "auth/user-not-found":
+    case "auth/wrong-password":
+      message = "잘못된 이메일이나 비밀번호입니다.";
+      break;
+    default:
+      message = "로그인에 실패했습니다.";
+    }
+    toast.error(message);
+  }
 
   return (
     <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8" data-testid="signup">
@@ -38,15 +118,23 @@ function SignupPage() {
 
         <form className="mb-0 mt-6 space-y-4  p-4 sm:p-6 lg:p-8" onSubmit={handleSubmit}>
           <div>
-            <Input value={credentials.id} id="id" placeholder="아이디를 입력해주세요" onChange={handleChange} />
+            <Input
+              value={credentials.name}
+              id="name"
+              placeholder="이름을 입력해주세요"
+              onChange={handleChange}
+              error={errors.name}
+            />
           </div>
 
           <div>
-            <Input value={credentials.name} id="name" placeholder="이름을 입력해주세요" onChange={handleChange} />
-          </div>
-
-          <div>
-            <Input value={credentials.phone} id="phone" placeholder="전화번호를 입력해주세요" onChange={handleChange} />
+            <Input
+              value={credentials.email}
+              id="email"
+              placeholder="이메일을 입력해주세요"
+              onChange={handleChange}
+              error={errors.email}
+            />
           </div>
 
           <div>
@@ -55,6 +143,7 @@ function SignupPage() {
               id="password"
               placeholder="비밀번호를 입력해주세요"
               onChange={handleChange}
+              error={errors.password}
             />
           </div>
 
@@ -64,13 +153,15 @@ function SignupPage() {
               id="passwordCheck"
               placeholder="비밀번호를 다시 입력해주세요"
               onChange={handleChange}
+              error={errors.passwordCheck}
             />
           </div>
 
           <button
             type="submit"
-            className="block w-full rounded-lg bg-textBlue px-5 py-3 text-sm font-medium text-white"
+            className="block w-full rounded-lg bg-textBlue px-5 py-3 text-sm font-medium text-white cursor-pointer"
             data-testid="signup-button"
+            // disabled={Object.keys(errors).length > 0}
           >
             RM으로 회원가입하기
           </button>
