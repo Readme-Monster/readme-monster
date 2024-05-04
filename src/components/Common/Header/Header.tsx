@@ -1,14 +1,44 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { toast } from "react-toastify";
 import Button from "react-bootstrap/Button";
 import Overlay from "react-bootstrap/Overlay";
 import { useNavigate, Link } from "react-router-dom";
 
+import { app } from "../../../firebaseApp";
+
 const Header = () => {
+  const auth = getAuth(app);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(!!auth?.currentUser);
   const [show, setShow] = useState(false);
   const target = useRef(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setIsAuthenticated(true);
+      } else {
+        setIsAuthenticated(false);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [auth]);
+
+
+  const onSignOut = async () => {
+    try {
+      await signOut(auth);
+      toast.success("로그아웃 되었습니다.");
+      setIsAuthenticated(false);
+    } catch (error: any) {
+      console.log(error);
+      toast.error(error?.code);
+    }
+  };
 
   return (
     <div className="stiky z-10 w-full h-[80px] text-white top-0">
@@ -38,18 +68,32 @@ const Header = () => {
               ...props
             }) => (
               <div {...props} className="bg-black rounded p-3 mt-1 ">
-                <div
-                  className="p-1 cursor-pointer text-textWhite hover:text-textBlue"
-                  onClick={() => navigate("/mypage")}
-                >
-                  마이페이지
-                </div>
-                <div
-                  className="p-1 cursor-pointer text-textWhite hover:text-textBlue"
-                  onClick={() => navigate("/login")}
-                >
-                  로그인
-                </div>
+                {isAuthenticated ? (
+                  <>
+                    <div
+                      className="p-1 cursor-pointer text-textWhite hover:text-textBlue"
+                      data-testid="mypage"
+                      onClick={() => navigate("/mypage")}
+                    >
+                      마이페이지
+                    </div>
+                    <div
+                      className="p-1 cursor-pointer text-textWhite hover:text-textBlue"
+                      data-testid="signout"
+                      onClick={onSignOut}
+                    >
+                      로그아웃
+                    </div>
+                  </>
+                ) : (
+                  <div
+                    className="p-1 cursor-pointer text-textWhite hover:text-textBlue"
+                    data-testid="login"
+                    onClick={() => navigate("/login")}
+                  >
+                    로그인
+                  </div>
+                )}
               </div>
             )}
           </Overlay>
