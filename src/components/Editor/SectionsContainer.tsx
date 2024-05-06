@@ -12,10 +12,12 @@ const SectionsContainer = () => {
 
   return (
     <div className="w-full h-full flex flex-col gap-[10px]">
-      <Tabs value={selectedTab} onClick={handleTabClick}>
-        <Tab value="Builder">Builder</Tab>
-        <Tab value="Auto">Auto</Tab>
-      </Tabs>
+      <div className="w-full">
+        <Tabs value={selectedTab} onClick={handleTabClick}>
+          <Tab value="Builder">Builder</Tab>
+          <Tab value="Auto">Auto</Tab>
+        </Tabs>
+      </div>
       <div className="w-full h-full flex flex-col gap-[10px] overflow-y-scroll">
         {selectedTab === "Builder" && <Builder />}
         {selectedTab === "Auto" && <Auto />}
