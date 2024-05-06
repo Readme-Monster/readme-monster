@@ -13,7 +13,7 @@ interface TabProps extends TabsProps {
 
 export const Tabs = ({ children, onClick, value }: TabsProps) => {
   return (
-    <div className="w-full min-h-[30px] flex flex-row gap-[40px] mx-[5px]">
+    <div className="w-full min-h-[35px] flex flex-row items-center gap-[40px] mx-[5px]">
       {Children.toArray(children).map((child, idx) => (
         <Tab
           key={idx}
@@ -34,7 +34,7 @@ export const Tab = ({ value, selectedTab, onClick }: TabProps) => {
 
   return (
     <>
-      <div onClick={handleClick} className="h-full w-auto cursor-pointer flex items-center">
+      <div onClick={handleClick} className="h-full w-auto cursor-pointer">
         <p
           className={clsx("mb-0", {
             "text-textBlue": boolean,
