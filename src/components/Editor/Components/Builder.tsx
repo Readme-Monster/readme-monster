@@ -6,7 +6,7 @@ const Builder = () => {
   return (
     <div className="w-full h-full flex flex-col gap-[20px]">
       <div className="w-full h-auto">
-        <EditSections keyName="builder-sections-list" />
+        <EditSections type="builder" />
       </div>
       <div className="w-full h-auto">
         <SelectSections />

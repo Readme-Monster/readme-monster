@@ -27,15 +27,6 @@ const SelectSections = () => {
       <div className="h-full max-h-auto flex flex-col gap-[10px]">
         <SearchSection />
         <SelectSection />
-        <SelectSection />
-        <SelectSection />
-        <SelectSection />
-        <SelectSection />
-        <SelectSection />
-        <SelectSection />
-        <SelectSection />
-        <SelectSection />
-        <SelectSection />
       </div>
       {openModal && (
         <AddSectionModal

@@ -1,31 +1,61 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSection } from "context/SectionContext";
 import MDEditor, { commands } from "@uiw/react-md-editor";
+import { KeyType } from "../types";
 
 const Editor = () => {
-  const { value: markdown, setValue } = useSection();
+  const { state, actions } = useSection();
   const commandsList = [...commands.getCommands()].slice(0, 17);
+
+  const [markdownValue, setMarkdownValue] = useState<string>("");
+
+  const onEditEditor = (value: string) => {
+    setMarkdownValue(value);
+    actions.setMarkDowns(prev =>
+      prev.map(markdown => {
+        if (markdown.id === state.editorMarkDown.id) {
+          return { ...markdown, markdown: value };
+        } else {
+          return markdown;
+        }
+      }),
+    );
+    localStorage.setItem("builder-sections-list", JSON.stringify(state.markDowns));
+  };
+
+  useEffect(() => {
+    const markdown = state.editorMarkDown.markdown;
+    if (markdown) {
+      setMarkdownValue(markdown);
+    }
+  }, [state.editorMarkDown]);
 
   return (
     <div
       className="w-full h-full rounded-[8px] border-solid border border-textTertiary overflow-y-auto"
       data-color-mode="dark"
     >
-      <MDEditor
-        className="editor"
-        value={markdown}
-        onChange={value => setValue(value!)}
-        preview="edit"
-        height="100%"
-        commands={commandsList}
-        extraCommands={[]}
-        visibleDragbar={false}
-        style={{
-          height: "100%",
-          overflow: "scroll",
-          border: "none",
-        }}
-      />
+      {state.markDowns.length > 0 ? (
+        <MDEditor
+          className="editor"
+          value={markdownValue}
+          onChange={value => {
+            onEditEditor(value!);
+          }}
+          preview="edit"
+          height="100%"
+          commands={commandsList}
+          extraCommands={[]}
+          visibleDragbar={false}
+          style={{
+            height: "100%",
+            overflow: "scroll",
+            border: "none",
+          }}
+        />
+      ) : (
+        <EmptySections />
+      )}
     </div>
   );
 };

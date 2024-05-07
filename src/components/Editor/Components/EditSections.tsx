@@ -18,11 +18,12 @@ import {
 } from "@dnd-kit/sortable";
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import { useSection } from "context/SectionContext";
-import { KeyNameType, SectionsType } from "../types";
+import { KeyType, SectionsType } from "../types";
 
-const EditSections = ({ keyName }: KeyNameType) => {
-  const { value, setValue } = useSection();
+const EditSections = ({ type }: KeyType) => {
+  const { actions } = useSection();
   const [sections, setSections] = useState<SectionsType[]>([]);
+  const [focusSection, setFocusSection] = useState<number | null>(null);
 
   const getIndex = (id: number) => sections.findIndex(el => el.id === id);
 
@@ -48,6 +49,17 @@ const EditSections = ({ keyName }: KeyNameType) => {
   const onDeleteSection = (e: React.MouseEvent<HTMLElement, MouseEvent>, targetId: number) => {
     e.stopPropagation();
     setSections(prev => prev.filter(el => el.id !== targetId));
+    if (sections.length > 1) {
+      let index;
+      const deleteSection = sections.findIndex(el => el.id === targetId);
+      if (deleteSection === 0) {
+        index = 1;
+      } else {
+        index = deleteSection - 1;
+      }
+      actions.setEditorMarkDown(sections[index]);
+      setFocusSection(sections[index].id);
+    }
   };
 
   const onResetSection = (e: React.MouseEvent<HTMLElement, MouseEvent>, targetId: number) => {
@@ -55,17 +67,18 @@ const EditSections = ({ keyName }: KeyNameType) => {
   };
 
   useEffect(() => {
-    const sectionsList = JSON.parse(localStorage.getItem(`${keyName}`) || "[]");
+    const sectionsList = JSON.parse(localStorage.getItem(`${type}-sections-list`) || "[]");
     if (sectionsList.length > 0) {
       setSections(sectionsList);
+      actions.setEditorMarkDown(sectionsList[0]);
+      setFocusSection(sectionsList[0]?.id);
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem(`${keyName}`, JSON.stringify(sections));
-    const sectionsList = JSON.parse(localStorage.getItem(`${keyName}`) || "[]");
-    const markdownList = sectionsList.map((el: SectionsType) => el.markdown).join("");
-    setValue(markdownList);
+    localStorage.setItem(`${type}-sections-list`, JSON.stringify(sections));
+    const sectionsList = JSON.parse(localStorage.getItem(`${type}-sections-list`) || "[]");
+    actions.setMarkDowns(sectionsList);
   }, [sections]);
 
   return (
@@ -87,7 +100,10 @@ const EditSections = ({ keyName }: KeyNameType) => {
                 title={section.title}
                 id={section.id}
                 markdown={section.markdown}
+                focusSection={focusSection!}
+                setFocusSection={setFocusSection}
                 onDeleteSection={onDeleteSection}
+                onResetSection={onResetSection}
               />
             ))}
           </SortableContext>
