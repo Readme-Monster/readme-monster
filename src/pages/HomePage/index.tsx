@@ -1,3 +1,4 @@
+import AiGenerator from "components/Editor/Components/AiGenerator";
 import React from "react";
 import { RoutePath, useRouter } from "../routing";
 
@@ -43,6 +44,7 @@ function HomePage() {
           description="더 알아보기"
           testId="secondButton"
         />
+        <AiGenerator />
       </div>
     </div>
   );
