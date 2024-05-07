@@ -14,7 +14,7 @@ const AddSectionModal = ({ modalRef, modalOutSideClick, onClose, openModal }: Pr
     if (openModal) {
       inputRef.current?.focus();
     }
-  }, []);
+  }, [openModal]);
 
   return (
     <div

@@ -1,8 +1,12 @@
+import { SectionsType } from "components/Editor/types";
 import React, { createContext, useContext, useState } from "react";
 
 interface SectionContextType {
-  value: string;
-  setValue: (value: string) => void;
+  state: { markDowns: SectionsType[]; editorMarkDown: SectionsType };
+  actions: {
+    setMarkDowns: React.Dispatch<React.SetStateAction<SectionsType[]>>;
+    setEditorMarkDown: React.Dispatch<React.SetStateAction<SectionsType>>;
+  };
 }
 
 interface SectionContextProviderProps {
@@ -20,16 +24,17 @@ export const useSection = () => {
 };
 
 export const SectionProvider = ({ children }: SectionContextProviderProps) => {
-  const [value, setValue] = useState<string>("# Welcome To README-MONSTER");
+  const [markDowns, setMarkDowns] = useState<SectionsType[]>([]);
+  const [editorMarkDown, setEditorMarkDown] = useState<SectionsType>({
+    id: 0,
+    title: "",
+    markdown: "# Welcome To README-MONSTER",
+  });
 
-  return (
-    <SectionContext.Provider
-      value={{
-        value,
-        setValue,
-      }}
-    >
-      {children}
-    </SectionContext.Provider>
-  );
+  const value = {
+    state: { markDowns, editorMarkDown },
+    actions: { setMarkDowns, setEditorMarkDown },
+  };
+
+  return <SectionContext.Provider value={value}>{children}</SectionContext.Provider>;
 };

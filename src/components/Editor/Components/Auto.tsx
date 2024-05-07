@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-// import EditSections from "./EditSections";
-// import SelectSections from "./SelectSections";
 import AutoForm from "./AutoForm";
 import EditSections from "./EditSections";
 import SelectSections from "./SelectSections";
@@ -14,7 +12,7 @@ const Auto = () => {
       {create ? (
         <>
           <div className="w-full h-auto">
-            <EditSections keyName="auto-sections-list" />
+            <EditSections type="auto" />
           </div>
           <div className="w-full h-auto">
             <SelectSections />
