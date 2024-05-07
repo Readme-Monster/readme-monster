@@ -3,10 +3,12 @@ import { Add } from "@carbon/icons-react";
 import SearchSection from "./SearchSection";
 import SelectSection from "./SelectSection";
 import AddSectionModal from "../Modal/AddSectionModal";
+import { useSection } from "context/SectionContext";
 
 const SelectSections = () => {
   const [openModal, setOpenModal] = useState(false);
   const modalRef = useRef<HTMLDivElement | null>(null);
+  const { sections } = useSection(); // Context에서 value 가져오기
 
   const modalOutSideClick = (e: any) => {
     if (modalRef.current === e.target) {
@@ -17,6 +19,7 @@ const SelectSections = () => {
   const openModalAlert = () => {
     setOpenModal(!openModal);
   };
+  console.log("value", sections);
 
   return (
     <div className="h-full flex flex-col gap-[10px] px-[10px]">
@@ -26,16 +29,11 @@ const SelectSections = () => {
       </div>
       <div className="h-full max-h-auto flex flex-col gap-[10px]">
         <SearchSection />
-        <SelectSection />
-        <SelectSection />
-        <SelectSection />
-        <SelectSection />
-        <SelectSection />
-        <SelectSection />
-        <SelectSection />
-        <SelectSection />
-        <SelectSection />
-        <SelectSection />
+        {/* value를 각 SelectSection에 전달 */}
+        {sections.map((section, index) => (
+          <SelectSection sectionTitle={section} key={index} />
+        ))}
+        {/* <SelectSection sectionTitle={sections} /> */}
       </div>
       {openModal && (
         <AddSectionModal

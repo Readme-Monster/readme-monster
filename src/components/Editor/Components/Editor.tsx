@@ -3,7 +3,7 @@ import { useSection } from "context/SectionContext";
 import MDEditor, { commands } from "@uiw/react-md-editor";
 
 const Editor = () => {
-  const { value: markdown, setValue } = useSection();
+  const { sections, addSection } = useSection();
   const commandsList = [...commands.getCommands()].slice(0, 17);
 
   return (
@@ -13,8 +13,8 @@ const Editor = () => {
     >
       <MDEditor
         className="editor"
-        value={markdown}
-        onChange={value => setValue(value!)}
+        value={sections[0]}
+        onChange={value => addSection(value!)}
         preview="edit"
         height="100%"
         commands={commandsList}

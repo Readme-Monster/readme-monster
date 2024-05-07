@@ -21,19 +21,19 @@ import { useSection } from "context/SectionContext";
 import { KeyNameType, SectionsType } from "../types";
 
 const EditSections = ({ keyName }: KeyNameType) => {
-  const { value, setValue } = useSection();
-  const [sections, setSections] = useState<SectionsType[]>([]);
+  const { sections, addSection } = useSection();
+  const [section, setSection] = useState<SectionsType[]>([]);
 
-  const getIndex = (id: number) => sections.findIndex(el => el.id === id);
+  const getIndex = (id: number) => section.findIndex(el => el.id === id);
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (active.id === over?.id) return;
-    setSections(sections => {
+    setSection(section => {
       const oldIndex = getIndex(active.id as number);
       const newIndex = getIndex(over?.id as number);
 
-      return arrayMove(sections, oldIndex, newIndex);
+      return arrayMove(section, oldIndex, newIndex);
     });
   };
 
@@ -47,7 +47,7 @@ const EditSections = ({ keyName }: KeyNameType) => {
 
   const onDeleteSection = (e: React.MouseEvent<HTMLElement, MouseEvent>, targetId: number) => {
     e.stopPropagation();
-    setSections(prev => prev.filter(el => el.id !== targetId));
+    setSection(prev => prev.filter(el => el.id !== targetId));
   };
 
   const onResetSection = (e: React.MouseEvent<HTMLElement, MouseEvent>, targetId: number) => {
@@ -57,15 +57,15 @@ const EditSections = ({ keyName }: KeyNameType) => {
   useEffect(() => {
     const sectionsList = JSON.parse(localStorage.getItem(`${keyName}`) || "[]");
     if (sectionsList.length > 0) {
-      setSections(sectionsList);
+      setSection(sectionsList);
     }
   }, []);
 
   useEffect(() => {
     localStorage.setItem(`${keyName}`, JSON.stringify(sections));
-    const sectionsList = JSON.parse(localStorage.getItem(`${keyName}`) || "[]");
-    const markdownList = sectionsList.map((el: SectionsType) => el.markdown).join("");
-    setValue(markdownList);
+    // const sectionsList = JSON.parse(localStorage.getItem(`${keyName}`) || "[]");
+    // const markdownList = sectionsList.map((el: SectionsType) => el.markdown).join("");
+    // addSection(markdownList);
   }, [sections]);
 
   return (
@@ -81,13 +81,23 @@ const EditSections = ({ keyName }: KeyNameType) => {
           modifiers={[restrictToVerticalAxis]}
         >
           <SortableContext items={sections} strategy={verticalListSortingStrategy}>
-            {sections.map(section => (
+            {/* {section.map(section => (
               <EditSection
                 key={section.id}
                 title={section.title}
                 id={section.id}
                 markdown={section.markdown}
                 onDeleteSection={onDeleteSection}
+              />
+            ))} */}
+            {sections.map((section, index) => (
+              <EditSection
+                key={index}
+                title={section}
+                id={index}
+                // id={section.id}
+                // markdown={section.markdown}
+                // onDeleteSection={onDeleteSection}
               />
             ))}
           </SortableContext>

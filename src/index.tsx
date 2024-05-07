@@ -5,7 +5,7 @@ import App from "./pages/App";
 import firebase from "./firebaseApp";
 import "../src/styles/global.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { SectionProvider } from "context/SectionContext";
+import { ActiveSectionProvider, SectionProvider } from "context/SectionContext";
 
 const rootElement = document.getElementById("root");
 
@@ -16,9 +16,11 @@ if (rootElement) {
   root.render(
     <React.StrictMode>
       <SectionProvider>
-        <Router>
-          <App />
-        </Router>
+        <ActiveSectionProvider>
+          <Router>
+            <App />
+          </Router>
+        </ActiveSectionProvider>
       </SectionProvider>
     </React.StrictMode>,
   );

@@ -1,5 +1,7 @@
+import { useSection } from "context/SectionContext";
 import React, { useEffect, useRef } from "react";
 
+// Props interface는 그대로 유지
 interface Props {
   modalRef: React.ForwardedRef<HTMLDivElement>;
   modalOutSideClick: (e: any) => void;
@@ -9,12 +11,20 @@ interface Props {
 
 const AddSectionModal = ({ modalRef, modalOutSideClick, onClose, openModal }: Props) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const { addSection } = useSection(); // Context에서 addSection 함수 가져오기
 
   useEffect(() => {
     if (openModal) {
       inputRef.current?.focus();
     }
-  }, []);
+  }, [openModal]); // useEffect 의존성 배열에 openModal 추가
+
+  const handleCreate = () => {
+    if (inputRef.current?.value) {
+      addSection(inputRef.current.value); // 입력된 값을 배열에 추가
+    }
+    onClose();
+  };
 
   return (
     <div
@@ -43,9 +53,14 @@ const AddSectionModal = ({ modalRef, modalOutSideClick, onClose, openModal }: Pr
             className="w-1/2 rounded-[8px] border-solid border border-textTertiary text-textPrimary hover:bg-gray-50"
             onClick={onClose}
           >
-            Cancle
+            Cancel
           </button>
-          <button className="w-1/2 rounded-[8px] bg-textBlue text-white hover:bg-[#6E9EFF]">Create</button>
+          <button
+            className="w-1/2 rounded-[8px] bg-textBlue text-white hover:bg-[#6E9EFF]"
+            onClick={handleCreate} // Create 버튼에 핸들러 연결
+          >
+            Create
+          </button>
         </div>
       </div>
     </div>
