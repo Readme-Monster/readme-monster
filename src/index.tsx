@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router } from "react-router-dom";
+import { AuthContextProvider } from "context/AuthContext";
 import App from "./pages/App";
 import firebase from "./firebaseApp";
 import "../src/styles/global.css";
@@ -15,11 +16,13 @@ if (rootElement) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <React.StrictMode>
-      <SectionProvider>
-        <Router>
-          <App />
-        </Router>
-      </SectionProvider>
+      <AuthContextProvider>
+        <SectionProvider>
+          <Router>
+            <App />
+          </Router>
+        </SectionProvider>
+      </AuthContextProvider>
     </React.StrictMode>,
   );
 } else {
