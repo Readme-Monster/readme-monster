@@ -1,100 +1,63 @@
-import React, { useEffect, useState } from "react";
-import EditSection from "./EditSection";
-import {
-  DndContext,
-  closestCenter,
-  useSensor,
-  useSensors,
-  KeyboardSensor,
-  MouseSensor,
-  TouchSensor,
-  DragEndEvent,
-} from "@dnd-kit/core";
-import {
-  SortableContext,
-  verticalListSortingStrategy,
-  arrayMove,
-  sortableKeyboardCoordinates,
-} from "@dnd-kit/sortable";
-import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
-import { useSection } from "context/SectionContext";
-import { KeyNameType, SectionsType } from "../types";
+import React, { useState } from "react";
+import { List, Reset, TrashCan } from "@carbon/icons-react";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import clsx from "clsx";
 
-const EditSections = ({ keyName }: KeyNameType) => {
-  const { value, setValue } = useSection();
-  const [sections, setSections] = useState<SectionsType[]>([]);
+interface Props {
+  id: number;
+  title: string | undefined;
+  markdown: string | undefined;
+  onDeleteSection: (e: React.MouseEvent<HTMLElement, MouseEvent>, targetId: number) => void;
+}
 
-  const getIndex = (id: number) => sections.findIndex(el => el.id === id);
+const EditSection = ({ id, title, markdown, onDeleteSection }: Props) => {
+  const [hover, setHover] = useState<boolean>(false);
+  const onMouseEnter = () => setHover(true);
+  const onMouseLeave = () => setHover(false);
 
-  const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
-    if (active.id === over?.id) return;
-    setSections(sections => {
-      const oldIndex = getIndex(active.id as number);
-      const newIndex = getIndex(over?.id as number);
+  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
 
-      return arrayMove(sections, oldIndex, newIndex);
-    });
+  const style = {
+    transition,
+    transform: CSS.Transform.toString(transform),
   };
-
-  const sensors = useSensors(
-    useSensor(TouchSensor),
-    useSensor(MouseSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    }),
-  );
-
-  const onDeleteSection = (e: React.MouseEvent<HTMLElement, MouseEvent>, targetId: number) => {
-    e.stopPropagation();
-    setSections(prev => prev.filter(el => el.id !== targetId));
-  };
-
-  const onResetSection = (e: React.MouseEvent<HTMLElement, MouseEvent>, targetId: number) => {
-    e.stopPropagation();
-  };
-
-  useEffect(() => {
-    const sectionsList = JSON.parse(localStorage.getItem(`${keyName}`) || "[]");
-    if (sectionsList.length > 0) {
-      setSections(sectionsList);
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem(`${keyName}`, JSON.stringify(sections));
-    const sectionsList = JSON.parse(localStorage.getItem(`${keyName}`) || "[]");
-    const markdownList = sectionsList.map((el: SectionsType) => el.markdown).join("");
-    setValue(markdownList);
-  }, [sections]);
 
   return (
-    <div className="flex flex-col gap-[10px] px-[10px]">
-      <div className="flex-Center flex-row justify-between min-h-[30px]">
-        <p className="text-textPrimary ml-[5px] mb-0 text-sm">Edit Section</p>
-      </div>
-      <div className="flex flex-col gap-[10px] h-full">
-        <DndContext
-          sensors={sensors}
-          onDragEnd={handleDragEnd}
-          collisionDetection={closestCenter}
-          modifiers={[restrictToVerticalAxis]}
-        >
-          <SortableContext items={sections} strategy={verticalListSortingStrategy}>
-            {/* {sections.map(section => (
-              <EditSection
-                key={section.id}
-                title={section.title}
-                id={section.id}
-                markdown={section.markdown}
-                onDeleteSection={onDeleteSection}
-              />
-            ))} */}
-          </SortableContext>
-        </DndContext>
-      </div>
+    <div
+      ref={setNodeRef}
+      {...attributes}
+      style={style}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      className={clsx(
+        "w-full h-[45px] py-[8px] px-[12px]",
+        "flex flex-row gap-[10px] items-center",
+        "rounded-[8px] border-solid border bg-white border-[#F1F3F5] drop-shadow-[0_1px_1px_rgba(173,181,189,0.25)]",
+        "cursor-pointer",
+        {
+          "focus:outline-none focus:ring-2 focus:ring-textBlue": true,
+        },
+      )}
+    >
+      <List {...listeners} size={25} className="fill-textSecondary min-w-[25px]" />
+      <p className="text-textPrimary mb-0 truncate">{title}</p>
+      {hover && (
+        <div className="flex flex-row gap-[10px] ml-auto">
+          <button>
+            <Reset size={20} className="fill-[#ADB5BD]" onClick={() => alert("rest")} />
+          </button>
+          <button
+            onClick={e => {
+              onDeleteSection(e, id);
+            }}
+          >
+            <TrashCan size={20} className="fill-textPrimary" />
+          </button>
+        </div>
+      )}
     </div>
   );
 };
 
-export default EditSections;
+export default EditSection;
