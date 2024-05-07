@@ -1,4 +1,4 @@
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { toast } from "react-toastify";
 import { InputProps } from "../../components/Common/Input/types";
@@ -33,7 +33,7 @@ function SignupPage() {
     if (targetId === "name") {
       const nameRegex = /^[가-힣a-zA-Z]+$/;
 
-      if (!nameRegex.test(targetId) || credentials.name.length < 1) {
+      if (!nameRegex.test(value) || value.length < 1) {
         setErrors({ ...errors, name: "올바른 이름을 입력해주세요." });
       } else {
         setErrors({ ...errors, name: "" });
@@ -74,14 +74,21 @@ function SignupPage() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Form Submitted:", credentials);
-    const { email, password } = credentials;
+    const { name, email, password } = credentials;
 
     try {
       const auth = getAuth(app);
-      await createUserWithEmailAndPassword(auth, email, password);
-
-      toast.success("회원가입에 성공했습니다.");
-      router.push("/login");
+      await createUserWithEmailAndPassword(auth, email, password)
+        .then(userCredential => {
+          // Update the user's profile with their name
+          return updateProfile(userCredential.user, {
+            displayName: name,
+          });
+        })
+        .then(() => {
+          toast.success("회원가입에 성공했습니다.");
+          router.push("/login");
+        });
     } catch (error: any) {
       handleFirebaseError(error);
       console.log(error);

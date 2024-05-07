@@ -11,6 +11,7 @@ export interface InputProps {
 export const labels: { [key: string]: string } = {
   id: "아이디",
   name: "이름",
+  displayName: "이름",
   email: "이메일",
   phone: "전화번호",
   password: "비밀번호",

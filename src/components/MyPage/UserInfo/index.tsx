@@ -1,4 +1,5 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState, useContext } from "react";
+import AuthContext from "context/AuthContext";
 import Input from "../Input";
 import { UserInfoProps } from "./types";
 import { getAuth, deleteUser } from "firebase/auth";
@@ -14,6 +15,11 @@ const UserInfo = () => {
     password: "",
     passwordCheck: "",
   });
+
+  const { user } = useContext(AuthContext);
+
+  console.log(user);
+  
   const auth = getAuth(app);
   const router = useRouter();
 
