@@ -1,10 +1,11 @@
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import React, { useState, ChangeEvent, FormEvent } from "react";
+import { collection, addDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import { InputProps } from "../../components/Common/Input/types";
 import Input from "../../components/Common/Input";
 import { useRouter } from "../routing";
-import { app } from "../../firebaseApp";
+import { app, db } from "../../firebaseApp";
 
 function SignupPage() {
   const [registerError, setRegisterError] = useState<string>("");
@@ -75,25 +76,25 @@ function SignupPage() {
     e.preventDefault();
     console.log("Form Submitted:", credentials);
     const { name, email, password } = credentials;
-
+  
     try {
       const auth = getAuth(app);
-      await createUserWithEmailAndPassword(auth, email, password)
-        .then(userCredential => {
-          // Update the user's profile with their name
-          return updateProfile(userCredential.user, {
-            displayName: name,
-          });
-        })
-        .then(() => {
-          toast.success("회원가입에 성공했습니다.");
-          router.push("/login");
-        });
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+  
+      await addDoc(collection(db, "userInfo"), {
+        name: name,
+        email: email,
+        registrationDate: new Date()
+      });
+  
+      toast.success("회원가입에 성공했습니다.");
+      router.push("/login");
     } catch (error: any) {
       handleFirebaseError(error);
       console.log(error);
     }
   };
+  
 
   function handleFirebaseError(error: { code: string; message: string }) {
     let message = "";
