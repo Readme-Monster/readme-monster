@@ -1,5 +1,6 @@
-import React, { useEffect, useRef } from "react";
-
+import { useSection } from "context/SectionContext";
+import React, { useEffect, useRef, useState } from "react";
+import { SectionsType } from "../types";
 interface Props {
   modalRef: React.ForwardedRef<HTMLDivElement>;
   modalOutSideClick: (e: any) => void;
@@ -8,13 +9,30 @@ interface Props {
 }
 
 const AddSectionModal = ({ modalRef, modalOutSideClick, onClose, openModal }: Props) => {
+  const { state, actions } = useSection();
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const [title, setTitle] = useState<string>("");
 
   useEffect(() => {
     if (openModal) {
       inputRef.current?.focus();
     }
   }, [openModal]);
+
+  const onCreateSection = () => {
+    const createId = state.selectSections.length + state.editSections.length + 1;
+    const newValue: SectionsType = {
+      id: createId,
+      title: inputRef.current?.value,
+      markdown: `## ${title}
+`,
+    };
+    actions.setEditSections(prev => [...prev, newValue]);
+    actions.setEditorMarkDown(prev => ({ ...prev, ...newValue }));
+    actions.setFocusSection(createId);
+
+    onClose();
+  };
 
   return (
     <div
@@ -28,6 +46,7 @@ const AddSectionModal = ({ modalRef, modalOutSideClick, onClose, openModal }: Pr
         </div>
         <div className="my-[20px]">
           <input
+            onChange={e => setTitle(e.target.value)}
             ref={inputRef}
             type="text"
             className="
@@ -45,7 +64,13 @@ const AddSectionModal = ({ modalRef, modalOutSideClick, onClose, openModal }: Pr
           >
             Cancle
           </button>
-          <button className="w-1/2 rounded-[8px] bg-textBlue text-white hover:bg-[#6E9EFF]">Create</button>
+          <button
+            className="w-1/2 rounded-[8px] bg-textBlue text-white hover:bg-[#6E9EFF]"
+            onClick={onCreateSection}
+            disabled={!title}
+          >
+            Create
+          </button>
         </div>
       </div>
     </div>
