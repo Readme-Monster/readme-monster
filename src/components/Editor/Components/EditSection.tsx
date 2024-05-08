@@ -7,27 +7,12 @@ import { useSection } from "context/SectionContext";
 import { SectionsType } from "../types";
 
 interface Props extends SectionsType {
-  focusSection: number;
-  setFocusSection: React.Dispatch<React.SetStateAction<number | null>>;
-  onDeleteSection: (e: React.MouseEvent<HTMLElement, MouseEvent>, targetId: number) => void;
-  onResetSection: (e: React.MouseEvent<HTMLElement, MouseEvent>, targetId: number) => void;
+  onDeleteSection: (e: React.MouseEvent<HTMLElement, MouseEvent>, section: SectionsType) => void;
+  onResetSection: (e: React.MouseEvent<HTMLElement, MouseEvent>, section: SectionsType) => void;
 }
 
-const EditSection = ({
-  id,
-  title,
-  markdown,
-  focusSection,
-  setFocusSection,
-  onDeleteSection,
-  onResetSection,
-}: Props) => {
+const EditSection = ({ id, title, markdown, onDeleteSection, onResetSection }: Props) => {
   const { state, actions } = useSection();
-
-  const [hover, setHover] = useState<boolean>(false);
-  const onMouseEnter = () => setHover(true);
-  const onMouseLeave = () => setHover(false);
-
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
 
   const style = {
@@ -37,12 +22,12 @@ const EditSection = ({
 
   const onClickSection = () => {
     actions.setEditorMarkDown(prev => ({ ...prev, id, title, markdown }));
-    setFocusSection(id);
+    actions.setFocusSection(id);
   };
 
   useEffect(() => {
-    localStorage.setItem("select-section", JSON.stringify(state.editorMarkDown));
-  }, [onClickSection]);
+    localStorage.setItem("current-section", JSON.stringify(state.editorMarkDown));
+  }, [state.editorMarkDown]);
 
   return (
     <div
@@ -50,34 +35,24 @@ const EditSection = ({
       {...attributes}
       style={style}
       onClick={onClickSection}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
       className={clsx(
         "w-full h-[45px] py-[8px] px-[12px]",
         "flex flex-row gap-[10px] items-center",
         "rounded-[8px] border-solid border bg-white border-[#F1F3F5] drop-shadow-[0_1px_1px_rgba(173,181,189,0.25)]",
         "cursor-pointer",
         {
-          "ring-2 ring-textBlue": focusSection === id,
+          "ring-2 ring-textBlue": state.focusSection === id,
         },
       )}
     >
       <List {...listeners} size={25} className="fill-textSecondary min-w-[25px]" />
       <p className="text-textPrimary mb-0 truncate">{title}</p>
-      {focusSection === id && (
+      {state.focusSection === id && (
         <div className="flex flex-row gap-[10px] ml-auto">
-          <button
-            onClick={e => {
-              onResetSection(e, id);
-            }}
-          >
+          <button onClick={e => onResetSection(e, { id, title, markdown })}>
             <Reset size={20} className="fill-[#ADB5BD]" />
           </button>
-          <button
-            onClick={e => {
-              onDeleteSection(e, id);
-            }}
-          >
+          <button onClick={e => onDeleteSection(e, { id, title, markdown })}>
             <TrashCan size={20} className="fill-textPrimary" />
           </button>
         </div>

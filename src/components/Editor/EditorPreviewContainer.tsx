@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Preview from "./Components/Preview";
 import Raw from "./Components/Raw";
 import { Tab, Tabs } from "../Common/Tabs";
@@ -6,11 +6,10 @@ import { useSection } from "../../context/SectionContext";
 import Editor from "./Components/Editor";
 import { Download } from "@carbon/icons-react";
 import clsx from "clsx";
-import { SectionsType } from "./types";
 
 const EditorPreviewContainer = () => {
   const { state } = useSection();
-  const markDownsData = state.markDowns.map(el => el.markdown).join("");
+  const markDownsData = state.editSections.map(el => el.markdown).join("");
   const [selectedTab, setSelectedTab] = useState<string | undefined>("Preview");
 
   const handleTabClick = (value?: string | undefined) => {
@@ -60,14 +59,14 @@ const EditorPreviewContainer = () => {
                 "bg-textBlue text-white ",
                 "rounded-[8px]",
                 {
-                  "hover:bg-[#6E9EFF]": state.markDowns.length > 0,
-                  "cursor-pointer": state.markDowns.length > 0,
+                  "hover:bg-[#6E9EFF]": state.editSections.length > 0,
+                  "cursor-pointer": state.editSections.length > 0,
                 },
                 {
-                  "bg-textTertiary": state.markDowns.length === 0,
+                  "bg-textTertiary": state.editSections.length === 0,
                 },
               )}
-              disabled={state.markDowns.length > 0 ? false : true}
+              disabled={state.editSections.length > 0 ? false : true}
             >
               <Download size={16} />
               <p className="mb-0 text-sm">Download</p>

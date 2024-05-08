@@ -1,11 +1,19 @@
 import { SectionsType } from "components/Editor/types";
 import React, { createContext, useContext, useState } from "react";
+import { sections } from "data";
 
 interface SectionContextType {
-  state: { markDowns: SectionsType[]; editorMarkDown: SectionsType };
+  state: {
+    selectSections: SectionsType[];
+    editSections: SectionsType[];
+    editorMarkDown: SectionsType;
+    focusSection: number | undefined;
+  };
   actions: {
-    setMarkDowns: React.Dispatch<React.SetStateAction<SectionsType[]>>;
+    setSelectSections: React.Dispatch<React.SetStateAction<SectionsType[]>>;
+    setEditSections: React.Dispatch<React.SetStateAction<SectionsType[]>>;
     setEditorMarkDown: React.Dispatch<React.SetStateAction<SectionsType>>;
+    setFocusSection: React.Dispatch<React.SetStateAction<number | undefined>>;
   };
 }
 
@@ -24,16 +32,18 @@ export const useSection = () => {
 };
 
 export const SectionProvider = ({ children }: SectionContextProviderProps) => {
-  const [markDowns, setMarkDowns] = useState<SectionsType[]>([]);
+  const [selectSections, setSelectSections] = useState<SectionsType[]>(sections);
+  const [editSections, setEditSections] = useState<SectionsType[]>([]);
   const [editorMarkDown, setEditorMarkDown] = useState<SectionsType>({
     id: 0,
     title: "",
     markdown: "# Welcome To README-MONSTER",
   });
+  const [focusSection, setFocusSection] = useState<number | undefined>(undefined);
 
   const value = {
-    state: { markDowns, editorMarkDown },
-    actions: { setMarkDowns, setEditorMarkDown },
+    state: { selectSections, editSections, editorMarkDown, focusSection },
+    actions: { setSelectSections, setEditSections, setEditorMarkDown, setFocusSection },
   };
 
   return <SectionContext.Provider value={value}>{children}</SectionContext.Provider>;

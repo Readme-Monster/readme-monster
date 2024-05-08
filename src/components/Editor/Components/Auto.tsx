@@ -12,7 +12,7 @@ const Auto = () => {
       {create ? (
         <>
           <div className="w-full h-auto">
-            <EditSections type="auto" />
+            <EditSections />
           </div>
           <div className="w-full h-auto">
             <SelectSections />

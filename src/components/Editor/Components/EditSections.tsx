@@ -18,12 +18,14 @@ import {
 } from "@dnd-kit/sortable";
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import { useSection } from "context/SectionContext";
-import { KeyType, SectionsType } from "../types";
+import { SectionsType } from "../types";
 
-const EditSections = ({ type }: KeyType) => {
-  const { actions } = useSection();
-  const [sections, setSections] = useState<SectionsType[]>([]);
-  const [focusSection, setFocusSection] = useState<number | null>(null);
+const EditSections = () => {
+  const { state, actions } = useSection();
+  const [sections, setSections] = useState<SectionsType[]>(() => {
+    const localData = JSON.parse(localStorage.getItem("edit-sections-list") || "[]");
+    return localData.length > 0 ? localData : state.editSections;
+  });
 
   const getIndex = (id: number) => sections.findIndex(el => el.id === id);
 
@@ -33,8 +35,9 @@ const EditSections = ({ type }: KeyType) => {
     setSections(sections => {
       const oldIndex = getIndex(active.id as number);
       const newIndex = getIndex(over?.id as number);
-
-      return arrayMove(sections, oldIndex, newIndex);
+      const newSections = arrayMove(sections, oldIndex, newIndex);
+      actions.setEditSections(newSections);
+      return newSections;
     });
   };
 
@@ -46,40 +49,51 @@ const EditSections = ({ type }: KeyType) => {
     }),
   );
 
-  const onDeleteSection = (e: React.MouseEvent<HTMLElement, MouseEvent>, targetId: number) => {
+  const onDeleteSection = (e: React.MouseEvent<HTMLElement, MouseEvent>, section: SectionsType) => {
     e.stopPropagation();
-    setSections(prev => prev.filter(el => el.id !== targetId));
+    setSections(prev => prev.filter(el => el.id !== section.id));
+    actions.setSelectSections(prev => [...prev, section].sort((a, b) => a.id - b.id));
+    actions.setEditSections(prev => prev.filter(el => el.id !== section.id));
     if (sections.length > 1) {
       let index;
-      const deleteSection = sections.findIndex(el => el.id === targetId);
+      const deleteSection = sections.findIndex(el => el.id === section.id);
       if (deleteSection === 0) {
         index = 1;
       } else {
         index = deleteSection - 1;
       }
       actions.setEditorMarkDown(sections[index]);
-      setFocusSection(sections[index].id);
+      actions.setFocusSection(sections[index].id);
+    } else {
+      actions.setFocusSection(undefined);
+      localStorage.removeItem("current-section");
     }
   };
 
-  const onResetSection = (e: React.MouseEvent<HTMLElement, MouseEvent>, targetId: number) => {
+  const onResetSection = (e: React.MouseEvent<HTMLElement, MouseEvent>, section: SectionsType) => {
     e.stopPropagation();
+    console.log(state.editorMarkDown);
+    console.log(section.markdown);
+    // actions.setEditorMarkDown(prev => ({ ...prev, markdown: "" }));
   };
 
   useEffect(() => {
-    const sectionsList = JSON.parse(localStorage.getItem(`${type}-sections-list`) || "[]");
-    if (sectionsList.length > 0) {
-      setSections(sectionsList);
-      actions.setEditorMarkDown(sectionsList[0]);
-      setFocusSection(sectionsList[0]?.id);
+    if (sections.length > 0) {
+      actions.setEditorMarkDown(sections[0]);
+      actions.setFocusSection(sections[0]?.id);
     }
+    actions.setEditSections(sections);
   }, []);
 
   useEffect(() => {
-    localStorage.setItem(`${type}-sections-list`, JSON.stringify(sections));
-    const sectionsList = JSON.parse(localStorage.getItem(`${type}-sections-list`) || "[]");
-    actions.setMarkDowns(sectionsList);
+    localStorage.setItem("edit-sections-list", JSON.stringify(sections));
   }, [sections]);
+
+  useEffect(() => {
+    if (state.editSections.length > 0) {
+      setSections(state.editSections);
+    }
+  }, [state.editSections]);
 
   return (
     <div className="flex flex-col gap-[10px] px-[10px]">
@@ -100,8 +114,6 @@ const EditSections = ({ type }: KeyType) => {
                 title={section.title}
                 id={section.id}
                 markdown={section.markdown}
-                focusSection={focusSection!}
-                setFocusSection={setFocusSection}
                 onDeleteSection={onDeleteSection}
                 onResetSection={onResetSection}
               />

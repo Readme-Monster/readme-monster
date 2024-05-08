@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSection } from "context/SectionContext";
 import MDEditor, { commands } from "@uiw/react-md-editor";
-import { KeyType } from "../types";
 
 const Editor = () => {
   const { state, actions } = useSection();
@@ -11,7 +10,7 @@ const Editor = () => {
 
   const onEditEditor = (value: string) => {
     setMarkdownValue(value);
-    actions.setMarkDowns(prev =>
+    actions.setEditSections(prev =>
       prev.map(markdown => {
         if (markdown.id === state.editorMarkDown.id) {
           return { ...markdown, markdown: value };
@@ -20,7 +19,7 @@ const Editor = () => {
         }
       }),
     );
-    localStorage.setItem("builder-sections-list", JSON.stringify(state.markDowns));
+    localStorage.setItem("edit-sections-list", JSON.stringify(state.editSections));
   };
 
   useEffect(() => {
@@ -35,7 +34,7 @@ const Editor = () => {
       className="w-full h-full rounded-[8px] border-solid border border-textTertiary overflow-y-auto"
       data-color-mode="dark"
     >
-      {state.markDowns.length > 0 ? (
+      {state.editSections.length > 0 ? (
         <MDEditor
           className="editor"
           value={markdownValue}
@@ -64,7 +63,7 @@ export default Editor;
 
 const EmptySections = () => {
   return (
-    <div className="w-full h-full flex-Center">
+    <div className="w-full h-full flex-Center p-[20px]">
       <p className="text-textBlue">Select a section from the left sidebar to edit the contents</p>
     </div>
   );
