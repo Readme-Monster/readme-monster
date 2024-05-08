@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
@@ -12,6 +13,11 @@ module.exports = {
         textgreyHover: "#E0DEDE",
         textWhite: "#FFFFFF",
         textBlack: "#000000",
+        darkPrimary: "#1e2937",
+        darkSecondary: "#374152",
+      },
+      backgroundImage: {
+        'gradient-dark': 'linear-gradient(#1e2937, #556274) !important', // 새 그라데이션 추가
       },
       screens: {
         mobile: "768px",

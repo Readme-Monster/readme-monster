@@ -6,18 +6,19 @@ import { toast } from "react-toastify";
 import Button from "react-bootstrap/Button";
 import Overlay from "react-bootstrap/Overlay";
 import { useNavigate, Link } from "react-router-dom";
-
+import ThemeContext from "context/ThemeContext";
 import { app } from "../../../firebaseApp";
 
 const Header = () => {
   const auth = getAuth(app);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(!!auth?.currentUser);
   const [show, setShow] = useState(false);
+  const context = useContext(ThemeContext);
   const target = useRef(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, user => {
       if (user) {
         setIsAuthenticated(true);
       } else {
@@ -27,7 +28,6 @@ const Header = () => {
 
     return () => unsubscribe();
   }, [auth]);
-
 
   const onSignOut = async () => {
     try {
@@ -49,15 +49,27 @@ const Header = () => {
           </Link>
         </div>
         <div className="flex justify-center items-center">
-          <Link to="https://github.com/">
-            <img src="/images/github-logo.svg" alt="github" className="h-8 w-8 mr-3" />
-          </Link>
-          <img src="/images/light-to-dark.svg" alt="dark" className="h-8 w-8 mr-3" />
-
-          <Button variant="transparent" ref={target} onClick={() => setShow(!show)} className="p-0">
-            {/* Click me to see */}
-            <img src="/images/mypage.svg" alt="mypage" className="h-8 w-8" />
-          </Button>
+          {context.theme === "light" ? (
+            <>
+              <Link to="https://github.com/">
+                <img src="/images/github-logo-light.svg" alt="github" className="h-9 w-9 mr-3" />
+              </Link>
+              <img onClick={context.toggleMode} src="/images/light-to-dark.svg" alt="light" className="h-9 w-9 mr-3" />
+              <Button variant="transparent" ref={target} onClick={() => setShow(!show)} className="p-0">
+                <img src="/images/mypage-light.svg" alt="mypage" className="h-9 w-9" />
+              </Button>
+            </>
+          ) : (
+            <>
+              <Link to="https://github.com/">
+                <img src="/images/github-logo-dark.svg" alt="github" className="h-9 w-9 mr-3" />
+              </Link>
+              <img onClick={context.toggleMode} src="/images/dark-to-light.svg" alt="dark" className="h-8 w-8 mr-3" />
+              <Button variant="transparent" ref={target} onClick={() => setShow(!show)} className="p-0">
+                <img src="/images/mypage-dark.svg" alt="mypage" className="h-9 w-9" />
+              </Button>
+            </>
+          )}
           <Overlay target={target.current} show={show} placement="bottom">
             {({
               placement: _placement,

@@ -21,4 +21,16 @@
     .editor .w-md-editor-content {
         padding: 5px
     }
+
+    .white {
+        transition: all 0.25s linear;
+        background-color: white;
+    }
+
+    .dark {
+        transition: all 0.25s linear;
+        background-color: #1e2937;
+        min-height: 100vh;
+    }
+      
 }

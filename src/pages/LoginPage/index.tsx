@@ -84,10 +84,10 @@ const LoginPage = () => {
   return (
     <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8" data-testid="login">
       <div className="mx-auto max-w-lg">
-        <h1 className="text-center text-2xl font-bold sm:text-3xl h-1px">로그인</h1>
+        <h1 className="text-center text-2xl dark:text-textWhite font-bold sm:text-3xl h-1px">로그인</h1>
 
         <p className="text-center text-sm text-gray-300 bg-gray-300 mx-4 mt-5 leading-none h-px">
-          <span className="bg-white p-3">또는</span>
+          <span className="bg-textWhite dark:bg-darkPrimary p-3">또는</span>
         </p>
 
         <form className="mb-0 mt-6 space-y-4  p-4 sm:p-6 lg:p-8" onSubmit={handleSubmit}>
@@ -113,7 +113,7 @@ const LoginPage = () => {
 
           <button
             type="submit"
-            className="block w-full rounded-lg bg-textBlue px-5 py-3 text-sm font-medium text-white cursor-pointer"
+            className="block w-full rounded-lg bg-textBlue dark:bg-darkSecondary px-5 py-3 text-sm font-medium text-white cursor-pointer"
             data-testid="login-button"
             // disabled={Object.keys(errors).length > 0}
           >
