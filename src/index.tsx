@@ -1,12 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router } from "react-router-dom";
-import { AuthContextProvider } from "context/AuthContext";
+
 import App from "./pages/App";
 import firebase from "./firebaseApp";
 import "../src/styles/global.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { SectionProvider } from "context/SectionContext";
+import { ThemeContextProvider } from "context/ThemeContext";
+import { AuthContextProvider } from "context/AuthContext";
 
 const rootElement = document.getElementById("root");
 
@@ -17,11 +19,13 @@ if (rootElement) {
   root.render(
     <React.StrictMode>
       <AuthContextProvider>
-        <SectionProvider>
-          <Router>
-            <App />
-          </Router>
-        </SectionProvider>
+        <ThemeContextProvider>
+          <SectionProvider>
+            <Router>
+              <App />
+            </Router>
+          </SectionProvider>
+        </ThemeContextProvider>
       </AuthContextProvider>
     </React.StrictMode>,
   );

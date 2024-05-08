@@ -8,15 +8,16 @@ interface ButtonProps {
   backgroundColor: string;
   description: string;
   hover: string;
+  dark: string;
   testId: string;
 }
 
 function HomePage() {
   return (
-    <div className="w-full h-[calc(100vh-80px)] flex flex-col items-center justify-center gap-[20px]">
+    <div className="dark:bg-gradient-dark w-full h-[calc(100vh-80px)] flex flex-col items-center justify-center gap-[20px]">
       <div className="flex-Center flex-col" data-testid="home">
         <img alt="로고" src="/images/rm-logo.png" width="150" height="150" data-testid="logo" />
-        <span className="text-textPrimary  text-3xl md:text-6xl sm:text-5xl font-bold line-lg" data-testid="title">
+        <span className="text-textPrimary  dark:text-textWhite text-3xl md:text-6xl sm:text-5xl font-bold line-lg" data-testid="title">
           README-MONSTER
         </span>
         <p
@@ -32,6 +33,7 @@ function HomePage() {
           url="/editor"
           color="text-white"
           backgroundColor="bg-textBlue"
+          dark="bg-darkSecondary"
           hover="hover:bg-textBlueHover"
           description="시작하기"
           testId="firstButton"
@@ -40,6 +42,7 @@ function HomePage() {
           url="/signup"
           color="text-textPrimary"
           backgroundColor="bg-gray-200"
+          dark="bg-gray-200"
           hover="hover:bg-textgreyHover"
           description="더 알아보기"
           testId="secondButton"
@@ -52,7 +55,7 @@ function HomePage() {
 
 export default HomePage;
 
-export function Button({ url, color, backgroundColor, description, hover, testId }: ButtonProps) {
+export function Button({ url, color, backgroundColor, description, hover, dark, testId }: ButtonProps) {
   const router = useRouter();
   const handleClick = () => {
     router.push(url);
@@ -67,7 +70,8 @@ export function Button({ url, color, backgroundColor, description, hover, testId
           font-medium text-xl 
           ${backgroundColor} 
           ${hover} 
-          border border-transparent rounded-lg 
+          border-transparent rounded-lg 
+          dark:${dark}
           ${color} 
           w-[250px] h-[54px] 
           justify-center
