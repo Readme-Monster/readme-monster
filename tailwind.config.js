@@ -15,9 +15,11 @@ module.exports = {
         textBlack: "#000000",
         darkPrimary: "#1e2937",
         darkSecondary: "#374152",
+        darkTertiary:"#222222",
       },
       backgroundImage: {
         'gradient-dark': 'linear-gradient(#1e2937, #556274) !important', // 새 그라데이션 추가
+        'gradient-test': 'linear-gradient(white, #4B88FF) !important',
       },
       screens: {
         mobile: "768px",
