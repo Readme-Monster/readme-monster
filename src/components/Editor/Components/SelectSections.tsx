@@ -27,6 +27,7 @@ const SelectSections = () => {
   };
 
   const onClickSection = (e: React.MouseEvent<HTMLElement, MouseEvent>, section: SectionsType) => {
+    e.stopPropagation();
     setSections(prev => prev.filter(el => el.id !== section.id));
     actions.setSelectSections(prev => prev.filter(el => el.id !== section.id));
     actions.setEditSections(prev => [...prev, section]);

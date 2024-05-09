@@ -7,7 +7,8 @@ export const sections: SectionsType[] = [
     markdown: `## Project Title
   
   A brief description of what this project does and who it's for
-  `,
+
+`,
   },
   {
     id: 2,
@@ -20,7 +21,8 @@ export const sections: SectionsType[] = [
     npm install my-project
     cd my-project
   \`\`\`
-  `,
+
+`,
   },
   {
     id: 3,
@@ -32,7 +34,8 @@ export const sections: SectionsType[] = [
   \`\`\`bash
     npm run test
   \`\`\`
-  `,
+
+`,
   },
   {
     id: 4,
@@ -42,7 +45,8 @@ export const sections: SectionsType[] = [
   - [Next.js](https://nextjs.org/)
   - [TypeScript](https://www.typescriptlang.org/)
   - [Tailwind CSS](https://tailwindcss.com/)
-  `,
+  
+`,
   },
   {
     id: 5,
@@ -54,6 +58,7 @@ export const sections: SectionsType[] = [
   | Row 1    | Row 1    | Row 1    |
   | Row 2    | Row 2    | Row 2    |
   | Row 3    | Row 3    | Row 3    |
-  `,
+
+`,
   },
 ];

@@ -19,6 +19,7 @@ import {
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import { useSection } from "context/SectionContext";
 import { SectionsType } from "../types";
+import { sections as originData } from "data";
 
 const EditSections = () => {
   const { state, actions } = useSection();
@@ -72,9 +73,25 @@ const EditSections = () => {
 
   const onResetSection = (e: React.MouseEvent<HTMLElement, MouseEvent>, section: SectionsType) => {
     e.stopPropagation();
-    console.log(state.editorMarkDown);
-    console.log(section.markdown);
-    // actions.setEditorMarkDown(prev => ({ ...prev, markdown: "" }));
+    let originalMarkdown: string;
+    if (originData.some(el => el.id === section.id)) {
+      originalMarkdown = originData.find(s => s.id === section.id)?.markdown as string;
+    } else {
+      const sectionTitle = section.title;
+      originalMarkdown = `## ${sectionTitle}
+
+`;
+    }
+    actions.setEditorMarkDown(prev => ({ ...prev, markdown: `${originalMarkdown}` }));
+    actions.setEditSections(prev =>
+      prev.map(s => {
+        if (s.id === section.id) {
+          return { ...s, markdown: `${originalMarkdown}` };
+        } else {
+          return s;
+        }
+      }),
+    );
   };
 
   useEffect(() => {
