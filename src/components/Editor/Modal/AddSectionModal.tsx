@@ -25,6 +25,7 @@ const AddSectionModal = ({ modalRef, modalOutSideClick, onClose, openModal }: Pr
       id: createId,
       title: inputRef.current?.value,
       markdown: `## ${title}
+
 `,
     };
     actions.setEditSections(prev => [...prev, newValue]);

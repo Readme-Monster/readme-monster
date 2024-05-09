@@ -20,8 +20,9 @@ const EditSection = ({ id, title, markdown, onDeleteSection, onResetSection }: P
     transform: CSS.Transform.toString(transform),
   };
 
-  const onClickSection = () => {
-    actions.setEditorMarkDown(prev => ({ ...prev, id, title, markdown }));
+  const onClickSection = (e: React.MouseEvent<HTMLElement, MouseEvent>, section: SectionsType) => {
+    e.stopPropagation();
+    actions.setEditorMarkDown(prev => ({ ...prev, ...section }));
     actions.setFocusSection(id);
   };
 
@@ -34,7 +35,7 @@ const EditSection = ({ id, title, markdown, onDeleteSection, onResetSection }: P
       ref={setNodeRef}
       {...attributes}
       style={style}
-      onClick={onClickSection}
+      onClick={e => onClickSection(e, { id, title, markdown })}
       className={clsx(
         "w-full h-[45px] py-[8px] px-[12px]",
         "flex flex-row gap-[10px] items-center",
