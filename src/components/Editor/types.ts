@@ -10,3 +10,9 @@ export interface ValueType {
 export interface KeyType {
   type: string;
 }
+
+export interface GenerateKeyType {
+  githubAddress: string[];
+  openAiKey: string;
+  formList: { title: string }[];
+}
