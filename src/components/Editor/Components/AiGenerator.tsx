@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import axios from "axios";
 import { useState } from "react";
 import OpenAI from "openai";
@@ -18,6 +18,7 @@ const AiGenerator = ({ githubAddress, openAiKey, formList }: GenerateKeyType) =>
 
   const [isLoading, setIsLoading] = useState(false); // 로딩 상태 관리
   const [responseData, setResponseData] = useState(null); // API 응답 데이터 저장
+  const prevResponseData = useRef();
 
   useEffect(() => {
     if (githubAddress) {
@@ -38,25 +39,19 @@ const AiGenerator = ({ githubAddress, openAiKey, formList }: GenerateKeyType) =>
   }, [formList]);
 
   useEffect(() => {
-    const editSectionsList = JSON.parse(localStorage.getItem("edit-sections-list"));
-    if (!editSectionsList) {
-      localStorage.setItem(
-        "edit-sections-list",
-        JSON.stringify([editSectionsList, { id: 10, title: "자동생성RM", markdown: responseData }]),
-      );
-      localStorage.setItem(
-        "builder-sections-list",
-        JSON.stringify([editSectionsList, { id: 10, title: "자동생성RM", markdown: responseData }]),
-      );
-    } else {
-      localStorage.setItem(
-        "edit-sections-list",
-        JSON.stringify([{ id: 10, title: "자동생성RM", markdown: responseData }]),
-      );
-      localStorage.setItem(
-        "builder-sections-list",
-        JSON.stringify([{ id: 10, title: "자동생성RM", markdown: responseData }]),
-      );
+    if (prevResponseData.current !== responseData && responseData) {
+      const storedEditSections = localStorage.getItem("edit-sections-list");
+      const editSectionsList = storedEditSections ? JSON.parse(storedEditSections) : [];
+
+      // editSectionsList가 비어있는 경우에만 새로운 섹션을 추가
+      if (editSectionsList.length === 0) {
+        const newSection = { id: 8, title: "자동생성RM", markdown: responseData };
+        localStorage.setItem("edit-sections-list", JSON.stringify([newSection]));
+        localStorage.setItem("builder-sections-list", JSON.stringify([newSection]));
+      }
+
+      // 이전 responseData 업데이트
+      prevResponseData.current = responseData;
     }
   }, [responseData]);
 

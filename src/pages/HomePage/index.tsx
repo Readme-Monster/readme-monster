@@ -1,3 +1,4 @@
+import AiGenerator from "components/Editor/Components/AiGenerator";
 import React from "react";
 import { RoutePath, useRouter } from "../routing";
 
@@ -24,24 +25,26 @@ function HomePage() {
           사용자가 직관적인 인터페이스를 통해 README 파일을 쉽게 구성할 수 있게 도와주고, 생성형 AI를 이용해 적절한
           README 구성을 추천합니다
         </p>
-      </div>
-      <div className="flex flex-row gap-[20px]" data-testid="button">
-        <Button
-          url="/editor"
-          color="text-white"
-          backgroundColor="bg-textBlue"
-          hover="hover:bg-textBlueHover"
-          description="시작하기"
-          testId="firstButton"
-        />
-        <Button
-          url="/signup"
-          color="text-textPrimary"
-          backgroundColor="bg-gray-200"
-          hover="hover:bg-textgreyHover"
-          description="더 알아보기"
-          testId="secondButton"
-        />
+        <div className="mt-8 flex flex-wrap justify-center gap-4" data-testid="button">
+          <Button
+            url="/editor"
+            color="text-white"
+            backgroundColor="bg-textBlue"
+            dark="bg-darkPrimary"
+            hover="hover:bg-textBlueHover"
+            description="시작하기"
+            testId="firstButton"
+          />
+          <Button
+            url="/signup"
+            color="text-textPrimary"
+            backgroundColor="bg-gray-200"
+            dark="bg-gray-200"
+            hover="hover:bg-textgreyHover"
+            description="더 알아보기"
+            testId="secondButton"
+          />
+        </div>
       </div>
     </div>
   );
