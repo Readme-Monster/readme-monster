@@ -17,6 +17,13 @@ Readme Monster는 사용자가 직관적인 인터페이스를 통해 README 파
 |:---:|:---:|:---:|:---:|
 | 이지홍 | 김용현 | 이재협| 최규성 |
 
+## 기술 스택
+
+![Badge](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)
+![Badge](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=white)
+![Badge](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=flat&logo=tailwind-css&logoColor=white)
+![Badge](https://img.shields.io/badge/Context_API-5ED3F3?style=flat&logo=react&logoColor=white)
+
 ## 기획 배경 (Background)
 프로젝트 문서화는 개발 과정에서 중요한 역할을 하지만, 많은 개발자들이 이를 번거롭고 시간이 많이 소모되는 작업으로 여깁니다. 이러한 문제 인식에서 출발한 README 자동 생성 도구는 다음과 같은 기획 배경을 가지고 있습니다.
 
@@ -36,3 +43,12 @@ Readme Monster는 사용자가 직관적인 인터페이스를 통해 README 파
 과거에도 프로젝트 문서화를 자동화하려는 다양한 시도가 있었습니다. 이러한 도구들은 주로 템플릿 기반의 접근 방식을 채택했으나, 사용자의 개별 요구사항을 충분히 반영하지 못하는 경우가 많았습니다. 최신 README 자동 생성 도구들은 이러한 한계를 극복하기 위해 더욱 세련되고 사용자 친화적인 기능을 제공하려고 합니다. 예를 들어, 프로젝트 구조를 자동 분석하여 관련 섹션을 자동으로 생성하고, 사용자가 특정 내용을 쉽게 추가하거나 수정할 수 있는 옵션을 제공합니다. 이러한 발전은 개발자 커뮤니티의 피드백과 기술 발전을 통해 가능해졌습니다.
 
 이러한 배경과 동기는 README 자동 생성 도구가 개발자들 사이에서 필요한 해결책이었음을 보여줍니다. 이 도구는 프로젝트 문서화 과정을 간소화하고, 개발자들이 보다 중요한 개발 작업에 더 많은 시간을 할애할 수 있도록 지원합니다.
+
+## 설치 방법
+
+yarn 방식으로 설치해주세요
+
+```bash
+  yarn install
+  yarn start
+``` 
