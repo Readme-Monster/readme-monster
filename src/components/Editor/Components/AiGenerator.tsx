@@ -6,25 +6,84 @@ import axios from "axios";
 import { useState } from "react";
 import OpenAI from "openai";
 
-const AiGenerator = () => {
-  const githubToken = process.env.REACT_APP_GITHUB_API_KEY;
+const AiGenerator = ({ githubAddress, openAiKey, formList }: GenerateKeyType) => {
+  console.log("githubAddress", githubAddress);
+  console.log("openAiKey", openAiKey);
+  const githubApiToken = process.env.REACT_APP_GITHUB_API_KEY;
   const [repos, setRepos] = useState({});
-  const [response, setResponse] = useState("");
+  // const [response, setResponse] = useState("");
+  const [githubRepo, setGithubRepo] = useState([]);
+  const [openAiToken, setOpenAiToken] = useState("");
+  const [aboutRepo, setAboutRepo] = useState([]);
 
+  const [isLoading, setIsLoading] = useState(false); // 로딩 상태 관리
+  const [responseData, setResponseData] = useState(null); // API 응답 데이터 저장
+
+  useEffect(() => {
+    if (githubAddress) {
+      setGithubRepo(githubAddress.split("/"));
+    }
+  }, [githubAddress]);
+
+  useEffect(() => {
+    if (openAiKey) {
+      setOpenAiToken(openAiKey);
+    }
+  }, [openAiKey]);
+
+  useEffect(() => {
+    if (formList) {
+      setAboutRepo(formList);
+    }
+  }, [formList]);
+
+  useEffect(() => {
+    const editSectionsList = JSON.parse(localStorage.getItem("edit-sections-list"));
+    if (!editSectionsList) {
+      localStorage.setItem(
+        "edit-sections-list",
+        JSON.stringify([editSectionsList, { id: 10, title: "자동생성RM", markdown: responseData }]),
+      );
+      localStorage.setItem(
+        "builder-sections-list",
+        JSON.stringify([editSectionsList, { id: 10, title: "자동생성RM", markdown: responseData }]),
+      );
+    } else {
+      localStorage.setItem(
+        "edit-sections-list",
+        JSON.stringify([{ id: 10, title: "자동생성RM", markdown: responseData }]),
+      );
+      localStorage.setItem(
+        "builder-sections-list",
+        JSON.stringify([{ id: 10, title: "자동생성RM", markdown: responseData }]),
+      );
+    }
+  }, [responseData]);
+
+  // openAiKey={openAiKey} githubAddress={githubAddress}
   const getRepos = async (username: string, token: string) => {
+    if (!githubRepo.length || !openAiToken) {
+      if (!githubRepo.length) {
+        console.log("githubRepo", githubRepo);
+        return alert("GitHub repository 주소를 입력해주세요");
+      } else if (!openAiToken) {
+        console.log("openAiToken", openAiToken);
+        return alert("OpenAi key를 입력해주세요");
+      }
+    }
     try {
-      const response = await axios.get("https://api.github.com/repos/Readme-Monster/readme-monster", {
-        headers: { Authorization: `token ${githubToken}` },
+      const response = await axios.get(`https://api.github.com/repos/${githubRepo.slice(-2).join("/")}`, {
+        headers: { Authorization: `token ${githubApiToken}` },
       });
       console.log("responseresponse", response.data);
       setRepos(response.data);
       if (response) {
         console.log(Object.keys(response.data).length);
         if (Object.keys(response.data).length) {
-          console.log("여기여기");
+          console.log("여기여기", response.data);
           const aiResponse = await createReadme(response.data);
           console.log("aiResponse", aiResponse);
-          setResponse(aiResponse.choices[0].text.trim());
+          setResponseData(aiResponse.choices[0].text.trim());
           // return response.data;
         }
       }
@@ -49,7 +108,8 @@ const AiGenerator = () => {
     updated_at,
   }): Promise<string> {
     const openai = new OpenAI({
-      apiKey: process.env.REACT_APP_OPENAI_API_KEY,
+      // apiKey: process.env.REACT_APP_OPENAI_API_KEY,
+      apiKey: openAiToken,
       dangerouslyAllowBrowser: true,
     });
 
@@ -70,6 +130,7 @@ const AiGenerator = () => {
 라이선스: ['지정되지 않음']
 생성일: ${created_at}
 최근 업데이트: ${updated_at}
+${aboutRepo.map(item => `${item.title}: ${item.value}`).join("\n")}
 
 이 정보를 바탕으로 다음을 포함하는 간결하면서도 포괄적인 README를 작성해 주세요:
 - 프로젝트 소개
@@ -108,29 +169,33 @@ const AiGenerator = () => {
     // Please create the README for GitHub in Korean.. This repository named ${name} and description is ${description}. The main language used is ${language}. The Contributors are ${contributors}. For the rest of the information, refer to the repo link ${html_url}, summarize it, and add it yourself to the readme file.`;
 
     console.log("openai", openai);
+    console.log("prompt", prompt);
+    setIsLoading(true); // 로딩 시작
     try {
       const response = await openai.completions.create({
-        // messages: [{ role: "user", content: `${prompt}` }],
         model: "gpt-3.5-turbo-instruct",
         prompt: prompt,
-        max_tokens: 1000,
+        max_tokens: 100,
       });
       console.log(response);
+      // setResponseData(response); // 응답 데이터 저장
+      // setResponseData(response.choices[0].text.trim()); // 실제 사용 시 구체적 데이터 처리
       return response;
-
-      // return response.data.choices[0].text.trim();
     } catch (error) {
       console.log("Error generating README:", error);
       throw new Error("Failed to generate README");
+    } finally {
+      setIsLoading(false); // 로딩 종료
     }
   }
 
-  console.log("open api 에서 넘겨주는 응답", response);
+  console.log("open api 에서 넘겨주는 응답", responseData);
   console.log("repos", repos);
+  console.log("aboutRepo", aboutRepo);
   return (
-    <div className="border-3">
-      <button onClick={getRepos}>readme생성</button>
-    </div>
+    <button onClick={getRepos} className="w-1/2 rounded-[8px] bg-textBlue text-white hover:bg-[#6E9EFF]">
+      Create
+    </button>
   );
 };
 
