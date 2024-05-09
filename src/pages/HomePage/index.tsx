@@ -17,11 +17,13 @@ function HomePage() {
     <div className="bg-gradient-test dark:bg-gradient-dark w-full h-[calc(100vh-80px)]  mx-auto max-w-screen-xl px-4 py-32 lg:flex lg:h-screen lg:items-center">
       <div className="mx-auto max-w-xl text-center" data-testid="home">
         <h1 className="text-3xl font-extrabold sm:text-5xl text-textPrimary  dark:text-textWhite" data-testid="title">
-          README-MONSTER<br/>
+          README-MONSTER
+          <br />
           <strong className="font-extrabold text-textBlue sm:block">Builder & Generator</strong>
         </h1>
         <p className="mt-4 sm:text-xl/relaxed text-textSecondary" data-testid="description">
-        사용자가 직관적인 인터페이스를 통해 README 파일을 쉽게 구성할 수 있게 도와주고, 생성형 AI를 이용해 적절한 README 구성을 추천합니다
+          사용자가 직관적인 인터페이스를 통해 README 파일을 쉽게 구성할 수 있게 도와주고, 생성형 AI를 이용해 적절한
+          README 구성을 추천합니다
         </p>
         <div className="mt-8 flex flex-wrap justify-center gap-4" data-testid="button">
           <Button
@@ -42,7 +44,6 @@ function HomePage() {
             description="더 알아보기"
             testId="secondButton"
           />
-          <AiGenerator />
         </div>
       </div>
     </div>
