@@ -1,6 +1,7 @@
 export interface SectionsType {
   id: number;
-  title: string | undefined;
+  name: string;
+  title: string;
   markdown: string | undefined;
 }
 export interface ValueType {

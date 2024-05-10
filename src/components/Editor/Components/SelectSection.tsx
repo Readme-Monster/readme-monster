@@ -7,10 +7,17 @@ interface Props extends SectionsType {
   onClickSection: (e: React.MouseEvent<HTMLElement, MouseEvent>, section: SectionsType) => void;
 }
 
-const SelectSection = ({ id, title, markdown, onClickSection }: Props) => {
+const SelectSection = ({ id, name, title, markdown, onClickSection }: Props) => {
+  const section = {
+    id,
+    name,
+    title,
+    markdown,
+  };
+
   return (
     <div
-      onClick={e => onClickSection(e, { id, title, markdown })}
+      onClick={e => onClickSection(e, section)}
       className="
       w-full h-[45px] py-[8px] px-[12px]
       flex items-center
