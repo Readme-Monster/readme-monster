@@ -23,7 +23,8 @@ const AddSectionModal = ({ modalRef, modalOutSideClick, onClose, openModal }: Pr
     const createId = state.selectSections.length + state.editSections.length + 1;
     const newValue: SectionsType = {
       id: createId,
-      title: inputRef.current?.value,
+      name: title,
+      title: title,
       markdown: `## ${title}
 
 `,

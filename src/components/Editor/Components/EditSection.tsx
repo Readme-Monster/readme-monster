@@ -11,13 +11,20 @@ interface Props extends SectionsType {
   onResetSection: (e: React.MouseEvent<HTMLElement, MouseEvent>, section: SectionsType) => void;
 }
 
-const EditSection = ({ id, title, markdown, onDeleteSection, onResetSection }: Props) => {
+const EditSection = ({ id, title, markdown, name, onDeleteSection, onResetSection }: Props) => {
   const { state, actions } = useSection();
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
 
   const style = {
     transition,
     transform: CSS.Transform.toString(transform),
+  };
+
+  const section = {
+    id,
+    name,
+    title,
+    markdown,
   };
 
   const onClickSection = (e: React.MouseEvent<HTMLElement, MouseEvent>, section: SectionsType) => {
@@ -35,7 +42,7 @@ const EditSection = ({ id, title, markdown, onDeleteSection, onResetSection }: P
       ref={setNodeRef}
       {...attributes}
       style={style}
-      onClick={e => onClickSection(e, { id, title, markdown })}
+      onClick={e => onClickSection(e, section)}
       className={clsx(
         "w-full h-[45px] py-[8px] px-[12px]",
         "flex flex-row gap-[10px] items-center",
@@ -50,10 +57,10 @@ const EditSection = ({ id, title, markdown, onDeleteSection, onResetSection }: P
       <p className="text-textPrimary mb-0 truncate">{title}</p>
       {state.focusSection === id && (
         <div className="flex flex-row gap-[10px] ml-auto">
-          <button onClick={e => onResetSection(e, { id, title, markdown })}>
+          <button onClick={e => onResetSection(e, section)}>
             <Reset size={20} className="fill-[#ADB5BD]" />
           </button>
-          <button onClick={e => onDeleteSection(e, { id, title, markdown })}>
+          <button onClick={e => onDeleteSection(e, section)}>
             <TrashCan size={20} className="fill-textPrimary" />
           </button>
         </div>

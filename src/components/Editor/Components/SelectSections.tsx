@@ -12,9 +12,11 @@ const SelectSections = () => {
     const localData = JSON.parse(localStorage.getItem("select-sections-list") || "[]");
     return localData.length > 0 ? localData : state.selectSections;
   });
-
+  const [search, setSearch] = useState("");
+  const [searchSection, setSerchSection] = useState<SectionsType[]>([]);
   const [openModal, setOpenModal] = useState(false);
   const modalRef = useRef<HTMLDivElement | null>(null);
+  const sectionList = search.length > 0 ? searchSection : sections;
 
   const modalOutSideClick = (e: any) => {
     if (modalRef.current === e.target) {
@@ -42,6 +44,18 @@ const SelectSections = () => {
   }, []);
 
   useEffect(() => {
+    if (search.length > 0) {
+      const searchSection = sections.filter(s => {
+        return s.name.toLowerCase().includes(search.toLowerCase());
+      });
+      setSerchSection(searchSection);
+    } else {
+      setSections(state.selectSections);
+    }
+  }, [search]);
+
+  useEffect(() => {
+    setSearch("");
     setSections(state.selectSections);
   }, [state.selectSections]);
 
@@ -56,11 +70,12 @@ const SelectSections = () => {
         <Add size={30} className="fill-textBlue cursor-pointer" onClick={openModalAlert} />
       </div>
       <div className="h-full max-h-auto flex flex-col gap-[10px]">
-        <SearchSection />
-        {sections.map(section => (
+        <SearchSection search={search} setSearch={setSearch} />
+        {sectionList.map(section => (
           <SelectSection
             key={section.id}
             id={section.id}
+            name={section.name}
             title={section.title}
             markdown={section.markdown}
             onClickSection={onClickSection}

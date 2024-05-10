@@ -36,7 +36,8 @@ export const SectionProvider = ({ children }: SectionContextProviderProps) => {
   const [editSections, setEditSections] = useState<SectionsType[]>([]);
   const [editorMarkDown, setEditorMarkDown] = useState<SectionsType>({
     id: 0,
-    title: "",
+    name: "Welcome",
+    title: "Welcome",
     markdown: "# Welcome To README-MONSTER",
   });
   const [focusSection, setFocusSection] = useState<number | undefined>(undefined);

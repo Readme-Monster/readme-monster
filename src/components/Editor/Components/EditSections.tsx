@@ -128,6 +128,7 @@ const EditSections = () => {
             {sections.map(section => (
               <EditSection
                 key={section.id}
+                name={section.name}
                 title={section.title}
                 id={section.id}
                 markdown={section.markdown}
