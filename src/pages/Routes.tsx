@@ -12,7 +12,7 @@ interface RouterProps {
   isAuthenticated: boolean;
 }
 
-const ProtectedRoute = ({ element, isAuthenticated }: { element: React.ReactNode, isAuthenticated: boolean }) => {
+const ProtectedRoute = ({ element, isAuthenticated }: { element: React.ReactNode; isAuthenticated: boolean }) => {
   return isAuthenticated ? element : <Navigate to="/login" />;
 };
 
