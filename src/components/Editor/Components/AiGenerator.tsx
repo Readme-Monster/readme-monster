@@ -170,7 +170,7 @@ ${aboutRepo.map(item => `${item.title}: ${item.value}`).join("\n")}
       const response = await openai.completions.create({
         model: "gpt-3.5-turbo-instruct",
         prompt: prompt,
-        max_tokens: 1000,
+        max_tokens: 100,
       });
       console.log(response);
       // setResponseData(response); // 응답 데이터 저장
