@@ -4,14 +4,12 @@ import UserPreviousList from "../../components/MyPage/UserPrevious";
 
 const MyPage = () => {
   return (
-    <div className="w-fullflex flex-col items-center justify-center">
-      <section className="w-full">
-        <div className="flex-Center gap-5  h-[calc(100vh-100px)] p-20 ">
-          <UserInfo />
-          <UserPreviousList />
-        </div>
-      </section>
-    </div>
+    <section className="w-full flex justify-center ">
+      <div className="flex flex-col items-center justify-center gap-3 p-10 w-2/5 ">
+        <UserInfo />
+        <UserPreviousList />
+      </div>
+    </section>
   );
 };
 

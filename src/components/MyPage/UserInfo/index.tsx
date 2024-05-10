@@ -1,6 +1,4 @@
-import React, { ChangeEvent, useState, useEffect } from "react";
-
-import Input from "../Input";
+import React, { useState, useEffect } from "react";
 import { UserInfoProps } from "./types";
 import { getAuth, signOut } from "firebase/auth";
 import { toast } from "react-toastify";
@@ -12,8 +10,6 @@ const UserInfo = () => {
   const [userInfo, setUserInfo] = useState<UserInfoProps>({
     name: "",
     email: "",
-    password: "",
-    passwordCheck: "",
     docId: "",
   });
 
@@ -38,25 +34,18 @@ const UserInfo = () => {
     }
   };
 
-  const handleUpdateUserInfo = (e: ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = e.target;
-
-    setUserInfo((prev: UserInfoProps) => ({
-      ...prev,
-      [id]: value,
-    }));
-  };
-
   const handleDeleteUser = async () => {
-    try {
-      await deleteDoc(doc(db, "userInfo", userInfo.docId));
-      await signOut(auth);
+    if (confirm("탈퇴하시겠습니까?")) {
+      try {
+        await deleteDoc(doc(db, "userInfo", userInfo.docId));
+        await signOut(auth);
 
-      toast.success("회원탈퇴를 완료하였습니다.");
+        toast.success("회원탈퇴를 완료하였습니다.");
 
-      router.push("/");
-    } catch (error: any) {
-      console.log(error);
+        router.push("/");
+      } catch (error: any) {
+        console.log(error);
+      }
     }
   };
 
@@ -65,28 +54,44 @@ const UserInfo = () => {
   }, []);
 
   return (
-    <div className="w-1/2 h-full flex-Center flex-col gap-2 border-1 p-2 border-cyan-600">
-      <img className="w-28 h-28 bg-slate-400 rounded-full" src="" />
-      <Input value={userInfo.name} placeholder="이름" id="name" onChange={handleUpdateUserInfo} disabled={true} />
-      <Input value={userInfo.email} placeholder="이메일" id="email" onChange={handleUpdateUserInfo} disabled={true} />
-      <Input
-        value={userInfo.password}
-        placeholder="패스워드"
-        id="password"
-        type="password"
-        onChange={handleUpdateUserInfo}
-      />
-      <Input
-        value={userInfo.passwordCheck}
-        placeholder="패스워드 확인"
-        id="passwordCheck"
-        type="password"
-        onChange={handleUpdateUserInfo}
-      />
-      <button className="w-full h-10 bg-[#FF4A50] text-center text-cyan-50" onClick={handleDeleteUser}>
+    <>
+      <h2 className="text-textBlue font-semibold">마이페이지</h2>
+      <div className="flex items-center w-full">
+        <div className="w-4/5">
+          <img
+            className="flex w-28 h-28 bg-slate-400 rounded-full"
+            src="https://www.ailee-shopperhouse.com/images/avatars/1.png"
+          />
+        </div>
+        <div className="w-1/5">
+          <div className="flex flex-row justify-between font-semibold">
+            <div className="flex flex-col items-center">
+              <h5>생성(개수)</h5>
+              <p>66</p>
+            </div>
+            {/* <div className="flex flex-col items-center font-semibold">
+              <h5>회원등급</h5>
+              <p>VIP</p>
+            </div>
+            <div className="flex flex-col items-center font-semibold">
+              <h5>평점</h5>
+              <p>4.5</p>
+            </div> */}
+          </div>
+        </div>
+      </div>
+      <div className="w-full flex flex-col p-2">
+        <h4 className="text-textBlue font-semibold">{userInfo.name}</h4>
+        <h5 className="text-textPrimary">{userInfo.email}</h5>
+      </div>
+
+      <button
+        className="w-full h-16 border-1 border-[#FF4A50] hover:border-gray-500 text-center font-semibold text-[#FF4A50] hover:text-gray-500"
+        onClick={handleDeleteUser}
+      >
         탈퇴하기
       </button>
-    </div>
+    </>
   );
 };
 
