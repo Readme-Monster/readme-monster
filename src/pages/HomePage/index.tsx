@@ -1,4 +1,3 @@
-import AiGenerator from "components/Editor/Components/AiGenerator";
 import React from "react";
 import { RoutePath, useRouter } from "../routing";
 
