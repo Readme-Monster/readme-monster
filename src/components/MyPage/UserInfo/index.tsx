@@ -65,7 +65,7 @@ const UserInfo = () => {
         </div>
         <div className="w-1/5">
           <div className="flex flex-row justify-between font-semibold">
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center dark:text-textWhite">
               <h5>생성(개수)</h5>
               <p>66</p>
             </div>
@@ -82,7 +82,7 @@ const UserInfo = () => {
       </div>
       <div className="w-full flex flex-col p-2">
         <h4 className="text-textBlue font-semibold">{userInfo.name}</h4>
-        <h5 className="text-textPrimary">{userInfo.email}</h5>
+        <h5 className="text-textPrimary dark:text-textWhite">{userInfo.email}</h5>
       </div>
 
       <button
