@@ -13,6 +13,7 @@ const AiGenerator = ({ githubAddress, openAiKey, formList }: GenerateKeyType) =>
   const [openAiToken, setOpenAiToken] = useState("");
   const [responseData, setResponseData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [aboutRepo, setAboutRepo] = useState([]);
   const prevResponseData = useRef();
   const { setTab } = useTab();
 
@@ -24,6 +25,12 @@ const AiGenerator = ({ githubAddress, openAiKey, formList }: GenerateKeyType) =>
       setOpenAiToken(openAiKey);
     }
   }, [githubAddress, openAiKey]);
+
+  useEffect(() => {
+    if (formList) {
+      setAboutRepo(formList);
+    }
+  }, [formList]);
 
   useEffect(() => {
     if (prevResponseData.current !== responseData && responseData) {
@@ -79,7 +86,9 @@ const AiGenerator = ({ githubAddress, openAiKey, formList }: GenerateKeyType) =>
       dangerouslyAllowBrowser: true,
     });
 
-    const prompt = `Generate a README for the repository at ${data.html_url}`;
+    const prompt = `Generate a README for the repository at ${data.html_url}
+    ${aboutRepo.map(item => `${item.title}: ${item.value}`).join("\n")}
+    `;
     try {
       const response = await openai.completions.create({
         model: "gpt-3.5-turbo-instruct",
