@@ -2,12 +2,14 @@ import { Tab, Tabs } from "../../components/Common/Tabs";
 import React, { useState } from "react";
 import Auto from "./Components/Auto";
 import Builder from "./Components/Builder";
+import { useTab } from "context/TabContext";
 
 const SectionsContainer = () => {
-  const [selectedTab, setSelectedTab] = useState<string | undefined>("Builder");
+  // const [selectedTab, setSelectedTab] = useState<string | undefined>("Builder");
+  const { selectedTab, setTab } = useTab();
 
-  const handleTabClick = (value?: string | undefined) => {
-    setSelectedTab(value);
+  const handleTabClick = (value: string | undefined) => {
+    setTab(value!);
   };
 
   return (

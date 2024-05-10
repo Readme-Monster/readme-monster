@@ -9,6 +9,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { SectionProvider } from "context/SectionContext";
 import { ThemeContextProvider } from "context/ThemeContext";
 import { AuthContextProvider } from "context/AuthContext";
+import { TabProvider } from "context/TabContext";
 
 const rootElement = document.getElementById("root");
 
@@ -21,9 +22,11 @@ if (rootElement) {
       <AuthContextProvider>
         <ThemeContextProvider>
           <SectionProvider>
-            <Router>
-              <App />
-            </Router>
+            <TabProvider>
+              <Router>
+                <App />
+              </Router>
+            </TabProvider>
           </SectionProvider>
         </ThemeContextProvider>
       </AuthContextProvider>
