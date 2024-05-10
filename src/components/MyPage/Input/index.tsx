@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { InputProps } from "./types";
 
-const Input = ({ value, id, placeholder, type, onChange }: InputProps) => {
+const Input = ({ value, id, placeholder, type, disabled, onChange }: InputProps) => {
   const [isHideClicked, setIsHideClicked] = useState(false);
 
   const handleHideClick = () => {
@@ -10,12 +10,13 @@ const Input = ({ value, id, placeholder, type, onChange }: InputProps) => {
   return (
     <div className="w-full relative">
       <input
-        className="w-full h-10 bg-[#CCEEFF] text-center  "
+        className={`w-full h-10 bg-[#CCEEFF] text-center ${disabled ? "text-gray-400" : ""}`}
         value={value}
         placeholder={placeholder}
         id={id}
-        type={isHideClicked ? "text" : "password"}
+        type={type === "password" && !isHideClicked ? "password" : "text"}
         onChange={onChange}
+        disabled={disabled}
       />
       {type === "password" && (
         <button className="absolute right-3 top-2.5" onClick={handleHideClick}>

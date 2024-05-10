@@ -5,5 +5,6 @@ export interface InputProps {
   id: string;
   type?: string;
   placeholder: string;
+  disabled?: boolean;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
