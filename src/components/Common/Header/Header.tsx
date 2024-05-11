@@ -51,7 +51,7 @@ const Header = () => {
         <div className="flex justify-center items-center">
           {context.theme === "light" ? (
             <>
-              <Link to="https://github.com/">
+              <Link to="https://github.com/Readme-Monster/readme-monster">
                 <img src="/images/github-logo-light.svg" alt="github" className="h-9 w-9 mr-3" />
               </Link>
               <img onClick={context.toggleMode} src="/images/light-to-dark.svg" alt="light" className="h-9 w-9 mr-3" />
