@@ -14,7 +14,6 @@ const AiGenerator = ({ githubAddress, openAiKey, formList }: GenerateKeyType) =>
   const [responseData, setResponseData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [aboutRepo, setAboutRepo] = useState([]);
-  const [memberList, setMemberList] = useState("");
   const prevResponseData = useRef();
   const { setTab } = useTab();
 
@@ -62,21 +61,12 @@ const AiGenerator = ({ githubAddress, openAiKey, formList }: GenerateKeyType) =>
 
     setIsLoading(true);
     try {
-      const member = await axios.get(`https://api.github.com/repos/${githubRepo.slice(-2).join("/")}/contributors`, {
-        headers: { Authorization: `token ${githubApiToken}` },
-      });
-      setMemberList(member?.data.map(ele => ele.login).join());
-
       const response = await axios.get(`https://api.github.com/repos/${githubRepo.slice(-2).join("/")}`, {
         headers: { Authorization: `token ${githubApiToken}` },
       });
 
       if (response.data) {
-        const aiResponse = await createReadme(
-          response.data,
-          member?.data.map(ele => ele.login).join(),
-          member?.data.map(ele => ele.avatar_url).join(),
-        );
+        const aiResponse = await createReadme(response.data);
         console.log("aiResponse", aiResponse);
         setResponseData(aiResponse.choices[0].message.content.trim());
       }
@@ -87,14 +77,14 @@ const AiGenerator = ({ githubAddress, openAiKey, formList }: GenerateKeyType) =>
     }
   };
 
-  async function createReadme(data, member, avatar_url) {
+  async function createReadme(data) {
     const openai = new OpenAI({
       apiKey: openAiToken,
       dangerouslyAllowBrowser: true,
     });
 
     const prompt = `
-    
+    ${data} 를 이용해서 prompt를 작성해주세요.
     `;
 
     console.log("prompt", prompt);
@@ -118,7 +108,6 @@ const AiGenerator = ({ githubAddress, openAiKey, formList }: GenerateKeyType) =>
     }
   }
 
-  console.log("memberList", memberList);
   return (
     <>
       {isLoading ? (
