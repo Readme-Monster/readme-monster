@@ -15,5 +15,8 @@ export interface KeyType {
 export interface GenerateKeyType {
   githubAddress: string[];
   openAiKey: string;
+  techStack: string;
+  packageManager: string;
+  description: string;
   formList: { title: string }[];
 }
