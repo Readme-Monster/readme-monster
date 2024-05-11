@@ -21,6 +21,9 @@ const AutoForm = ({ onClick }: Props) => {
   const modalRef = useRef<HTMLDivElement | null>(null);
   const [openAiKey, setOpenAiKey] = useState<string>("");
   const [githubAddress, setGithubAddress] = useState<string>("");
+  const [techStack, setTechStack] = useState<string>("");
+  const [packageManager, setPackageManager] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
 
   const modalOutSideClick = (e: any) => {
     if (modalRef.current === e.target) {
@@ -32,21 +35,21 @@ const AutoForm = ({ onClick }: Props) => {
     setOpenModal(!openModal);
   };
 
-  const openAiInputStyle = `
-    w-full h-[45px] p-[10px] pl-[40px]
-    rounded-[8px] drop-shadow-[0_1px_1px_rgba(173,181,189,0.25)] border border-[#F1F3F5]
-    focus:outline-none focus:ring-2 focus:ring-textBlue
-    placeholder-[#ADB5BD] placeholder:text-[14px]
-    ${openAiKey === "" ? "bg-red-100" : "bg-white"}
-  `;
+  const createInputStyle = (value: string) => {
+    return `
+      w-full h-[45px] p-[10px] pl-[40px]
+      rounded-[8px] drop-shadow-[0_1px_1px_rgba(173,181,189,0.25)] border border-[#F1F3F5]
+      focus:outline-none focus:ring-2 focus:ring-textBlue
+      placeholder-[#ADB5BD] placeholder:text-[14px]
+      ${value === "" ? "bg-red-100" : "bg-white"}
+    `;
+  };
 
-  const githubInputStyle = `
-    w-full h-[45px] p-[10px] pl-[40px]
-    rounded-[8px] drop-shadow-[0_1px_1px_rgba(173,181,189,0.25)] border border-[#F1F3F5]
-    focus:outline-none focus:ring-2 focus:ring-textBlue
-    placeholder-[#ADB5BD] placeholder:text-[14px]
-    ${githubAddress === "" ? "bg-red-100" : "bg-white"}
-  `;
+  const openAiInputStyle = createInputStyle(openAiKey);
+  const githubInputStyle = createInputStyle(githubAddress);
+  const techStackInputStyle = createInputStyle(techStack);
+  const packageManagerInputStyle = createInputStyle(packageManager);
+  const descriptionInputStyle = createInputStyle(description);
 
   console.log("openAiKey", openAiKey);
   console.log("githubAddress", githubAddress);
@@ -94,6 +97,54 @@ const AutoForm = ({ onClick }: Props) => {
             />
           </div>
         </div>
+        <div className="w-full h-[70px]">
+          <p className="text-textPrimary mb-[10px] ml-[10px] ">
+            프로젝트 설명 <RequiredDot />
+          </p>
+          <div className="w-full h-[45px] flex items-center relative">
+            <Link size={20} className="absolute z-1 fill-[#495057] ml-[12px] pointer-events-none" />
+            <input
+              type="text"
+              className={descriptionInputStyle}
+              placeholder="프로젝트에 대한 간단한 설명을 입력해주세요."
+              onChange={e => {
+                setDescription(e.target.value);
+              }}
+            />
+          </div>
+        </div>
+        <div className="w-full h-[70px]">
+          <p className="text-textPrimary mb-[10px] ml-[10px] ">
+            사용한 기술스택 <RequiredDot />
+          </p>
+          <div className="w-full h-[45px] flex items-center relative">
+            <Link size={20} className="absolute z-1 fill-[#495057] ml-[12px] pointer-events-none" />
+            <input
+              type="text"
+              className={techStackInputStyle}
+              placeholder="사용한 기술스택을 입력해주세요."
+              onChange={e => {
+                setTechStack(e.target.value);
+              }}
+            />
+          </div>
+        </div>
+        <div className="w-full h-[70px]">
+          <p className="text-textPrimary mb-[10px] ml-[10px] ">
+            사용한 Package Manager <RequiredDot />
+          </p>
+          <div className="w-full h-[45px] flex items-center relative">
+            <Link size={20} className="absolute z-1 fill-[#495057] ml-[12px] pointer-events-none" />
+            <input
+              type="text"
+              className={packageManagerInputStyle}
+              placeholder="사용한 package manager를 입력해주세요."
+              onChange={e => {
+                setPackageManager(e.target.value);
+              }}
+            />
+          </div>
+        </div>
         {formList?.map(({ title }) => (
           <div className="w-full h-[70px]" key={title}>
             <p className="text-textPrimary mb-[10px] ml-[10px]">{title}</p>
@@ -127,7 +178,14 @@ const AutoForm = ({ onClick }: Props) => {
         <button className="w-1/2 rounded-[8px] border-solid border border-textTertiary text-textPrimary hover:bg-gray-50">
           Cancel
         </button>
-        <AiGenerator openAiKey={openAiKey} githubAddress={githubAddress} formList={formList} />
+        <AiGenerator
+          openAiKey={openAiKey}
+          githubAddress={githubAddress}
+          formList={formList}
+          techStack={techStack}
+          packageManager={packageManager}
+          description={description}
+        />
       </div>
       {openModal && (
         <AddAutoContentsModal
