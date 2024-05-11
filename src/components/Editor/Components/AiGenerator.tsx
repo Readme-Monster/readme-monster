@@ -14,6 +14,7 @@ const AiGenerator = ({ githubAddress, openAiKey, formList }: GenerateKeyType) =>
   const [responseData, setResponseData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [aboutRepo, setAboutRepo] = useState([]);
+  const [memberList, setMemberList] = useState("");
   const prevResponseData = useRef();
   const { setTab } = useTab();
 
@@ -34,28 +35,25 @@ const AiGenerator = ({ githubAddress, openAiKey, formList }: GenerateKeyType) =>
 
   useEffect(() => {
     if (prevResponseData.current !== responseData && responseData) {
-      prevResponseData.current = responseData; // Update the ref with the new responseData
+      prevResponseData.current = responseData;
 
       const editSections = JSON.parse(localStorage.getItem("edit-sections-list") || "[]");
       const selectSections = JSON.parse(localStorage.getItem("select-sections-list") || "[]");
 
-      const newSectionId = editSections.length + selectSections.length + 1; // Calculate the new ID
+      const newSectionId = editSections.length + selectSections.length + 1;
       const newSection = {
         id: newSectionId,
         title: "자동생성RM",
         markdown: responseData,
       };
 
-      // Update edit-sections-list by adding the new section at the beginning
       localStorage.setItem("edit-sections-list", JSON.stringify([newSection, ...editSections]));
 
-      // Optionally update current-section
       localStorage.setItem("current-section", JSON.stringify(newSection));
       setTab("Builder");
     }
   }, [responseData]);
 
-  // openAiKey={openAiKey} githubAddress={githubAddress}
   const getRepos = async (username: string, token: string) => {
     if (!githubRepo.length || !openAiToken) {
       alert("Please enter the GitHub repository address and OpenAI key.");
@@ -64,14 +62,23 @@ const AiGenerator = ({ githubAddress, openAiKey, formList }: GenerateKeyType) =>
 
     setIsLoading(true);
     try {
+      const member = await axios.get(`https://api.github.com/repos/${githubRepo.slice(-2).join("/")}/contributors`, {
+        headers: { Authorization: `token ${githubApiToken}` },
+      });
+      setMemberList(member?.data.map(ele => ele.login).join());
+
       const response = await axios.get(`https://api.github.com/repos/${githubRepo.slice(-2).join("/")}`, {
         headers: { Authorization: `token ${githubApiToken}` },
       });
-      setRepos(response.data);
 
       if (response.data) {
-        const aiResponse = await createReadme(response.data);
-        setResponseData(aiResponse.choices[0].text.trim());
+        const aiResponse = await createReadme(
+          response.data,
+          member?.data.map(ele => ele.login).join(),
+          member?.data.map(ele => ele.avatar_url).join(),
+        );
+        console.log("aiResponse", aiResponse);
+        setResponseData(aiResponse.choices[0].message.content.trim());
       }
     } catch (error) {
       console.error("Error fetching repository:", error);
@@ -80,20 +87,29 @@ const AiGenerator = ({ githubAddress, openAiKey, formList }: GenerateKeyType) =>
     }
   };
 
-  async function createReadme(data) {
+  async function createReadme(data, member, avatar_url) {
     const openai = new OpenAI({
       apiKey: openAiToken,
       dangerouslyAllowBrowser: true,
     });
 
-    const prompt = `Generate a README for the repository at ${data.html_url}
-    ${aboutRepo.map(item => `${item.title}: ${item.value}`).join("\n")}
+    const prompt = `
+    
     `;
+
+    console.log("prompt", prompt);
     try {
-      const response = await openai.completions.create({
-        model: "gpt-3.5-turbo-instruct",
-        prompt: prompt,
-        max_tokens: 3000,
+      const response = await openai.chat.completions.create({
+        model: "gpt-3.5-turbo-16k",
+        messages: [
+          {
+            role: "system",
+            content:
+              "너의 역할은 user가 넘겨주는 정보와 예시로 주어진 템플릿에 맞게 해당 레포지토리에 대한 Readme 파일을 작성해주는 것입니다.",
+          },
+          { role: "user", content: prompt },
+        ],
+        max_tokens: 4000,
       });
       return response;
     } catch (error) {
@@ -102,6 +118,7 @@ const AiGenerator = ({ githubAddress, openAiKey, formList }: GenerateKeyType) =>
     }
   }
 
+  console.log("memberList", memberList);
   return (
     <>
       {isLoading ? (
