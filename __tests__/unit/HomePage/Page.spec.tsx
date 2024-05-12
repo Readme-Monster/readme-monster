@@ -12,8 +12,6 @@ describe("HomePage 테스트", () => {
         <HomePage />
       </MemoryRouter>,
     );
-
-    expect(screen.getByTestId("logo")).toBeInTheDocument();
     expect(screen.getByTestId("title")).toBeInTheDocument();
     expect(screen.getByTestId("description")).toBeInTheDocument();
   });
