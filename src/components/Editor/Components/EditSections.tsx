@@ -18,11 +18,16 @@ import {
 } from "@dnd-kit/sortable";
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import { useSection } from "context/SectionContext";
-import { SectionsType } from "../types";
+import { FirebaseStore, SectionsType } from "../types";
 import { sections as originData } from "data";
+import { getAuth } from "firebase/auth";
+import { app, db } from "../../../firebaseApp";
+import { getDocs, collection, doc, updateDoc, arrayUnion } from "firebase/firestore";
 
 const EditSections = () => {
+  const auth = getAuth(app);
   const { state, actions } = useSection();
+  const [userData, setUserData] = useState<FirebaseStore | undefined>(undefined);
   const [sections, setSections] = useState<SectionsType[]>(() => {
     const localData = JSON.parse(localStorage.getItem("edit-sections-list") || "[]");
     return localData.length > 0 ? localData : state.editSections;
@@ -49,6 +54,38 @@ const EditSections = () => {
       coordinateGetter: sortableKeyboardCoordinates,
     }),
   );
+
+  const handleGetUserInfo = async () => {
+    const querySnapshot = await getDocs(collection(db, "userInfo"));
+
+    querySnapshot.forEach(doc => {
+      if (doc.data().email === auth.currentUser?.email) {
+        setUserData({
+          id: doc.id,
+          sections: doc.data().sections,
+        });
+      }
+    });
+  };
+
+  const onSaveSection = async (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    e.stopPropagation();
+
+    const storeSection = {
+      id: userData!.sections.length + 1,
+      editSections: state.editSections,
+      selectSections: state.selectSections,
+    };
+
+    try {
+      await updateDoc(doc(db, "userInfo", userData?.id as string), {
+        sections: arrayUnion(storeSection),
+      });
+      alert("저장이 완료되었습니다.");
+    } catch (error) {
+      alert("저장이 실패하였습니다.");
+    }
+  };
 
   const onDeleteSection = (e: React.MouseEvent<HTMLElement, MouseEvent>, section: SectionsType) => {
     e.stopPropagation();
@@ -95,6 +132,7 @@ const EditSections = () => {
   };
 
   useEffect(() => {
+    handleGetUserInfo();
     if (sections.length > 0) {
       actions.setEditorMarkDown(sections[0]);
       actions.setFocusSection(sections[0]?.id);
@@ -114,8 +152,13 @@ const EditSections = () => {
 
   return (
     <div className="flex flex-col gap-[10px] px-[10px]">
-      <div className="flex-Center flex-row justify-between min-h-[30px]">
-        <p className="text-textPrimary ml-[5px] mb-0 text-sm dark:text-textWhite">Edit Section</p>
+      <div className="flex-Center flex-row justify-between min-h-[30px] px-[5px]">
+        <p className="text-textPrimary mb-0 text-sm dark:text-textWhite">Edit Section</p>
+        {sections.length > 0 && userData && (
+          <p onClick={onSaveSection} className="text-textBlue font-medium mb-0 text-sm cursor-pointer ">
+            저장하기
+          </p>
+        )}
       </div>
       <div className="flex flex-col gap-[10px] h-full">
         <DndContext

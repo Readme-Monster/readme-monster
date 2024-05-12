@@ -20,3 +20,11 @@ export interface GenerateKeyType {
   description: string;
   formList: { title: string }[];
 }
+
+export interface FirebaseStore {
+  id: string;
+  sections: {
+    editSections: SectionsType[];
+    selectSections: SectionsType[];
+  }[];
+}
