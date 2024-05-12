@@ -13,15 +13,6 @@
         .display-contents {display: contents;}
     }
 
-    .editor .w-md-editor-toolbar {
-        border-radius: 8px 8px 0px 0px !important;
-        padding: 10px;
-    }
-
-    .editor .w-md-editor-content {
-        padding: 10px
-    }
-
     .white {
         transition: all 0.25s linear;
         background-color: white;
@@ -32,5 +23,21 @@
         background-color: #1e2937;
         min-height: 100vh;
     }
-      
+    
+    .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.anchor {
+    display: none
+}
+
+.w-md-editor-toolbar {
+    border-radius: 8px 8px 0px 0px !important;
+    padding: 10px;
+}
+
+.w-md-editor-content {
+    padding: 10px
 }
