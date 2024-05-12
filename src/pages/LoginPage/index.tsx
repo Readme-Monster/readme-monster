@@ -1,5 +1,5 @@
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import React, { useState, ChangeEvent, FormEvent, MouseEvent } from "react";
 import { toast } from "react-toastify";
 
 import LoadingSpinner from "../../components/Common/LoadingSpinner/LoadingSpinner";
@@ -81,11 +81,40 @@ const LoginPage = () => {
     toast.error(message);
   }
 
+  async function handleGoogle(e: MouseEvent<HTMLButtonElement>){
+    e.preventDefault();
+    const auth = getAuth(app);
+    const provider = await new GoogleAuthProvider();
+    const result = await signInWithPopup(auth, provider);
+    try {
+      console.log(result.user);
+      toast.success("회원가입에 성공했습니다.");
+      router.push("/login");
+      return result.user;
+    } catch (error : any) {
+      console.error("Error signing in with Google:", error);
+      handleFirebaseError(error);
+      console.log(error);
+    }
+  }
+
   return (
     <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8" data-testid="login">
       <div className="mx-auto max-w-lg">
         <h1 className="text-center text-2xl dark:text-textWhite font-bold sm:text-3xl h-1px">로그인</h1>
-
+        
+        <div className="mb-0 mt-6 space-y-4  p-4 sm:p-6 lg:p-8">
+          <button
+            type="button"
+            onClick={handleGoogle}
+            className="block w-full rounded-full bg-white border-1 border-gray-300 px-5 py-2.5 text-sm font-medium cursor-pointer flex items-center"
+            data-testid="google-button"
+          >
+            <img src="/images/google-logo.svg" alt="github" className="h-8 w-8" />
+            <span className="flex-grow text-center">Goole로 로그인</span>
+          </button>
+        </div>
+        
         <p className="text-center text-sm text-gray-300 bg-gray-300 mx-4 mt-5 leading-none h-px">
           <span className="bg-textWhite dark:bg-darkPrimary p-3">또는</span>
         </p>
