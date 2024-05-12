@@ -16,9 +16,9 @@ const Raw = ({ value }: ValueType) => {
   };
 
   return (
-    <div className="w-full h-full p-[20px] rounded-[8px] border-solid border border-textTertiary relative">
+    <div className="w-full h-full rounded-[8px] border-solid border border-textTertiary relative">
       {value!.length > 0 && (
-        <div className="h-auto absolute right-[20px]" onClick={onCopyMarkdown}>
+        <div className="h-auto absolute top-[20px] right-[20px]" onClick={onCopyMarkdown}>
           <Copy size={18} className="cursor-pointer" />
         </div>
       )}
@@ -27,7 +27,7 @@ const Raw = ({ value }: ValueType) => {
         ref={textAreaRef}
         key={value}
         readOnly
-        className="h-full w-full resize-none focus:outline-none p-0"
+        className="h-full w-full resize-none focus:outline-none p-[20px] rounded-[7px]"
       />
     </div>
   );

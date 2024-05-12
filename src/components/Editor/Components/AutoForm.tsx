@@ -55,7 +55,7 @@ const AutoForm = ({ onClick }: Props) => {
   console.log("githubAddress", githubAddress);
   console.log("formList", formList);
   return (
-    <div className="w-full h-full max-h-full rounded-[8px] border-solid border border-textTertiary p-[20px] flex flex-col gap-[30px]">
+    <div className="w-full h-full max-h-full rounded-[8px] bg-white border-solid border border-textTertiary p-[20px] flex flex-col gap-[30px]">
       <div className="w-full min-h-[140px] flex-Center flex-col text-center">
         <p className="font-bold text-textPrimary text-3xl mb-[10px]">Auto Readme</p>
         <p className="text-textSecondary mb-0">
@@ -64,7 +64,7 @@ const AutoForm = ({ onClick }: Props) => {
           Readme를 대신 써드립니다
         </p>
       </div>
-      <div className="h-[100%] flex flex-col gap-[30px] px-[10px] overflow-scroll">
+      <div className="h-[100%] flex flex-col gap-[30px] px-[10px] overflow-scroll hide-scrollbar">
         <div className="w-full h-[70px]">
           <p className="text-textPrimary mb-[10px] ml-[10px] ">
             GitHub 링크 <RequiredDot />

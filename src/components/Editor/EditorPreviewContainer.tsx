@@ -33,7 +33,7 @@ const EditorPreviewContainer = () => {
 
   return (
     <>
-      <div className="w-1/2">
+      <div className="w-[calc(50%-15px)]">
         <div className="w-full h-full flex flex-col gap-[10px]">
           <div className="min-h-[35px] mx-[5px] flex items-center">
             <p className="text-textBlue font-semibold mb-0">Editor</p>
@@ -41,7 +41,7 @@ const EditorPreviewContainer = () => {
           <Editor />
         </div>
       </div>
-      <div className="w-1/2">
+      <div className="w-[calc(50%-15px)]">
         <div className="w-full h-full flex flex-col gap-[10px]">
           <div className="min-h-[35px] flex flex-row mx-[5px]">
             <div className="w-full h-full">

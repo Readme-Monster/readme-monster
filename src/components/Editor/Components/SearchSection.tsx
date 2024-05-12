@@ -1,6 +1,5 @@
 import React from "react";
 import { Search } from "@carbon/icons-react";
-import { SectionsType } from "../types";
 
 interface Props {
   search: string;

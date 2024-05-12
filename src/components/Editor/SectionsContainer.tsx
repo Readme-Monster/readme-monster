@@ -20,7 +20,7 @@ const SectionsContainer = () => {
           <Tab value="Auto">Auto</Tab>
         </Tabs>
       </div>
-      <div className="w-full h-full flex flex-col gap-[10px] overflow-y-scroll">
+      <div className="w-full h-full flex flex-col gap-[10px] overflow-y-scroll hide-scrollbar">
         {selectedTab === "Builder" && <Builder />}
         {selectedTab === "Auto" && <Auto />}
       </div>

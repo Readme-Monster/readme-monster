@@ -36,10 +36,11 @@ export const Tab = ({ value, selectedTab, onClick }: TabProps) => {
     <>
       <div onClick={handleClick} className="h-full w-auto cursor-pointer">
         <p
-          className={clsx("mb-0", {
+          className={clsx("mb-0 ", {
             "text-textBlue": boolean,
             "font-semibold": boolean,
             "text-textSecondary": !boolean,
+            "dark:text-textTertiary": !boolean,
           })}
         >
           {value}
