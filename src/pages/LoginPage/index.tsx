@@ -88,8 +88,8 @@ const LoginPage = () => {
     const result = await signInWithPopup(auth, provider);
     try {
       console.log(result.user);
-      toast.success("로그인에 성공했습니다.");
-      router.push("/");
+      toast.success("회원가입에 성공했습니다.");
+      router.push("/login");
       return result.user;
     } catch (error : any) {
       console.error("Error signing in with Google:", error);

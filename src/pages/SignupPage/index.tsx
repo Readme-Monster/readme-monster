@@ -82,16 +82,11 @@ function SignupPage() {
       console.log(userCredential.user);
       // const getEmail: any = userCredential.user.email;
       // const id: string = getEmail.split("@")[0] ;
-      const test = {
-        id: 0,
-        editSections: [1,2],
-        selectSections: [1,2,3],
-      };
       await addDoc(collection(db, "userInfo"), {
         name: name,
         email: email,
         registrationDate: new Date(),
-        sections: [test]
+        sections: []
       });
   
       toast.success("회원가입에 성공했습니다.");
@@ -139,7 +134,7 @@ function SignupPage() {
       });
       
       toast.success("회원가입에 성공했습니다.");
-      router.push("/");
+      router.push("/login");
       return result.user;
     } catch (error : any) {
       console.error("Error signing in with Google:", error);

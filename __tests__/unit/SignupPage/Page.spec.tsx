@@ -1,6 +1,6 @@
 import { fireEvent, render, screen, act, waitFor } from "@testing-library/react";
 import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { getFirestore, addDoc } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
 import { MemoryRouter } from "react-router-dom";
 import { toast } from "react-toastify";
 import React from "react";
@@ -116,4 +116,41 @@ describe("SignupPage 테스트", () => {
 
     useRouterMock.mockRestore();
   });
+});
+
+describe("SignupPage에서 구글 로그인 테스트", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    GoogleAuthProvider.mockResolvedValue({ user: { email: "test@example.com", uid: "123456" }});
+  });
+
+  test("구글 로그인 성공 시 데이터베이스에 사용자 정보 저장 및 성공 메시지 출력", async () => {
+    const pushMock = jest.fn();
+
+    const useRouterMock = jest.spyOn(require("../../../src/pages/routing"), "useRouter").mockReturnValue({
+      push: pushMock,
+    });
+
+    render(
+      <MemoryRouter>
+        <SignupPage />
+      </MemoryRouter>
+    );
+
+    const googleLoginButton = screen.getByTestId("google-button");
+    fireEvent.click(googleLoginButton);
+
+    await waitFor(() => {
+      expect(signInWithPopup).toHaveBeenCalled();
+      expect(addDoc).toHaveBeenCalledWith(expect.anything(), {
+        name: "Test User",
+        email: "testuser@example.com",
+        registrationDate: expect.any(Date),
+        sections: []
+      });
+      expect(toast.success).toHaveBeenCalledWith("회원가입에 성공했습니다.");
+      expect(pushMock).toHaveBeenCalledWith("/login");
+    });
+  });
+
 });
