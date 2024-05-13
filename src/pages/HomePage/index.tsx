@@ -14,7 +14,7 @@ interface ButtonProps {
 
 function HomePage() {
   return (
-    <div className="bg-gradient-test dark:bg-gradient-dark w-full h-[calc(100vh-80px)]  mx-auto max-w-screen-xl px-4 py-32 lg:flex lg:h-screen lg:items-center">
+    <div className="bg-gradient-test dark:bg-gradient-dark w-full h-[calc(100vh-80px)] px-4 py-32 lg:flex lg:h-screen lg:items-center">
       <div className="mx-auto max-w-xl text-center" data-testid="home">
         <h1 className="text-3xl font-extrabold sm:text-5xl text-textPrimary  dark:text-textWhite" data-testid="title">
           README-MONSTER
