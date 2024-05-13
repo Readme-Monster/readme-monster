@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { UserInfoProps } from "./types";
-import { deleteUser, getAuth, signOut } from "firebase/auth";
+import { getAuth, signOut } from "firebase/auth";
 import { toast } from "react-toastify";
 import { useRouter } from "pages/routing";
 import { app, db } from "../../../firebaseApp";
@@ -16,55 +16,18 @@ const UserInfo = () => {
   const auth = getAuth(app);
   const router = useRouter();
 
-  const handleGetUserEmail = async () => {
-    return new Promise((resolve, reject) => {
-      const request = window.indexedDB.open("firebaseLocalStorageDb");
-
-      request.onerror = function (event: any) {
-        console.error("IndexedDB error:", event.target.errorCode);
-      };
-
-      request.onsuccess = function (event: any) {
-        const db = event.target.result;
-
-        const transaction = db.transaction(["firebaseLocalStorage"]);
-        const objectStore = transaction.objectStore("firebaseLocalStorage");
-
-        const getRequest = objectStore.get(`firebase:authUser:${app.options.apiKey}:app`);
-
-        getRequest.onerror = function (event: any) {
-          console.error("Error getting data:", event.target.errorCode);
-        };
-
-        getRequest.onsuccess = function (event: any) {
-          const userData = event.target.result;
-          if (userData) {
-            const email = userData.value.email;
-            resolve(email); // Resolve with email value
-          } else {
-            reject(new Error("User data not found"));
-          }
-        };
-      };
-    });
-  };
-
   const handleGetUserInfo = async () => {
     try {
       const querySnapshot = await getDocs(collection(db, "userInfo"));
-      const userEmail = await handleGetUserEmail();
 
       querySnapshot.forEach(doc => {
-        console.log(doc.data());
         const { name, email } = doc.data();
-        if (email === userEmail) {
-          setUserInfo(prev => ({
-            ...prev,
-            name,
-            email,
-            docId: doc.id,
-          }));
-        }
+        setUserInfo(prev => ({
+          ...prev,
+          name,
+          email,
+          docId: doc.id,
+        }));
       });
     } catch (e: any) {
       toast.error("오류가 발생했습니다");
@@ -74,7 +37,6 @@ const UserInfo = () => {
   const handleDeleteUser = async () => {
     if (confirm("탈퇴하시겠습니까?")) {
       try {
-        await auth.currentUser?.delete();
         await deleteDoc(doc(db, "userInfo", userInfo.docId));
         await signOut(auth);
 
