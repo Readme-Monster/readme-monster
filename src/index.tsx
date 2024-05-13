@@ -30,7 +30,7 @@ if (rootElement) {
           </SectionProvider>
         </ThemeContextProvider>
       </AuthContextProvider>
-    </React.StrictMode>
+    </React.StrictMode>,
   );
 } else {
   console.error("Failed to find the root element");
