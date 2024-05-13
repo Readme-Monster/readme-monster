@@ -1,8 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import EditorPreviewContainer from "../../components/Editor/EditorPreviewContainer";
 import SectionsContainer from "../../components/Editor/SectionsContainer";
 
 const ReadmeBuilder = () => {
+  const handlePreventRefresh = (e: BeforeUnloadEvent) => {
+    e.preventDefault();
+    e.returnValue = "";
+  };
+
+  useEffect(() => {
+    (() => {
+      window.addEventListener("beforeunload", handlePreventRefresh);
+    })();
+
+    return () => {
+      window.removeEventListener("beforeunload", handlePreventRefresh);
+    };
+  }, []);
+
   return (
     <div className="w-full h-[calc(100vh_-_80px)] flex flex-col">
       <div className="w-full h-full">

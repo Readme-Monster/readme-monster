@@ -24,6 +24,7 @@ export interface GenerateKeyType {
 export interface FirebaseStore {
   id: string;
   sections: {
+    id: number;
     editSections: SectionsType[];
     selectSections: SectionsType[];
   }[];

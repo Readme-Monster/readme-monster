@@ -8,10 +8,7 @@ import { useSection } from "context/SectionContext";
 
 const SelectSections = () => {
   const { state, actions } = useSection();
-  const [sections, setSections] = useState<SectionsType[]>(() => {
-    const localData = JSON.parse(localStorage.getItem("select-sections-list") || "[]");
-    return localData.length > 0 ? localData : state.selectSections;
-  });
+  const [sections, setSections] = useState<SectionsType[]>([]);
   const [search, setSearch] = useState("");
   const [searchSection, setSerchSection] = useState<SectionsType[]>([]);
   const [openModal, setOpenModal] = useState(false);
@@ -58,10 +55,6 @@ const SelectSections = () => {
     setSearch("");
     setSections(state.selectSections);
   }, [state.selectSections]);
-
-  useEffect(() => {
-    localStorage.setItem("select-sections-list", JSON.stringify(sections));
-  }, [sections]);
 
   return (
     <div className="h-full flex flex-col gap-[10px] px-[10px]">

@@ -28,10 +28,7 @@ const EditSections = () => {
   const auth = getAuth(app);
   const { state, actions } = useSection();
   const [userData, setUserData] = useState<FirebaseStore | undefined>(undefined);
-  const [sections, setSections] = useState<SectionsType[]>(() => {
-    const localData = JSON.parse(localStorage.getItem("edit-sections-list") || "[]");
-    return localData.length > 0 ? localData : state.editSections;
-  });
+  const [sections, setSections] = useState<SectionsType[]>([]);
 
   const getIndex = (id: number) => sections.findIndex(el => el.id === id);
 
@@ -56,16 +53,20 @@ const EditSections = () => {
   );
 
   const handleGetUserInfo = async () => {
-    const querySnapshot = await getDocs(collection(db, "userInfo"));
+    try {
+      const querySnapshot = await getDocs(collection(db, "userInfo"));
 
-    querySnapshot.forEach(doc => {
-      if (doc.data().email === auth.currentUser?.email) {
-        setUserData({
-          id: doc.id,
-          sections: doc.data().sections,
-        });
-      }
-    });
+      querySnapshot.forEach(doc => {
+        if (doc.data().email === auth.currentUser?.email) {
+          setUserData({
+            id: doc.id,
+            sections: doc.data().sections,
+          });
+        }
+      });
+    } catch (err) {
+      alert("회원정보를 가져오는데 실패하였습니다.");
+    }
   };
 
   const onSaveSection = async (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
@@ -104,7 +105,6 @@ const EditSections = () => {
       actions.setFocusSection(sections[index].id);
     } else {
       actions.setFocusSection(undefined);
-      localStorage.removeItem("current-section");
     }
   };
 
@@ -133,16 +133,7 @@ const EditSections = () => {
 
   useEffect(() => {
     handleGetUserInfo();
-    if (sections.length > 0) {
-      actions.setEditorMarkDown(sections[0]);
-      actions.setFocusSection(sections[0]?.id);
-    }
-    actions.setEditSections(sections);
   }, []);
-
-  useEffect(() => {
-    localStorage.setItem("edit-sections-list", JSON.stringify(sections));
-  }, [sections]);
 
   useEffect(() => {
     if (state.editSections.length > 0) {

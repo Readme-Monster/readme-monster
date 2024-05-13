@@ -19,7 +19,6 @@ const Editor = () => {
         }
       }),
     );
-    localStorage.setItem("edit-sections-list", JSON.stringify(state.editSections));
   };
 
   useEffect(() => {

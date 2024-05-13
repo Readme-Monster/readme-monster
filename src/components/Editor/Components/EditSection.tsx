@@ -33,10 +33,6 @@ const EditSection = ({ id, title, markdown, name, onDeleteSection, onResetSectio
     actions.setFocusSection(id);
   };
 
-  useEffect(() => {
-    localStorage.setItem("current-section", JSON.stringify(state.editorMarkDown));
-  }, [state.editorMarkDown]);
-
   return (
     <div
       ref={setNodeRef}
