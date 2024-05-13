@@ -1,35 +1,91 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { UserSectionList } from "../UserInfo/types";
 
-const CHATLISTDATA = [
-  { id: 1, title: "리드미를 써줘", data: "2024-05-10" },
-  { id: 2, title: "borderColor가 원하는 값으로 설정해줘", data: "2024-05-05" },
-  { id: 3, title: "알고리즘이 중요해?", data: "2024-04-29" },
-  { id: 4, title: "자료구조에 대해서 알려줘", data: "2024-04-27" },
-  { id: 5, title: "bfs dfs 차이점", data: "2024-04-25" },
-  { id: 6, title: "스택은 뭐야", data: "2024-04-18" },
-  { id: 7, title: "꿀이랑 허니에 대해 성분 비교 좀", data: "2024-04-13" },
-  { id: 8, title: "프로젝트에 대해서 간략하게 알려줘", data: "2024-03-30" },
-  { id: 9, title: "해당 프로젝트 설치를 어떻게 해", data: "2024-03-27" },
-  { id: 10, title: "테스트 코드를 좀 만들어줘", data: "2024-03-29" },
-];
+const UserPreviousList = ({ userSectionList }: { userSectionList: UserSectionList[] }) => {
+  const navigate = useNavigate();
+  const handleConvertDate = (timeStamp: number) => {
+    const milliseconds = timeStamp * 1000;
+    const date = new Date(milliseconds);
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
 
-const UserPreviousList = () => {
+    return `${year}-${month < 10 ? "0" : ""}${month}-${day < 10 ? "0" : ""}${day}`;
+  };
+
+  const handleCategorizeDate = (seconds: number) => {
+    const currentDate = new Date();
+    const savedDate = new Date(seconds * 1000);
+    const difference = (currentDate.getTime() - savedDate.getTime()) / (1000 * 3600 * 24); // Difference in days
+
+    if (difference === 0) {
+      return "Today";
+    } else if (difference === 1) {
+      return "Yesterday";
+    } else if (difference <= 7) {
+      return "Previous 7 Days";
+    } else if (difference <= 30) {
+      return "Previous 30 Days";
+    } else {
+      return "More than 30 Days Ago";
+    }
+  };
+  userSectionList.sort((a, b) => b.saveDate.seconds - a.saveDate.seconds);
+
+  userSectionList.forEach(user => {
+    user.dateType = handleCategorizeDate(user.saveDate.seconds);
+  });
+
+  const groupedData: { [key: string]: UserSectionList[] } = {};
+  userSectionList.forEach(user => {
+    const dateType = user.dateType;
+    if (dateType) {
+      groupedData[dateType] = groupedData[dateType] || [];
+      groupedData[dateType].push(user);
+    }
+  });
+
+  const newUserSectionList = Object.entries(groupedData).map(([dateType, data]) => ({ dateType, data }));
+
+  const handleOnClick = (id: number) => {
+    navigate(`/editor?id=${id}`);
+  };
   return (
-    <div className="w-full h-full flex flex-wrap gap-2 p-2 ">
-      {CHATLISTDATA.map(data => {
+    <div className="w-full h-full flex flex-col gap-2 pt-3 overflow-y-scroll hide-scrollbar">
+      {newUserSectionList?.map((userData, i) => {
+        const { dateType, data } = userData;
         return (
-          <div
-            key={data.id}
-            className="relative w-28 h-28 bg-[#BBDDFF] hover:scale-110 transition-transform ease-in-out duration-500 cursor-pointer"
-            style={{ backgroundImage: `url(${"/images/rm-logo.png"})`, backgroundSize: "cover" }}
-          >
-            <div className="absolute top-1 right-0 px-2 py-1 text-xs text-white bg-gray-600 rounded-full">
-              {data.data}
-            </div>
-
-            <div className="absolute bottom-0 left-0 right-0 px-2 text-center bg-gray-800 text-white overflow-hidden whitespace-nowrap">
-              <div className="truncate font-semibold text-sm">{data.title}</div>
-            </div>
+          <div key={i} className="w-full flex flex-col gap-2">
+            <div className="left-0 px-2 py-1 text-xs font-semibold">{dateType}</div>
+            {data.map(list => {
+              return (
+                <div
+                  key={list.id}
+                  className="relative w-full h-28 flex justify-center items-center bg-[#BBDDFF] hover:scale-95 overflow-visible transition-transform ease-in-out duration-500 cursor-pointer"
+                  onClick={() => handleOnClick(list.id)}
+                >
+                  <h1
+                    className="text-2xl font-extrabold sm:text-2xl text-textPrimary  dark:text-textWhite"
+                    data-testid="title"
+                  >
+                    README-MONSTER
+                  </h1>
+                  <div className="absolute top-1 right-1 px-2 py-1 text-xs text-white bg-gray-600 rounded-full">
+                    {handleConvertDate(list.saveDate?.seconds)}
+                  </div>
+                  <div className="absolute flex flex-row bottom-0 left-0 right-0 text-center bg-gray-800 text-white truncate">
+                    {list.editSections.map(editList => {
+                      return (
+                        <div key={editList.id} className=" w-full truncate font-semibold text-sm">
+                          {editList.title}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         );
       })}
