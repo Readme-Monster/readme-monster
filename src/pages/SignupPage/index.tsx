@@ -75,18 +75,27 @@ function SignupPage() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { name, email, password } = credentials;
+  
     try {
       const auth = getAuth(app);
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      console.log(userCredential.user);
+      // const getEmail: any = userCredential.user.email;
+      // const id: string = getEmail.split("@")[0] ;
+      const test = {
+        id: 0,
+        editSections: [1,2],
+        selectSections: [1,2,3],
+      };
       await addDoc(collection(db, "userInfo"), {
         name: name,
         email: email,
         registrationDate: new Date(),
-        sections: []
+        sections: [test]
       });
   
       toast.success("회원가입에 성공했습니다.");
-      router.push("/");
+      router.push("/login");
     } catch (error: any) {
       handleFirebaseError(error);
       console.log(error);
