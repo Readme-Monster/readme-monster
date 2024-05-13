@@ -20,14 +20,17 @@ import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import { useSection } from "context/SectionContext";
 import { FirebaseStore, SectionsType } from "../types";
 import { sections as originData } from "data";
-import { getAuth } from "firebase/auth";
-import { app, db } from "../../../firebaseApp";
-import { getDocs, collection, doc, updateDoc, arrayUnion } from "firebase/firestore";
+import { doc, updateDoc, arrayUnion } from "firebase/firestore";
+import { db } from "../../../firebaseApp";
+import { User } from "firebase/auth";
 
-const EditSections = () => {
-  const auth = getAuth(app);
+interface Props {
+  userData?: FirebaseStore;
+  auth: User | null;
+}
+
+const EditSections = ({ userData, auth }: Props) => {
   const { state, actions } = useSection();
-  const [userData, setUserData] = useState<FirebaseStore | undefined>(undefined);
   const [sections, setSections] = useState<SectionsType[]>([]);
 
   const getIndex = (id: number) => sections.findIndex(el => el.id === id);
@@ -51,23 +54,6 @@ const EditSections = () => {
       coordinateGetter: sortableKeyboardCoordinates,
     }),
   );
-
-  const handleGetUserInfo = async () => {
-    try {
-      const querySnapshot = await getDocs(collection(db, "userInfo"));
-
-      querySnapshot.forEach(doc => {
-        if (doc.data().email === auth.currentUser?.email) {
-          setUserData({
-            id: doc.id,
-            sections: doc.data().sections,
-          });
-        }
-      });
-    } catch (err) {
-      alert("회원정보를 가져오는데 실패하였습니다.");
-    }
-  };
 
   const onSaveSection = async (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     e.stopPropagation();
@@ -132,10 +118,6 @@ const EditSections = () => {
   };
 
   useEffect(() => {
-    handleGetUserInfo();
-  }, []);
-
-  useEffect(() => {
     if (state.editSections.length > 0) {
       setSections(state.editSections);
     }
@@ -145,7 +127,7 @@ const EditSections = () => {
     <div className="flex flex-col gap-[10px] px-[10px]">
       <div className="flex-Center flex-row justify-between min-h-[30px] px-[5px]">
         <p className="text-textPrimary mb-0 text-sm dark:text-textWhite">Edit Section</p>
-        {sections.length > 0 && userData && (
+        {sections.length > 0 && auth && (
           <p onClick={onSaveSection} className="text-textBlue font-medium mb-0 text-sm cursor-pointer ">
             저장하기
           </p>

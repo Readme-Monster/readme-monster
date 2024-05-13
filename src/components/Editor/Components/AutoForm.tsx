@@ -7,11 +7,8 @@ import AddAutoContentsModal from "../Modal/AddAutoContentsModal";
 interface List {
   title: string;
 }
-interface Props {
-  onClick: () => void;
-}
 
-const AutoForm = ({ onClick }: Props) => {
+const AutoForm = () => {
   // const formList: List[] = [
   //   // { title: "프로젝트 제목", placeholder: "프로젝트 제목을 입력해주세요." },
   // ];

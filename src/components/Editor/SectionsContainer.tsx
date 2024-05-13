@@ -5,7 +5,6 @@ import Builder from "./Components/Builder";
 import { useTab } from "context/TabContext";
 
 const SectionsContainer = () => {
-  // const [selectedTab, setSelectedTab] = useState<string | undefined>("Builder");
   const { selectedTab, setTab } = useTab();
 
   const handleTabClick = (value: string | undefined) => {
