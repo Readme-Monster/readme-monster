@@ -7,7 +7,7 @@ import ReadmeBuilder from "./builder/ReadmeBuilder";
 import MyPage from "./myPage";
 import LoginPage from "./LoginPage";
 import SignupPage from "./SignupPage";
-
+import BoardPage from "./BoardPage";
 interface RouterProps {
   isAuthenticated: boolean;
 }
@@ -23,6 +23,7 @@ export const Routes = ({ isAuthenticated }: RouterProps) => {
         <Route index element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
+        <Route path="/board" element={<BoardPage />} />
         <Route path="/editor" element={<ReadmeBuilder />} />
         {isAuthenticated ? (
           <Route path="/myPage" element={<MyPage />} />

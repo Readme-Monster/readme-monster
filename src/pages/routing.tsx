@@ -16,4 +16,4 @@ export function useRouter() {
   }, [navigate]);
 }
 
-export type RoutePath = "/" | "/login" | "/signup" | "/editor";
+export type RoutePath = "/" | "/login" | "/signup" | "/editor" | "/myPage" | "/board";
