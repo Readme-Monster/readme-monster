@@ -73,12 +73,18 @@ const BoardPage = () => {
                   placeholder="글을 입력해주세요"
                   value={inputText}
                   onChange={(e) => setInputText(e.target.value)}
-                  className="w-full rounded-md border-gray-200 bg-white p-3 text-gray-700 shadow-sm transition focus:border-white focus:outline-none focus:ring focus:ring-yellow-400"
+                  className="w-full rounded-md border-gray-200 bg-white p-3 text-gray-700 shadow-sm text-sm  transition focus:border-white focus:outline-none focus:ring focus:ring-yellow-400"
                 />
               </div>
               <button
                 onClick={handleButtonClick}
-                className="group flex w-full items-center justify-center gap-2 rounded-md bg-rose-600 px-5 py-3 text-white transition focus:outline-none focus:ring focus:ring-yellow-400 sm:mt-0 sm:w-auto"
+                className="
+                group flex w-full items-center justify-center 
+                gap-2 rounded-md hover:bg-textBlueHover bg-textBlue dark:bg-darkSecondary 
+                px-5 py-3 text-sm font-medium text-white 
+                transition focus:outline-none focus:ring 
+                focus:ring-yellow-400 sm:mt-0 sm:w-auto
+                "
               >
                 <span className="text-sm font-medium"> 등록</span>
               </button>
