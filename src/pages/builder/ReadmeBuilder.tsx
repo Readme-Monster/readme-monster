@@ -1,11 +1,16 @@
+import { useSection } from "context/SectionContext";
 import React, { useEffect } from "react";
 import EditorPreviewContainer from "../../components/Editor/EditorPreviewContainer";
 import SectionsContainer from "../../components/Editor/SectionsContainer";
 
 const ReadmeBuilder = () => {
+  const { state } = useSection();
+
   const handlePreventRefresh = (e: BeforeUnloadEvent) => {
-    e.preventDefault();
-    e.returnValue = "";
+    if (state.isDataChanged) {
+      e.preventDefault();
+      e.returnValue = "";
+    }
   };
 
   useEffect(() => {
@@ -16,7 +21,7 @@ const ReadmeBuilder = () => {
     return () => {
       window.removeEventListener("beforeunload", handlePreventRefresh);
     };
-  }, []);
+  }, [state.isDataChanged]);
 
   return (
     <div className="w-full h-[calc(100vh_-_80px)] flex flex-col">

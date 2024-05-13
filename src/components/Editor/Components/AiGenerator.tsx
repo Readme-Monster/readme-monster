@@ -5,6 +5,7 @@ import axios from "axios";
 import OpenAI from "openai";
 import LoadingSpinner from "components/Common/LoadingSpinner/LoadingSpinner";
 import { useTab } from "context/TabContext";
+import { useSection } from "context/SectionContext";
 
 const AiGenerator = ({
   githubAddress,
@@ -14,6 +15,7 @@ const AiGenerator = ({
   packageManager,
   description,
 }: GenerateKeyType) => {
+  const { state, actions } = useSection();
   const githubApiToken = process.env.REACT_APP_GITHUB_API_KEY;
   const [repos, setRepos] = useState({});
   const [githubRepo, setGithubRepo] = useState([]);
@@ -56,19 +58,18 @@ const AiGenerator = ({
     if (prevResponseData.current !== responseData && responseData) {
       prevResponseData.current = responseData;
 
-      const editSections = JSON.parse(localStorage.getItem("edit-sections-list") || "[]");
-      const selectSections = JSON.parse(localStorage.getItem("select-sections-list") || "[]");
-
-      const newSectionId = editSections.length + selectSections.length + 1;
+      const newSectionId = state.editSections.length + state.selectSections.length + 1;
       const newSection = {
         id: newSectionId,
+        name: "자동생성RM",
         title: "자동생성RM",
         markdown: responseData,
       };
 
-      localStorage.setItem("edit-sections-list", JSON.stringify([newSection, ...editSections]));
+      actions.setEditSections(prev => [...prev, newSection]);
+      actions.setEditorMarkDown(prev => ({ ...prev, ...newSection }));
+      actions.setFocusSection(newSection.id);
 
-      localStorage.setItem("current-section", JSON.stringify(newSection));
       setTab("Builder");
     }
   }, [responseData]);

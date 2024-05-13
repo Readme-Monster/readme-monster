@@ -10,6 +10,7 @@ const Editor = () => {
 
   const onEditEditor = (value: string) => {
     setMarkdownValue(value);
+    actions.setEditorMarkDown(prev => ({ ...prev, markdown: value }));
     actions.setEditSections(prev =>
       prev.map(markdown => {
         if (markdown.id === state.editorMarkDown.id) {
