@@ -118,9 +118,8 @@ const EditSections = ({ userData, auth }: Props) => {
   };
 
   useEffect(() => {
-    if (state.editSections.length > 0) {
-      setSections(state.editSections);
-    }
+    setSections(state.editSections);
+    actions.setDataChanged(true);
   }, [state.editSections]);
 
   return (

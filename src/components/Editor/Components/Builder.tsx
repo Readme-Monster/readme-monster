@@ -28,7 +28,9 @@ const Builder = () => {
   };
 
   useEffect(() => {
-    handleGetUserInfo();
+    if (auth) {
+      handleGetUserInfo();
+    }
   }, []);
 
   return (

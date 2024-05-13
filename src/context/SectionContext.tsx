@@ -8,12 +8,14 @@ interface SectionContextType {
     editSections: SectionsType[];
     editorMarkDown: SectionsType;
     focusSection: number | undefined;
+    isDataChanged: boolean;
   };
   actions: {
     setSelectSections: React.Dispatch<React.SetStateAction<SectionsType[]>>;
     setEditSections: React.Dispatch<React.SetStateAction<SectionsType[]>>;
     setEditorMarkDown: React.Dispatch<React.SetStateAction<SectionsType>>;
     setFocusSection: React.Dispatch<React.SetStateAction<number | undefined>>;
+    setDataChanged: React.Dispatch<React.SetStateAction<boolean>>;
   };
 }
 
@@ -36,15 +38,16 @@ export const SectionProvider = ({ children }: SectionContextProviderProps) => {
   const [editSections, setEditSections] = useState<SectionsType[]>([]);
   const [editorMarkDown, setEditorMarkDown] = useState<SectionsType>({
     id: 0,
-    name: "Welcome",
-    title: "Welcome",
-    markdown: "# Welcome To README-MONSTER",
+    name: "",
+    title: "",
+    markdown: "",
   });
   const [focusSection, setFocusSection] = useState<number | undefined>(undefined);
+  const [isDataChanged, setDataChanged] = useState<boolean>(false);
 
   const value = {
-    state: { selectSections, editSections, editorMarkDown, focusSection },
-    actions: { setSelectSections, setEditSections, setEditorMarkDown, setFocusSection },
+    state: { selectSections, editSections, editorMarkDown, focusSection, isDataChanged },
+    actions: { setSelectSections, setEditSections, setEditorMarkDown, setFocusSection, setDataChanged },
   };
 
   return <SectionContext.Provider value={value}>{children}</SectionContext.Provider>;

@@ -1,5 +1,3 @@
-import clsx from "clsx";
-import { useSection } from "context/SectionContext";
 import React from "react";
 import { SectionsType } from "../types";
 
