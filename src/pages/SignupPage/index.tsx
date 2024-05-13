@@ -122,7 +122,7 @@ function SignupPage() {
       const result = await signInWithPopup(auth, provider);
       console.log(result.user);
       
-      await addDoc(collection(db, "userInfo", result.user.uid), {
+      await addDoc(collection(db, "userInfo"), {
         name: result.user.displayName,
         email: result.user.email,
         registrationDate: new Date(),
