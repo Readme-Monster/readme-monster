@@ -51,6 +51,9 @@ const Header = () => {
         <div className="flex justify-center items-center">
           {context.theme === "light" ? (
             <>
+              <Link to="/board">
+                <img src="/images/talk.svg" alt="talk" className="h-10 w-10 mr-3" />
+              </Link>
               <Link to="https://github.com/Readme-Monster/readme-monster">
                 <img src="/images/github-logo-light.svg" alt="github" className="h-9 w-9 mr-3" />
               </Link>
@@ -61,6 +64,9 @@ const Header = () => {
             </>
           ) : (
             <>
+              <Link to="/board">
+                <img src="/images/talk-dark.svg" alt="talk" className="h-10 w-10 mr-3" />
+              </Link>
               <Link to="https://github.com/">
                 <img src="/images/github-logo-dark.svg" alt="github" className="h-9 w-9 mr-3" />
               </Link>
