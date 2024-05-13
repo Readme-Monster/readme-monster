@@ -6,70 +6,9 @@ import { useRouter } from "pages/routing";
 import { app, db } from "../../../firebaseApp";
 import { getDocs, collection, deleteDoc, doc } from "firebase/firestore";
 
-const UserInfo = () => {
-  const [userInfo, setUserInfo] = useState<UserInfoProps>({
-    name: "",
-    email: "",
-    docId: "",
-  });
-
+const UserInfo = ({ userInfo }: { userInfo: UserInfoProps }) => {
   const auth = getAuth(app);
   const router = useRouter();
-
-  const handleGetUserEmail = async () => {
-    return new Promise((resolve, reject) => {
-      const request = window.indexedDB.open("firebaseLocalStorageDb");
-
-      request.onerror = function (event: any) {
-        console.error("IndexedDB error:", event.target.errorCode);
-      };
-
-      request.onsuccess = function (event: any) {
-        const db = event.target.result;
-
-        const transaction = db.transaction(["firebaseLocalStorage"]);
-        const objectStore = transaction.objectStore("firebaseLocalStorage");
-
-        const getRequest = objectStore.get(`firebase:authUser:${app.options.apiKey}:app`);
-
-        getRequest.onerror = function (event: any) {
-          console.error("Error getting data:", event.target.errorCode);
-        };
-
-        getRequest.onsuccess = function (event: any) {
-          const userData = event.target.result;
-          if (userData) {
-            const email = userData.value.email;
-            resolve(email); // Resolve with email value
-          } else {
-            reject(new Error("User data not found"));
-          }
-        };
-      };
-    });
-  };
-
-  const handleGetUserInfo = async () => {
-    try {
-      const querySnapshot = await getDocs(collection(db, "userInfo"));
-      const userEmail = await handleGetUserEmail();
-
-      querySnapshot.forEach(doc => {
-        console.log(doc.data());
-        const { name, email } = doc.data();
-        if (email === userEmail) {
-          setUserInfo(prev => ({
-            ...prev,
-            name,
-            email,
-            docId: doc.id,
-          }));
-        }
-      });
-    } catch (e: any) {
-      toast.error("오류가 발생했습니다");
-    }
-  };
 
   const handleDeleteUser = async () => {
     if (confirm("탈퇴하시겠습니까?")) {
@@ -87,10 +26,6 @@ const UserInfo = () => {
     }
   };
 
-  useEffect(() => {
-    handleGetUserInfo();
-  }, []);
-
   return (
     <>
       <h2 className="text-textBlue font-semibold">마이페이지</h2>
@@ -105,16 +40,8 @@ const UserInfo = () => {
           <div className="flex flex-row justify-between font-semibold">
             <div className="flex flex-col items-center dark:text-textWhite">
               <h5>생성(개수)</h5>
-              <p>66</p>
+              <p>{userInfo.sections.length ?? 0}</p>
             </div>
-            {/* <div className="flex flex-col items-center font-semibold">
-              <h5>회원등급</h5>
-              <p>VIP</p>
-            </div>
-            <div className="flex flex-col items-center font-semibold">
-              <h5>평점</h5>
-              <p>4.5</p>
-            </div> */}
           </div>
         </div>
       </div>
