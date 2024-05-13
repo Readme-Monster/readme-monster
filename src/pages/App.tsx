@@ -26,7 +26,7 @@ function App() {
 
   return (
     <>
-      <div className={context.theme === "light" ? "light" : "dark"}>
+      <div className={context.theme === "light" ? "white" : "dark"}>
         <ToastContainer 
           position="top-center" 
           autoClose={5000}
@@ -37,7 +37,7 @@ function App() {
           pauseOnFocusLoss
           draggable
           pauseOnHover
-          theme={context.theme === "light" ? "light" : "dark"}
+          theme={context.theme === "light" ? "white" : "dark"}
         />
         {init ? <Routes isAuthenticated={isAuthenticated} /> : <LoadingSpinner/>}
       </div>
