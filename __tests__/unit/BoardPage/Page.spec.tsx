@@ -67,4 +67,34 @@ describe("BoardPage", () => {
     });
   });
 
+  test("새 댓글을 추가합니다.", async () => {
+    render(<BoardPage />);
+
+    const input = screen.getByPlaceholderText("글을 입력해주세요");
+    const button = screen.getByText("등록");
+
+    fireEvent.change(input, { target: { value: "New comment" } });
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(addDoc).toHaveBeenCalledWith(expect.any(Object), {
+        registrationDate: expect.any(Object),
+        comment: "New comment",
+      });
+      expect(toast.success).toHaveBeenCalledWith("댓글이 등록되었습니다");
+    });
+  });
+
+  test("입력 필드가 비어 있을 때 경고를 표시합니다.", async () => {
+    render(<BoardPage />);
+
+    const button = screen.getByText("등록");
+
+    fireEvent.click(button);
+
+    await waitFor(() => {
+      expect(toast.warn).toHaveBeenCalledWith("댓글을 입력해주세요.");
+    });
+  });
+  
 });
