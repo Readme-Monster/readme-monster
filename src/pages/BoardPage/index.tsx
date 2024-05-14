@@ -44,6 +44,7 @@ const BoardPage = () => {
           comment: inputText
         });
         toast.success("댓글이 등록되었습니다");
+        setInputText("");
       } catch (error: any) {
         console.log(error);
         toast.error("댓글을 등록하는데 실패했습니다.");
