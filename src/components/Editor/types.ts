@@ -27,5 +27,6 @@ export interface FirebaseStore {
     id: number;
     editSections: SectionsType[];
     selectSections: SectionsType[];
+    saveDate: string;
   }[];
 }

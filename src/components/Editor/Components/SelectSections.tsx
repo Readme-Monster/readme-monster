@@ -6,14 +6,18 @@ import AddSectionModal from "../Modal/AddSectionModal";
 import { SectionsType } from "../types";
 import { useSection } from "context/SectionContext";
 
-const SelectSections = () => {
+interface Props {
+  selectSections: SectionsType[];
+  setSelectSections: React.Dispatch<React.SetStateAction<SectionsType[]>>;
+}
+
+const SelectSections = ({ selectSections, setSelectSections }: Props) => {
   const { state, actions } = useSection();
-  const [sections, setSections] = useState<SectionsType[]>([]);
   const [search, setSearch] = useState("");
   const [searchSection, setSerchSection] = useState<SectionsType[]>([]);
   const [openModal, setOpenModal] = useState(false);
   const modalRef = useRef<HTMLDivElement | null>(null);
-  const sectionList = search.length > 0 ? searchSection : sections;
+  const sectionList = search.length > 0 ? searchSection : selectSections;
 
   const modalOutSideClick = (e: any) => {
     if (modalRef.current === e.target) {
@@ -27,7 +31,7 @@ const SelectSections = () => {
 
   const onClickSection = (e: React.MouseEvent<HTMLElement, MouseEvent>, section: SectionsType) => {
     e.stopPropagation();
-    setSections(prev => prev.filter(el => el.id !== section.id));
+    setSelectSections(prev => prev.filter(el => el.id !== section.id));
     actions.setSelectSections(prev => prev.filter(el => el.id !== section.id));
     actions.setEditSections(prev => [...prev, section]);
     actions.setEditorMarkDown(prev => ({ ...prev, ...section }));
@@ -35,25 +39,25 @@ const SelectSections = () => {
   };
 
   useEffect(() => {
-    if (sections.length > 0) {
-      actions.setSelectSections(sections);
+    if (selectSections.length > 0) {
+      actions.setSelectSections(selectSections);
     }
   }, []);
 
   useEffect(() => {
     if (search.length > 0) {
-      const searchSection = sections.filter(s => {
+      const searchSection = selectSections.filter(s => {
         return s.name.toLowerCase().includes(search.toLowerCase());
       });
       setSerchSection(searchSection);
     } else {
-      setSections(state.selectSections);
+      setSelectSections(state.selectSections);
     }
   }, [search]);
 
   useEffect(() => {
     setSearch("");
-    setSections(state.selectSections);
+    setSelectSections(state.selectSections);
   }, [state.selectSections]);
 
   return (

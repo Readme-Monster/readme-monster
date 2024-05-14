@@ -5,7 +5,7 @@ import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { toast } from "react-toastify";
 import Button from "react-bootstrap/Button";
 import Overlay from "react-bootstrap/Overlay";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import ThemeContext from "context/ThemeContext";
 import { app } from "../../../firebaseApp";
 
@@ -16,6 +16,7 @@ const Header = () => {
   const context = useContext(ThemeContext);
   const target = useRef(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, user => {
@@ -51,6 +52,11 @@ const Header = () => {
         <div className="flex justify-center items-center">
           {context.theme === "light" ? (
             <>
+              {location.pathname !== "/editor" && (
+                <Link to="/editor">
+                  <img src="/images/report.svg" alt="talk" className="h-9 w-9 mr-3" />
+                </Link>
+              )}
               <Link to="/board">
                 <img src="/images/talk.svg" alt="talk" className="h-10 w-10 mr-3" />
               </Link>
