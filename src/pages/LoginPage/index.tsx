@@ -28,12 +28,17 @@ const LoginPage = () => {
     }));
 
     if (targetId === "email") {
-      const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-
-      if (!value?.match(validRegex)) {
-        setErrors({ ...errors, email: "이메일 형식이 올바르지 않습니다." });
+      const hasUpperCase = /[A-Z]/.test(value);
+      if (hasUpperCase) {
+        setErrors(prev => ({ ...prev, email: "대문자는 입력할 수 없습니다." }));
       } else {
-        setErrors({ ...errors, email: "" });
+        const validRegex = /^[a-z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-z0-9-]+(?:\.[a-z0-9-]+)*$/;
+
+        if (!value.match(validRegex)) {
+          setErrors(prev => ({ ...prev, email: "이메일 형식이 올바르지 않습니다." }));
+        } else {
+          setErrors(prev => ({ ...prev, email: "" }));
+        }
       }
     }
 
