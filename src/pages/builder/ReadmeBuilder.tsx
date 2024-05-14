@@ -26,11 +26,11 @@ const ReadmeBuilder = () => {
   return (
     <div className="w-full h-[calc(100vh_-_80px)] flex flex-col">
       <div className="w-full h-full">
-        <div className="max-w-full h-full p-[30px] pt-[20px] flex flex-row gap-[30px]">
-          <div className="max-w-[380px] w-full h-full">
+        <div className="max-w-full h-full sm:p-[30px] p-[24px] pt-[20px] flex flex-row gap-[30px] ">
+          <div className="max-w-[380px] w-full h-full md:block hidden">
             <SectionsContainer />
           </div>
-          <div className="max-w-full min-w-[calc(100%_-_410px)] w-full h-full flex flex-row gap-[30px]">
+          <div className="max-w-full md:min-w-[calc(100%_-_410px)] sm:min-w-[100%]  w-full h-full flex flex-row gap-[30px]">
             <EditorPreviewContainer />
           </div>
         </div>
