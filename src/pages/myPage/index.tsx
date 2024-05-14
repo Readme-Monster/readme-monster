@@ -11,6 +11,7 @@ const MyPage = () => {
     name: "",
     email: "",
     docId: "",
+    image: "",
     sections: [],
   });
 
@@ -56,12 +57,13 @@ const MyPage = () => {
 
       querySnapshot.forEach(doc => {
         console.log(doc.data());
-        const { name, email, sections } = doc.data();
+        const { name, email, sections, image } = doc.data();
         if (email === userEmail) {
           setUserInfo(prev => ({
             ...prev,
             name,
             email,
+            image,
             docId: doc.id,
             sections,
           }));
@@ -78,9 +80,11 @@ const MyPage = () => {
 
   return (
     <section className="w-full h-[calc(100vh_-_80px)] flex justify-center ">
-      <div className="flex flex-col items-center justify-center gap-3 p-10 w-2/5 h-full ">
-        <UserInfo userInfo={userInfo} />
-        <div className="w-full h-full">
+      <div className="flex flex-col items-center justify-center gap-1 p-10 w-2/5 h-full ">
+        <div className="w-full h-full flex flex-col items-center justify-center">
+          <UserInfo userInfo={userInfo} />
+        </div>
+        <div className="w-full h-full overflow-y-scroll hide-scrollbar">
           <UserPreviousList userSectionList={userInfo.sections} />
         </div>
       </div>
