@@ -1,11 +1,12 @@
-import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, getAdditionalUserInfo } from "firebase/auth";
 import React, { useState, ChangeEvent, FormEvent, MouseEvent } from "react";
+import { collection, addDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 
 import LoadingSpinner from "../../components/Common/LoadingSpinner/LoadingSpinner";
 import { InputProps } from "../../components/Common/Input/types";
 import Input from "../../components/Common/Input";
-import { app } from "../../firebaseApp";
+import { app, db } from "../../firebaseApp";
 import { useRouter } from "../routing";
 
 const LoginPage = () => {
@@ -90,9 +91,21 @@ const LoginPage = () => {
     e.preventDefault();
     const auth = getAuth(app);
     const provider = await new GoogleAuthProvider();
-    const result = await signInWithPopup(auth, provider);
+
     try {
+      const result = await signInWithPopup(auth, provider);
+      const additionalUserInfo = getAdditionalUserInfo(result);
       console.log(result.user);
+      
+      if (additionalUserInfo?.isNewUser) {
+        await addDoc(collection(db, "userInfo"), {
+          name: result.user.displayName,
+          email: result.user.email,
+          registrationDate: new Date(),
+          sections: []
+        });
+      }
+      
       toast.success("로그인에 성공했습니다.");
       router.push("/");
       return result.user;
