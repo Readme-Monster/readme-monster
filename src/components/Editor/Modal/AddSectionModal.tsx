@@ -1,6 +1,8 @@
+import useMediaQuery from "components/Common/useMediaQuery";
 import { useSection } from "context/SectionContext";
 import React, { useEffect, useRef, useState } from "react";
 import { SectionsType } from "../types";
+
 interface Props {
   modalRef: React.ForwardedRef<HTMLDivElement>;
   modalOutSideClick: (e: any) => void;
@@ -40,7 +42,7 @@ const AddSectionModal = ({ modalRef, modalOutSideClick, onClose, openModal }: Pr
     <div
       ref={modalRef}
       onClick={e => modalOutSideClick(e)}
-      className="h-full w-full z-10 fixed left-0 top-0 flex-Center bg-textPrimary bg-opacity-70"
+      className="h-full w-full z-20 fixed left-0 top-0 flex-Center bg-textPrimary bg-opacity-70 p-[24px]"
     >
       <div className="w-full max-w-[550px] h-auto bg-white rounded-[8px] p-[20px] flex flex-col">
         <div className="text-center p-[20px]">
@@ -52,9 +54,9 @@ const AddSectionModal = ({ modalRef, modalOutSideClick, onClose, openModal }: Pr
             ref={inputRef}
             type="text"
             className="
-              w-full h-[45px] p-[10px] 
+              w-full h-[45px] p-[10px]
               rounded-[8px] border-solid border border-[#DEE2E6] 
-              placeholder-[#ADB5BD] placeholder:text-[14px]
+              placeholder-[#ADB5BD] placeholder:text-[14px] text-textPrimary
               focus:outline-none focus:ring-2 focus:ring-textBlue"
             placeholder="Section Title"
           />
