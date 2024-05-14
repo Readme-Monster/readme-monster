@@ -42,12 +42,17 @@ function SignupPage() {
     }
 
     if (targetId === "email") {
-      const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-
-      if (!value?.match(validRegex)) {
-        setErrors({ ...errors, email: "이메일 형식이 올바르지 않습니다." });
+      const hasUpperCase = /[A-Z]/.test(value);
+      if (hasUpperCase) {
+        setErrors(prev => ({ ...prev, email: "대문자는 입력할 수 없습니다." }));
       } else {
-        setErrors({ ...errors, email: "" });
+        const validRegex = /^[a-z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-z0-9-]+(?:\.[a-z0-9-]+)*$/;
+
+        if (!value.match(validRegex)) {
+          setErrors(prev => ({ ...prev, email: "이메일 형식이 올바르지 않습니다." }));
+        } else {
+          setErrors(prev => ({ ...prev, email: "" }));
+        }
       }
     }
 
@@ -74,7 +79,19 @@ function SignupPage() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { name, email, password } = credentials;
+    const { name, email, password, passwordCheck } = credentials;
+
+    // 유효성 검사
+    if (errors.name || errors.email || errors.password || errors.passwordCheck) {
+      toast.error("입력하신 정보에 오류가 있습니다. 확인해주세요.");
+      return;
+    }
+
+    if (!name || !email || !password || !passwordCheck) {
+      toast.error("모든 필드를 채워주세요.");
+      return;
+    }
+
     try {
       const auth = getAuth(app);
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -202,9 +219,8 @@ function SignupPage() {
 
           <button
             type="submit"
-            className="block w-full rounded-lg bg-textBlue dark:bg-darkSecondary px-5 py-3 text-sm font-medium text-white cursor-pointer"
+            className="block w-full rounded-lg px-5 py-3 text-sm font-medium text-white cursor-pointer bg-textBlue dark:bg-darkSecondary"
             data-testid="signup-button"
-            // disabled={Object.keys(errors).length > 0}
           >
             RM으로 회원가입하기
           </button>
