@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import EditSection from "./EditSection";
 import {
   DndContext,
@@ -24,6 +24,7 @@ import { doc, updateDoc, arrayUnion } from "firebase/firestore";
 import { db } from "../../../firebaseApp";
 import { User } from "firebase/auth";
 import { useRouter } from "pages/routing";
+import { Reset } from "@carbon/icons-react";
 
 interface Props {
   editSections: SectionsType[];
@@ -35,8 +36,8 @@ interface Props {
 const EditSections = ({ editSections, setEditSections, userData, auth }: Props) => {
   const { state, actions, resetContextData } = useSection();
   const router = useRouter();
-
   const getIndex = (id: number) => editSections.findIndex(el => el.id === id);
+
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (active.id === over?.id) return;
@@ -72,8 +73,6 @@ const EditSections = ({ editSections, setEditSections, userData, auth }: Props) 
         sections: arrayUnion(storeSection),
       });
       alert("저장이 완료되었습니다.");
-      resetContextData();
-      router.push("/editor");
     } catch (error) {
       alert("저장이 실패하였습니다.");
     }
@@ -81,6 +80,7 @@ const EditSections = ({ editSections, setEditSections, userData, auth }: Props) 
 
   const onDeleteSection = (e: React.MouseEvent<HTMLElement, MouseEvent>, section: SectionsType) => {
     e.stopPropagation();
+
     actions.setSelectSections(prev => [...prev, section].sort((a, b) => a.id - b.id));
     actions.setEditSections(prev => prev.filter(el => el.id !== section.id));
     if (editSections.length > 1) {
@@ -100,14 +100,15 @@ const EditSections = ({ editSections, setEditSections, userData, auth }: Props) 
 
   const onResetSection = (e: React.MouseEvent<HTMLElement, MouseEvent>, section: SectionsType) => {
     e.stopPropagation();
+
     let originalMarkdown: string;
     if (originData.some(el => el.id === section.id)) {
       originalMarkdown = originData.find(s => s.id === section.id)?.markdown as string;
     } else {
       const sectionTitle = section.title;
       originalMarkdown = `## ${sectionTitle}
-
-`;
+  
+  `;
     }
     actions.setEditorMarkDown(prev => ({ ...prev, markdown: `${originalMarkdown}` }));
     actions.setEditSections(prev =>
@@ -121,6 +122,16 @@ const EditSections = ({ editSections, setEditSections, userData, auth }: Props) 
     );
   };
 
+  const onResetSectionAll = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    e.stopPropagation();
+
+    const confirmedMessage = window.confirm("모든 섹션이 초기화됩니다. 계속하려면 확인을 클릭하세요.");
+    if (confirmedMessage) {
+      resetContextData();
+      router.push("/editor");
+    }
+  };
+
   useEffect(() => {
     setEditSections(state.editSections);
     actions.setDataChanged(true);
@@ -130,11 +141,16 @@ const EditSections = ({ editSections, setEditSections, userData, auth }: Props) 
     <div className="flex flex-col gap-[10px] px-[10px]">
       <div className="flex-Center flex-row justify-between min-h-[30px] px-[5px]">
         <p className="text-textPrimary mb-0 text-sm dark:text-textWhite">Edit Section</p>
-        {editSections.length > 0 && auth && (
-          <p onClick={onSaveSection} className="text-textBlue font-medium mb-0 text-sm cursor-pointer ">
-            저장하기
-          </p>
-        )}
+        <div className="flex flex-row gap-[15px] items-center">
+          {editSections.length > 0 && auth && (
+            <p onClick={onSaveSection} className="text-textBlue font-medium mb-0 text-sm cursor-pointer ">
+              저장하기
+            </p>
+          )}
+          <button onClick={e => onResetSectionAll(e)}>
+            <Reset size={20} className="fill-[#ADB5BD]" />
+          </button>
+        </div>
       </div>
       <div className="flex flex-col gap-[10px] h-full">
         <DndContext

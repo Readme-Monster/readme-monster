@@ -10,7 +10,7 @@ import { useSection } from "context/SectionContext";
 
 const Builder = () => {
   const auth = getAuth(app).currentUser;
-  const { state, actions } = useSection();
+  const { actions } = useSection();
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
   const [userData, setUserData] = useState<FirebaseStore | undefined>(undefined);
@@ -36,8 +36,10 @@ const Builder = () => {
   };
 
   useEffect(() => {
-    handleGetUserInfo();
-  }, []);
+    if (auth) {
+      handleGetUserInfo();
+    }
+  }, [auth]);
 
   useEffect(() => {
     if (saveData) {
@@ -46,7 +48,7 @@ const Builder = () => {
       actions.setEditorMarkDown(saveData.editSections[0]);
       actions.setFocusSection(saveData.editSections[0].id);
     }
-  }, [userData]);
+  }, [userData, id]);
 
   return (
     <div className="w-full h-full flex flex-col gap-[20px]">
