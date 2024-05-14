@@ -124,6 +124,9 @@ function SignupPage() {
     case "auth/wrong-password":
       message = "잘못된 이메일이나 비밀번호입니다.";
       break;
+    case "auth/email-already-in-use":
+      message = "이미 사용중인 이메일입니다.";
+      break;
     default:
       message = "로그인에 실패했습니다.";
     }
