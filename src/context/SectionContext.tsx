@@ -1,5 +1,5 @@
 import { SectionsType } from "components/Editor/types";
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useMemo, useState } from "react";
 import { sections } from "data";
 
 interface SectionContextType {
@@ -17,6 +17,7 @@ interface SectionContextType {
     setFocusSection: React.Dispatch<React.SetStateAction<number | undefined>>;
     setDataChanged: React.Dispatch<React.SetStateAction<boolean>>;
   };
+  resetContextData: () => void;
 }
 
 interface SectionContextProviderProps {
@@ -45,10 +46,24 @@ export const SectionProvider = ({ children }: SectionContextProviderProps) => {
   const [focusSection, setFocusSection] = useState<number | undefined>(undefined);
   const [isDataChanged, setDataChanged] = useState<boolean>(false);
 
-  const value = {
-    state: { selectSections, editSections, editorMarkDown, focusSection, isDataChanged },
-    actions: { setSelectSections, setEditSections, setEditorMarkDown, setFocusSection, setDataChanged },
+  const value = useMemo(() => {
+    return {
+      state: { selectSections, editSections, editorMarkDown, focusSection, isDataChanged },
+      actions: { setSelectSections, setEditSections, setEditorMarkDown, setFocusSection, setDataChanged },
+    };
+  }, [selectSections, editSections, editorMarkDown, focusSection, isDataChanged]);
+
+  const resetContextData = () => {
+    setSelectSections(sections);
+    setEditSections([]);
+    setEditorMarkDown({ id: 0, name: "", title: "", markdown: "" });
+    setFocusSection(undefined);
+    setDataChanged(false);
   };
 
-  return <SectionContext.Provider value={value}>{children}</SectionContext.Provider>;
+  return (
+    <SectionContext.Provider value={{ state: value.state, actions: value.actions, resetContextData }}>
+      {children}
+    </SectionContext.Provider>
+  );
 };

@@ -23,22 +23,24 @@ import { sections as originData } from "data";
 import { doc, updateDoc, arrayUnion } from "firebase/firestore";
 import { db } from "../../../firebaseApp";
 import { User } from "firebase/auth";
+import { useRouter } from "pages/routing";
 
 interface Props {
+  editSections: SectionsType[];
+  setEditSections: React.Dispatch<React.SetStateAction<SectionsType[]>>;
   userData?: FirebaseStore;
   auth: User | null;
 }
 
-const EditSections = ({ userData, auth }: Props) => {
-  const { state, actions } = useSection();
-  const [sections, setSections] = useState<SectionsType[]>([]);
+const EditSections = ({ editSections, setEditSections, userData, auth }: Props) => {
+  const { state, actions, resetContextData } = useSection();
+  const router = useRouter();
 
-  const getIndex = (id: number) => sections.findIndex(el => el.id === id);
-
+  const getIndex = (id: number) => editSections.findIndex(el => el.id === id);
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (active.id === over?.id) return;
-    setSections(sections => {
+    setEditSections(sections => {
       const oldIndex = getIndex(active.id as number);
       const newIndex = getIndex(over?.id as number);
       const newSections = arrayMove(sections, oldIndex, newIndex);
@@ -62,6 +64,7 @@ const EditSections = ({ userData, auth }: Props) => {
       id: userData!.sections.length + 1,
       editSections: state.editSections,
       selectSections: state.selectSections,
+      saveDate: new Date(),
     };
 
     try {
@@ -69,6 +72,8 @@ const EditSections = ({ userData, auth }: Props) => {
         sections: arrayUnion(storeSection),
       });
       alert("저장이 완료되었습니다.");
+      resetContextData();
+      router.push("/editor");
     } catch (error) {
       alert("저장이 실패하였습니다.");
     }
@@ -76,19 +81,18 @@ const EditSections = ({ userData, auth }: Props) => {
 
   const onDeleteSection = (e: React.MouseEvent<HTMLElement, MouseEvent>, section: SectionsType) => {
     e.stopPropagation();
-    setSections(prev => prev.filter(el => el.id !== section.id));
     actions.setSelectSections(prev => [...prev, section].sort((a, b) => a.id - b.id));
     actions.setEditSections(prev => prev.filter(el => el.id !== section.id));
-    if (sections.length > 1) {
+    if (editSections.length > 1) {
       let index;
-      const deleteSection = sections.findIndex(el => el.id === section.id);
+      const deleteSection = editSections.findIndex(el => el.id === section.id);
       if (deleteSection === 0) {
         index = 1;
       } else {
         index = deleteSection - 1;
       }
-      actions.setEditorMarkDown(sections[index]);
-      actions.setFocusSection(sections[index].id);
+      actions.setEditorMarkDown(editSections[index]);
+      actions.setFocusSection(editSections[index].id);
     } else {
       actions.setFocusSection(undefined);
     }
@@ -118,7 +122,7 @@ const EditSections = ({ userData, auth }: Props) => {
   };
 
   useEffect(() => {
-    setSections(state.editSections);
+    setEditSections(state.editSections);
     actions.setDataChanged(true);
   }, [state.editSections]);
 
@@ -126,7 +130,7 @@ const EditSections = ({ userData, auth }: Props) => {
     <div className="flex flex-col gap-[10px] px-[10px]">
       <div className="flex-Center flex-row justify-between min-h-[30px] px-[5px]">
         <p className="text-textPrimary mb-0 text-sm dark:text-textWhite">Edit Section</p>
-        {sections.length > 0 && auth && (
+        {editSections.length > 0 && auth && (
           <p onClick={onSaveSection} className="text-textBlue font-medium mb-0 text-sm cursor-pointer ">
             저장하기
           </p>
@@ -139,8 +143,8 @@ const EditSections = ({ userData, auth }: Props) => {
           collisionDetection={closestCenter}
           modifiers={[restrictToVerticalAxis]}
         >
-          <SortableContext items={sections} strategy={verticalListSortingStrategy}>
-            {sections.map(section => (
+          <SortableContext items={editSections} strategy={verticalListSortingStrategy}>
+            {editSections.map(section => (
               <EditSection
                 key={section.id}
                 name={section.name}
