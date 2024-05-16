@@ -64,7 +64,7 @@ export default Editor;
 const EmptySections = () => {
   return (
     <div className="w-full h-full flex-Center p-[20px]">
-      <p className="text-textBlue">Select a section from the left sidebar to edit the contents</p>
+      <p className="text-textBlue">콘텐츠를 편집하려면 왼쪽 사이드바에서 섹션을 선택해 주세요.</p>
     </div>
   );
 };

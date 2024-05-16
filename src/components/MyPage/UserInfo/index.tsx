@@ -45,8 +45,14 @@ const UserInfo = ({ userInfo }: { userInfo: UserInfoProps }) => {
 
   const handleGetUserImage = async () => {
     const imageRef = ref(storage, `images/${auth.currentUser?.uid}`);
-    const imageURL = await getDownloadURL(imageRef);
-    if (imageURL) setUserImg(imageURL ?? "https://www.ailee-shopperhouse.com/images/avatars/1.png");
+
+    try {
+      const imageURL = await getDownloadURL(imageRef);
+      if (imageURL) setUserImg(imageURL);
+    } catch (e: any) {
+      console.log(e);
+      setUserImg("https://www.ailee-shopperhouse.com/images/avatars/1.png");
+    }
   };
 
   useEffect(() => {

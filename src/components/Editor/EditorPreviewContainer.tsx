@@ -12,7 +12,7 @@ const EditorPreviewContainer = () => {
   const { state } = useSection();
   const matches = useMediaQuery("mobile");
   const markDownsData = state.editSections.map(el => el.markdown).join("");
-  const [selectedTab, setSelectedTab] = useState<string | undefined>(() => "Preview");
+  const [selectedTab, setSelectedTab] = useState<string | undefined>(() => "preview");
 
   const handleTabClick = (value?: string | undefined) => {
     setSelectedTab(value);
@@ -37,26 +37,26 @@ const EditorPreviewContainer = () => {
 
   useEffect(() => {
     if (matches) {
-      setSelectedTab("Editor");
+      setSelectedTab("editor");
     } else {
-      setSelectedTab("Preview");
+      setSelectedTab("preview");
     }
   }, [matches]);
 
   return matches ? (
     <>
-      <div className="w-full flex flex-col gap-[20px]">
-        <div className="w-full min-h-[35px] flex flex-row items-center">
+      <div className="w-full flex flex-col gap-[10px]">
+        <div className="w-full min-h-[35px] flex flex-row items-center px-[5px]">
           <Tabs value={selectedTab} onClick={handleTabClick}>
-            <Tab value="Editor">Editor</Tab>
-            <Tab value="Preview">Preview</Tab>
-            <Tab value="Raw">Raw</Tab>
+            <Tab value="editor">Editor</Tab>
+            <Tab value="preview">Preview</Tab>
+            <Tab value="raw">Raw</Tab>
           </Tabs>
           <DownloadBtn onDownloadMarkdown={onDownloadMarkdown} matches={matches} />
         </div>
-        {selectedTab === "Editor" && <Editor />}
-        {selectedTab === "Preview" && <Preview value={markDownsData} />}
-        {selectedTab === "Raw" && <Raw value={markDownsData} />}
+        {selectedTab === "editor" && <Editor />}
+        {selectedTab === "preview" && <Preview value={markDownsData} />}
+        {selectedTab === "raw" && <Raw value={markDownsData} />}
       </div>
     </>
   ) : (
@@ -74,14 +74,14 @@ const EditorPreviewContainer = () => {
           <div className="min-h-[35px] flex flex-row mx-[5px]">
             <div className="w-full h-full">
               <Tabs value={selectedTab} onClick={handleTabClick}>
-                <Tab value="Preview">Preview</Tab>
-                <Tab value="Raw">Raw</Tab>
+                <Tab value="preview">Preview</Tab>
+                <Tab value="raw">Raw</Tab>
               </Tabs>
             </div>
             <DownloadBtn onDownloadMarkdown={onDownloadMarkdown} />
           </div>
-          {selectedTab === "Preview" && <Preview value={markDownsData} />}
-          {selectedTab === "Raw" && <Raw value={markDownsData} />}
+          {selectedTab === "preview" && <Preview value={markDownsData} />}
+          {selectedTab === "raw" && <Raw value={markDownsData} />}
         </div>
       </div>
     </>
@@ -96,9 +96,9 @@ const DownloadBtn = ({ onDownloadMarkdown, matches }: { onDownloadMarkdown: () =
     <button
       onClick={onDownloadMarkdown}
       className={clsx(
-        "w-auto min-h-[35px]",
+        "min-w-fit w-auto min-h-[35px]",
         "flex flex-row gap-[8px] items-center",
-        "px-[12px]",
+        "px-[15px]",
         "bg-textBlue text-white ",
         "rounded-[8px]",
         {
@@ -112,7 +112,7 @@ const DownloadBtn = ({ onDownloadMarkdown, matches }: { onDownloadMarkdown: () =
       disabled={state.editSections.length > 0 ? false : true}
     >
       <Download size={16} />
-      {!matches && <p className="mb-0 text-sm">Download</p>}
+      {!matches && <p className="min-w-fit mb-0 text-sm">다운로드</p>}
     </button>
   );
 };

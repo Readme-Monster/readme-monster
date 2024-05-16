@@ -20,7 +20,7 @@ const SearchSection = ({ search, setSearch }: Props) => {
             focus:outline-none focus:ring-2 focus:ring-textBlue text-textPrimary
             placeholder-[#ADB5BD] placeholder:text-[14px]
           "
-        placeholder="Search for a section"
+        placeholder="검색하기"
       />
     </div>
   );

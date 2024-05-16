@@ -32,9 +32,9 @@ const AutoForm = () => {
     setOpenModal(!openModal);
   };
 
-  const createInputStyle = (value: string) => {
+  const createInputStyle = (value: string, link?: boolean) => {
     return `
-      w-full h-[45px] p-[10px] pl-[40px]
+      w-full h-[45px] p-[10px] ${link ? "pl-[40px]" : "pl-[10px]"}
       rounded-[8px] drop-shadow-[0_1px_1px_rgba(173,181,189,0.25)] border border-[#F1F3F5]
       focus:outline-none focus:ring-2 focus:ring-textBlue
       placeholder-[#ADB5BD] placeholder:text-[14px]
@@ -43,7 +43,7 @@ const AutoForm = () => {
   };
 
   const openAiInputStyle = createInputStyle(openAiKey);
-  const githubInputStyle = createInputStyle(githubAddress);
+  const githubInputStyle = createInputStyle(githubAddress, true);
   const techStackInputStyle = createInputStyle(techStack);
   const packageManagerInputStyle = createInputStyle(packageManager);
   const descriptionInputStyle = createInputStyle(description);
@@ -83,7 +83,6 @@ const AutoForm = () => {
             OpenAI KEY <RequiredDot />
           </p>
           <div className="w-full h-[45px] flex items-center relative">
-            <Link size={20} className="absolute z-1 fill-[#495057] ml-[12px] pointer-events-none" />
             <input
               type="text"
               className={openAiInputStyle}
@@ -99,7 +98,6 @@ const AutoForm = () => {
             프로젝트 설명 <RequiredDot />
           </p>
           <div className="w-full h-[45px] flex items-center relative">
-            <Link size={20} className="absolute z-1 fill-[#495057] ml-[12px] pointer-events-none" />
             <input
               type="text"
               className={descriptionInputStyle}
@@ -115,7 +113,6 @@ const AutoForm = () => {
             사용한 기술스택 <RequiredDot />
           </p>
           <div className="w-full h-[45px] flex items-center relative">
-            <Link size={20} className="absolute z-1 fill-[#495057] ml-[12px] pointer-events-none" />
             <input
               type="text"
               className={techStackInputStyle}
@@ -131,7 +128,6 @@ const AutoForm = () => {
             사용한 Package Manager <RequiredDot />
           </p>
           <div className="w-full h-[45px] flex items-center relative">
-            <Link size={20} className="absolute z-1 fill-[#495057] ml-[12px] pointer-events-none" />
             <input
               type="text"
               className={packageManagerInputStyle}
@@ -173,7 +169,7 @@ const AutoForm = () => {
       </div>
       <div className="w-full flex flex-row min-h-[45px] gap-[20px] px-[10px]">
         <button className="w-1/2 rounded-[8px] border-solid border border-textTertiary text-textPrimary hover:bg-gray-50">
-          Cancel
+          취소하기
         </button>
         <AiGenerator
           openAiKey={openAiKey}

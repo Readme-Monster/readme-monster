@@ -16,15 +16,15 @@ import SectionsContainerModal from "components/Editor/Modal/SectionsContainerMod
 const Header = () => {
   const auth = getAuth(app);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(!!auth?.currentUser);
-  const [show, setShow] = useState(false);
+  const [showOverlay, setShowOverlay] = useState(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const context = useContext(ThemeContext);
   const target = useRef(null);
+  const modalRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
   const matches = useMediaQuery("tablet");
   const light = context.theme === "light";
-  const modalRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, user => {
@@ -55,47 +55,74 @@ const Header = () => {
     }
   };
 
-  const openModalAlert = () => {
-    setOpenModal(!openModal);
+  const openInNewTab = (url: string) => {
+    const newWindow = window.open(url, "_blank", "noopener,noreferrer");
+    if (newWindow) newWindow.opener = null;
+  };
+
+  const closeAll = () => {
+    setShowOverlay(false);
+    setOpenModal(false);
   };
 
   useEffect(() => {
     if (matches) {
       setOpenModal(false);
+      setShowOverlay(false);
     }
   }, [matches]);
 
   return (
-    <div className="stiky z-10 w-full h-[80px] text-white top-0">
+    <div className="stiky z-10 w-full h-[70px] text-white top-0">
       <div className="flex w-full h-full relative justify-between items-center my-0 mx-auto py-0 px-4">
-        <div className="h-full flex justify-center items-center">
+        <div
+          className="h-full flex justify-center items-center"
+          onClick={() => {
+            closeAll();
+          }}
+        >
           <Link to="/">
             <img src="/images/rm-logo.png" alt="logo" className="h-8 w-8" />
           </Link>
         </div>
-        <div className="flex justify-center items-center">
+        <div className="flex flex-Center">
           {location.pathname !== "/editor" && (
             <Link to="/editor" className="h-9 w-9 mr-3">
               <Report size={35} className={light ? "fill-black" : "fill-white"} />
             </Link>
           )}
-          <Link to="/board">
+          <Link
+            to="/board"
+            onClick={() => {
+              closeAll();
+            }}
+          >
             <img src={light ? "/images/talk.svg" : "/images/talk-dark.svg"} alt="talk" className="h-10 w-10 mr-3" />
           </Link>
-          <Link to="https://github.com/Readme-Monster/readme-monster">
-            <img
-              src={light ? "/images/github-logo-light.svg" : "/images/github-logo-dark.svg"}
-              alt="github"
-              className="h-9 w-9 mr-3"
-            />
-          </Link>
           <img
-            onClick={context.toggleMode}
+            onClick={() => openInNewTab("https://github.com/Readme-Monster/readme-monster")}
+            src={light ? "/images/github-logo-light.svg" : "/images/github-logo-dark.svg"}
+            alt="github"
+            className="h-9 w-9 mr-3 cursor-pointer"
+          />
+          <img
+            onClick={() => {
+              context.toggleMode();
+              closeAll();
+            }}
             src={light ? "/images/light-to-dark.svg" : "/images/dark-to-light.svg"}
             alt="light"
-            className="h-9 w-9 mr-3"
+            className="h-8 w-8 mr-3 cursor-pointer"
           />
-          <Button variant="transparent" ref={target} onClick={() => setShow(!show)} className="p-0">
+          <Button
+            variant="transparent"
+            ref={target}
+            onClick={() => {
+              setShowOverlay(!showOverlay);
+              setOpenModal(false);
+            }}
+            className="p-0"
+          >
             <img
               src={light ? "/images/mypage-light.svg" : "/images/mypage-dark.svg"}
               alt="mypage"
@@ -107,16 +134,26 @@ const Header = () => {
           {matches &&
             location.pathname === "/editor" &&
             (openModal ? (
-              <button onClick={openModalAlert}>
+              <button
+                onClick={() => {
+                  setOpenModal(!openModal);
+                  setShowOverlay(false);
+                }}
+              >
                 <CloseLarge size={35} className={light ? "fill-black" : "fill-white"} />
               </button>
             ) : (
-              <button onClick={openModalAlert}>
+              <button
+                onClick={() => {
+                  setOpenModal(!openModal);
+                  setShowOverlay(false);
+                }}
+              >
                 <Menu size={35} className={light ? "fill-black" : "fill-white"} />
               </button>
             ))}
 
-          <Overlay target={target.current} show={show} placement="bottom">
+          <Overlay target={target.current} show={showOverlay} placement="bottom">
             {({
               placement: _placement,
               arrowProps: _arrowProps,
@@ -125,20 +162,26 @@ const Header = () => {
               hasDoneInitialMeasure: _hasDoneInitialMeasure,
               ...props
             }) => (
-              <div {...props} className="bg-black rounded p-3 mt-1 ">
+              <div {...props} className="bg-black rounded p-3 mt-1 z-20">
                 {isAuthenticated ? (
                   <>
                     <div
                       className="p-1 cursor-pointer text-textWhite hover:text-textBlue"
                       data-testid="mypage"
-                      onClick={() => navigate("/mypage")}
+                      onClick={() => {
+                        navigate("/mypage");
+                        closeAll();
+                      }}
                     >
                       마이페이지
                     </div>
                     <div
                       className="p-1 cursor-pointer text-textWhite hover:text-textBlue"
                       data-testid="signout"
-                      onClick={onSignOut}
+                      onClick={() => {
+                        onSignOut();
+                        closeAll();
+                      }}
                     >
                       로그아웃
                     </div>
@@ -147,7 +190,10 @@ const Header = () => {
                   <div
                     className="p-1 cursor-pointer text-textWhite hover:text-textBlue"
                     data-testid="login"
-                    onClick={() => navigate("/login")}
+                    onClick={() => {
+                      navigate("/login");
+                      closeAll();
+                    }}
                   >
                     로그인
                   </div>

@@ -13,7 +13,7 @@ interface TabProviderProps {
 }
 
 export const TabProvider: React.FC<TabProviderProps> = ({ children }) => {
-  const [selectedTab, setSelectedTab] = useState<string>("Builder");
+  const [selectedTab, setSelectedTab] = useState<string>("builder");
 
   const setTab = (tabName: string) => {
     setSelectedTab(tabName);

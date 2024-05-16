@@ -58,7 +58,7 @@ const AddSectionModal = ({ modalRef, modalOutSideClick, onClose, openModal }: Pr
               rounded-[8px] border-solid border border-[#DEE2E6] 
               placeholder-[#ADB5BD] placeholder:text-[14px] text-textPrimary
               focus:outline-none focus:ring-2 focus:ring-textBlue"
-            placeholder="Section Title"
+            placeholder="추가할 섹션의 제목을 입력해 주세요."
           />
         </div>
         <div className="w-full flex flex-row min-h-[45px] gap-[20px] mt-auto">
