@@ -1,5 +1,5 @@
-import MDEditor from "@uiw/react-md-editor";
 import React from "react";
+import MDEditor from "@uiw/react-md-editor";
 import { ValueType } from "../types";
 
 const Preview = ({ value }: ValueType) => {

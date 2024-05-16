@@ -27,7 +27,9 @@ const EditorPreviewContainer = () => {
       document.body.appendChild(element);
       element.click();
       element.remove();
-      alert("Download is complete");
+      setTimeout(() => {
+        alert("Download is complete");
+      }, 500);
     } catch (error) {
       alert("Download failed.");
     }
