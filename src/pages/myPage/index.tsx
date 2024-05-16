@@ -85,7 +85,11 @@ const MyPage = () => {
           <UserInfo userInfo={userInfo} />
         </div>
         <div className="w-full h-full overflow-y-scroll hide-scrollbar">
-          <UserPreviousList userSectionList={userInfo.sections} />
+          <UserPreviousList
+            userInfo={userInfo}
+            userSectionList={userInfo.sections}
+            handleGetUserInfo={handleGetUserInfo}
+          />
         </div>
       </div>
     </section>

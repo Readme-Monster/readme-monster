@@ -22,3 +22,8 @@ export interface SectionProps {
   title: string;
   markdown: string;
 }
+
+export interface NewSectionList {
+  dateType: string;
+  data: UserSectionList[];
+}
