@@ -2,10 +2,12 @@
 // @ts-nocheck
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import OpenAI from "openai";
+import { Configuration, OpenAIApi } from "openai-edge";
 import LoadingSpinner from "components/Common/LoadingSpinner/LoadingSpinner";
+import ResultContentsModal from "../Modal/ResultContentsModal";
 import { useTab } from "context/TabContext";
 import { useSection } from "context/SectionContext";
+import { handleStreamResponse } from "utils/streamHandler";
 
 const AiGenerator = ({
   githubAddress,
@@ -20,14 +22,16 @@ const AiGenerator = ({
   const [repos, setRepos] = useState({});
   const [githubRepo, setGithubRepo] = useState([]);
   const [openAiToken, setOpenAiToken] = useState("");
-  const [responseData, setResponseData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [aboutRepo, setAboutRepo] = useState([]);
   const [memberList, setMemberList] = useState("");
   const [techStackList, setTechStackList] = useState("");
   const [packageManagerList, setPackageManagerList] = useState("");
   const [descriptionList, setDescriptionList] = useState("");
-  const prevResponseData = useRef();
+  const [responseData, setResponseData] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const prevResponseData = useRef<string | null>(null);
+  const responseContainerRef = useRef<HTMLDivElement | null>(null);
   const { setTab } = useTab();
 
   useEffect(() => {
@@ -55,26 +59,12 @@ const AiGenerator = ({
   }, [formList]);
 
   useEffect(() => {
-    if (prevResponseData.current !== responseData && responseData) {
-      prevResponseData.current = responseData;
-
-      const newSectionId = state.editSections.length + state.selectSections.length + 1;
-      const newSection = {
-        id: newSectionId,
-        name: "자동생성RM",
-        title: "자동생성RM",
-        markdown: responseData,
-      };
-
-      actions.setEditSections(prev => [...prev, newSection]);
-      actions.setEditorMarkDown(prev => ({ ...prev, ...newSection }));
-      actions.setFocusSection(newSection.id);
-
-      setTab("Builder");
+    if (isModalOpen && responseContainerRef.current) {
+      responseContainerRef.current.innerText = ""; // 초기화
     }
-  }, [responseData]);
+  }, [isModalOpen]);
 
-  const getRepos = async (username: string, token: string) => {
+  const getRepos = async () => {
     if (!githubRepo.length || !openAiToken) {
       alert("Please enter the GitHub repository address and OpenAI key.");
       return;
@@ -92,13 +82,12 @@ const AiGenerator = ({
       });
 
       if (response.data) {
-        const aiResponse = await createReadme(
+        setIsModalOpen(true); // 모달 열기
+        await createReadme(
           response.data,
           member?.data.map(ele => ele.login).join(),
           member?.data.map(ele => ele.avatar_url).join(),
         );
-        console.log("aiResponse", aiResponse);
-        setResponseData(aiResponse.choices[0].message.content.trim());
       }
     } catch (error) {
       console.error("Error fetching repository:", error);
@@ -108,10 +97,10 @@ const AiGenerator = ({
   };
 
   async function createReadme(data, member, avatar_url) {
-    const openai = new OpenAI({
+    const configuration = new Configuration({
       apiKey: openAiToken,
-      dangerouslyAllowBrowser: true,
     });
+    const openai = new OpenAIApi(configuration);
 
     const prompt = `
     레포지토리의 이름: ${data.name}
@@ -145,7 +134,7 @@ const AiGenerator = ({
 
     "아래 이미지는 무조건 추가해줘"
     
-    ![프로젝트-로고나 메인화면-입력해주세요](https://github.com/Readme-Monster/readme-monster/assets/88364280/96e680e5-613f-4818-8603-8afbb0c9acb1)
+    ![프로젝트-로고나 메인화면-입력해주세요](https://github.com/Readme-Monster/readme-monster/assets/88364280/96e680e5-613f-4818-8603-8afbb0c9acb1)
     
     "최근 커밋이나 업데이트에 해당하는 값을 아래와 같은 형식으로 가져와서 넣어주세요."
 
@@ -197,38 +186,64 @@ const AiGenerator = ({
     `;
 
     console.log("prompt", prompt);
-    try {
-      const response = await openai.chat.completions.create({
-        model: "gpt-3.5-turbo-16k",
-        messages: [
-          {
-            role: "system",
-            content:
-              "너의 역할은 user가 넘겨주는 정보와 예시로 주어진 템플릿에 맞게 해당 레포지토리에 대한 Readme 파일을 작성해주는 것입니다.",
-          },
-          { role: "user", content: prompt },
-        ],
-        max_tokens: 6000,
-      });
-      return response;
-    } catch (error) {
-      console.error("Error generating README:", error);
-      throw new Error("Failed to generate README");
-    }
+
+    const completion = await openai.createChatCompletion({
+      model: "gpt-3.5-turbo-16k",
+      messages: [
+        {
+          role: "system",
+          content:
+            "너의 역할은 user가 넘겨주는 정보와 예시로 주어진 템플릿에 맞게 해당 레포지토리에 대한 Readme 파일을 작성해주는 것입니다.",
+        },
+        { role: "user", content: prompt },
+      ],
+      stream: true,
+    });
+
+    const stream = completion.body;
+    await handleStreamResponse(stream, chunk => {
+      if (responseContainerRef.current) {
+        responseContainerRef.current.innerText += chunk;
+      }
+      setResponseData(prev => (prev ?? "") + chunk);
+    });
   }
 
-  console.log("memberList", memberList);
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    if (prevResponseData.current !== responseData && responseData) {
+      prevResponseData.current = responseData;
+
+      const newSectionId = state.editSections.length + state.selectSections.length + 1;
+      const newSection = {
+        id: newSectionId,
+        name: "자동생성RM",
+        title: "자동생성RM",
+        markdown: responseData,
+      };
+
+      actions.setEditSections(prev => [...prev, newSection]);
+      actions.setEditorMarkDown(prev => ({ ...prev, ...newSection }));
+      actions.setFocusSection(newSection.id);
+
+      setTab("Builder");
+    }
+  };
+
   return (
     <>
       {isLoading ? (
         <div className="w-1/2 flex justify-center items-center">
           <LoadingSpinner />
-        </div> // 스피너 표시
+        </div>
       ) : (
-        <button onClick={getRepos} className="w-1/2 rounded-[8px] bg-textBlue text-white hover:bg-[#6E9EFF]">
-          Create README
-        </button>
+        <>
+          <button onClick={getRepos} className="w-1/2 rounded-[8px] bg-textBlue text-white hover:bg-[#6E9EFF]">
+            Create README
+          </button>
+        </>
       )}
+      <ResultContentsModal isOpen={isModalOpen} onClose={handleCloseModal} ref={responseContainerRef} />
     </>
   );
 };
