@@ -13871,6 +13871,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"openai-edge@npm:^1.2.2":
+  version: 1.2.2
+  resolution: "openai-edge@npm:1.2.2"
+  checksum: 10c0/ff8d6fe10ddb489a42d04cae5fc02c7261d9a9cc477be9bc4effd40552edbc442c2608c0d98c49f40467791d0369db37df2e63d14d88047fa7862dd0cc452b89
+  languageName: node
+  linkType: hard
+
 "openai@npm:^4.40.2":
   version: 4.40.2
   resolution: "openai@npm:4.40.2"
@@ -15812,6 +15819,7 @@ __metadata:
     jest-environment-jsdom: "npm:^29.7.0"
     lint-staged: "npm:^15.2.2"
     openai: "npm:^4.40.2"
+    openai-edge: "npm:^1.2.2"
     postcss: "npm:^8.4.38"
     prettier: "npm:^3.2.5"
     qs: "npm:^6.12.1"
