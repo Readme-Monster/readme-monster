@@ -157,9 +157,7 @@ const Header = () => {
           </Overlay>
         </div>
       </div>
-      {matches && openModal && (
-        <SectionsContainerModal modalRef={modalRef} modalOutSideClick={modalOutSideClick} onClose={openModalAlert} />
-      )}
+      {matches && openModal && <SectionsContainerModal modalRef={modalRef} modalOutSideClick={modalOutSideClick} />}
     </div>
   );
 };

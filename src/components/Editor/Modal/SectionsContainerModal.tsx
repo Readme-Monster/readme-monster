@@ -4,10 +4,9 @@ import SectionsContainer from "../SectionsContainer";
 interface Props {
   modalRef: React.ForwardedRef<HTMLDivElement>;
   modalOutSideClick: (e: any) => void;
-  onClose: () => void;
 }
 
-const SectionsContainerModal = ({ modalRef, modalOutSideClick, onClose }: Props) => {
+const SectionsContainerModal = ({ modalRef, modalOutSideClick }: Props) => {
   return (
     <div
       ref={modalRef}
