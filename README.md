@@ -84,7 +84,9 @@ yarn 방식으로 설치해주세요
 4. 자동으로 Readme 파일을 생성하는 기능을 사용하려면, Auto 탭으로 이동하여 레포지토리 주소와 OpenAI API Key를 입력하고 프로젝트에 대한 간단한 설명을 입력한 후 생성 버튼을 누릅니다.
 <img src="public/images/rm8.png">
 5. 상단의 프로필 아이콘을 클릭하여 프로필 페이지로 이동할 수 있습니다. 프로필 페이지에서는 자신이 작성한 Readme 파일을 확인할 수 있습니다.
+<img src="public/images/rm9.png">
 6. 로그아웃을 하려면 프로필 페이지에서 로그아웃 버튼을 클릭합니다.
+<img src="public/images/rm11.png">
 7. Readme-Monster를 이용하면서 불편한 점이나 개선사항이 있다면, 상단의 말풍선 아이콘을 클릭하여 피드백을 남겨주세요.
 <img src="public/images/rm6.png">
 8. 상단의 라이트모드/다크모드 버튼을 클릭하여 화면을 변경할 수 있습니다.
