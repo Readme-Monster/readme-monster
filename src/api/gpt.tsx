@@ -14,7 +14,17 @@ interface RepoData {
 }
 
 export const CallGPT = async (repoData: RepoData) => {
-  const { data, member, avatar_url, techStackList, packageManagerList, descriptionList, aboutRepo, githubRepo, openAiKey } = repoData;
+  const {
+    data,
+    member,
+    avatar_url,
+    techStackList,
+    packageManagerList,
+    descriptionList,
+    aboutRepo,
+    githubRepo,
+    openAiKey,
+  } = repoData;
 
   const prompt = `
       레포지토리의 이름: ${data.name}
@@ -97,7 +107,8 @@ export const CallGPT = async (repoData: RepoData) => {
       ## 코드 기여자
   
      " 코드 기여자들의 GitHub 프로필 링크가 들어갈 위치입니다. 코드 기여자들의 프로필 링크를 추가해주세요."
-      `;
+      
+`;
 
   const configuration = new Configuration({
     apiKey: openAiKey,
@@ -127,5 +138,4 @@ export const CallGPT = async (repoData: RepoData) => {
     console.error("Error generating README:", error);
     throw new Error("Failed to generate README");
   }
-  
 };
