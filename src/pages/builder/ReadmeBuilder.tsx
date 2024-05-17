@@ -24,9 +24,9 @@ const ReadmeBuilder = () => {
   }, [state.isDataChanged]);
 
   return (
-    <div className="w-full h-[calc(100vh_-_80px)] flex flex-col">
+    <div className="w-full h-[calc(100vh_-_70px)] flex flex-col">
       <div className="w-full h-full">
-        <div className="max-w-full h-full sm:p-[30px] p-[24px] pt-[20px] flex flex-row gap-[30px] ">
+        <div className="max-w-full h-full p-[24px] pt-[20px] flex flex-row gap-[30px] ">
           <div className="max-w-[380px] w-full h-full md:block hidden">
             <SectionsContainer />
           </div>

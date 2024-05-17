@@ -79,7 +79,7 @@ const MyPage = () => {
   }, []);
 
   return (
-    <section className="w-full h-[calc(100vh_-_80px)] flex justify-center ">
+    <section className="w-full h-[calc(100vh_-_70px)] flex justify-center ">
       <div className="flex flex-col items-center justify-center gap-1 p-10 w-2/5 h-full ">
         <div className="w-full h-full flex flex-col items-center justify-center">
           <UserInfo userInfo={userInfo} />

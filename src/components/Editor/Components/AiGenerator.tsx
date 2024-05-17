@@ -147,7 +147,7 @@ const AiGenerator = ({
       ) : (
         <>
           <button onClick={getRepos} className="w-1/2 rounded-[8px] bg-textBlue text-white hover:bg-[#6E9EFF]">
-            Create README
+            생성하기
           </button>
         </>
       )}

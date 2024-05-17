@@ -2,7 +2,7 @@ import React, { Children } from "react";
 import clsx from "clsx";
 
 interface TabsProps {
-  children?: React.ReactNode;
+  children: React.ReactNode;
   value: string | undefined;
   onClick?: (value: string | undefined) => void;
 }
@@ -20,13 +20,15 @@ export const Tabs = ({ children, onClick, value }: TabsProps) => {
           selectedTab={value}
           value={(child as React.ReactElement<TabProps>).props.value}
           onClick={onClick}
-        />
+        >
+          {(child as React.ReactElement<TabProps>).props.children}
+        </Tab>
       ))}
     </div>
   );
 };
 
-export const Tab = ({ value, selectedTab, onClick }: TabProps) => {
+export const Tab = ({ value, selectedTab, children, onClick }: TabProps) => {
   const handleClick = () => {
     onClick && onClick(value);
   };
@@ -43,7 +45,7 @@ export const Tab = ({ value, selectedTab, onClick }: TabProps) => {
             "dark:text-textTertiary": !boolean,
           })}
         >
-          {value}
+          {children}
         </p>
       </div>
     </>

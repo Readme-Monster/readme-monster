@@ -41,9 +41,6 @@ const AddSectionModal = ({ modalRef, modalOutSideClick, onClose, openModal, setF
           <p className="text-textBlue text-2xl font-bold mb-0">Add More Info</p>
         </div>
         <div className="my-[20px]">
-          <div className="text-left p-[10px]">
-            <p className="text-black text-l font-bold mb-0">추가할 요소</p>
-          </div>
           <input
             ref={inputRef}
             type="text"
@@ -52,7 +49,7 @@ const AddSectionModal = ({ modalRef, modalOutSideClick, onClose, openModal, setF
               rounded-[8px] border-solid border border-[#DEE2E6] 
               placeholder-[#ADB5BD] placeholder:text-[14px]
               focus:outline-none focus:ring-2 focus:ring-textBlue"
-            placeholder="Info Title"
+            placeholder="추가할 정보의 제목을 입력해 주세요."
             onChange={e => setInfoTitle(e.target.value)}
           />
           {/* <div className="text-left p-[10px]">

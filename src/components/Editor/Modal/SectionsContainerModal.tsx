@@ -11,9 +11,9 @@ const SectionsContainerModal = ({ modalRef, modalOutSideClick }: Props) => {
     <div
       ref={modalRef}
       onClick={e => modalOutSideClick(e)}
-      className="h-full w-full z-20 fixed left-0 top-[80px] bg-textPrimary bg-opacity-70 "
+      className="h-full w-full z-20 fixed left-0 top-[70px] bg-textPrimary bg-opacity-70 "
     >
-      <div className="w-full h-[calc(100vh_-_80px)] max-w-[400px] p-[24px] bg-white">
+      <div className="w-full h-[calc(100vh_-_70px)] max-w-[400px] p-[24px] bg-white">
         <SectionsContainer />
       </div>
     </div>

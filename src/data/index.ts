@@ -3,16 +3,6 @@ import { SectionsType } from "components/Editor/types";
 export const sections: SectionsType[] = [
   {
     id: 1,
-    name: "이미지",
-    title: "이미지",
-    markdown: `## 이미지
-  
-![이미지](https://github.com/Readme-Monster/readme-monster/assets/88364280/96e680e5-613f-4818-8603-8afbb0c9acb1)
-
-`,
-  },
-  {
-    id: 2,
     name: "프로젝트 제목",
     title: "프로젝트 제목",
     markdown: `## 프로젝트 제목
@@ -22,7 +12,7 @@ export const sections: SectionsType[] = [
 `,
   },
   {
-    id: 3,
+    id: 2,
     name: "프로젝트 특징",
     title: "프로젝트 특징",
     markdown: `## 🧐 프로젝트 특징
@@ -30,6 +20,16 @@ export const sections: SectionsType[] = [
 - 특징 1
 - 특징 2
 - 특징 3
+
+`,
+  },
+  {
+    id: 3,
+    name: "이미지",
+    title: "이미지",
+    markdown: `## 이미지
+  
+![이미지](https://github.com/Readme-Monster/readme-monster/assets/88364280/96e680e5-613f-4818-8603-8afbb0c9acb1)
 
 `,
   },

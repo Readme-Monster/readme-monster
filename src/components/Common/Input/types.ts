@@ -6,6 +6,7 @@ export interface InputProps {
   placeholder: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   error?: string;
+  required?: boolean;
 }
 
 export const labels: { [key: string]: string } = {

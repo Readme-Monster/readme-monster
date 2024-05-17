@@ -14,7 +14,7 @@ const Builder = () => {
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
   const [userData, setUserData] = useState<FirebaseStore | undefined>(undefined);
-  const saveData = userData?.sections.find(el => el.id === +id!);
+  const saveData = userData?.sections?.find(el => el.id === +id!);
   const [editSections, setEditSections] = useState<SectionsType[]>([]);
   const [selectSections, setSelectSections] = useState<SectionsType[]>([]);
 
