@@ -27,7 +27,8 @@ const AddSectionModal = ({ modalRef, modalOutSideClick, onClose, openModal }: Pr
       id: createId,
       name: title,
       title: title,
-      markdown: `## ${title}
+      markdown: `
+## ${title}
 
 `,
     };

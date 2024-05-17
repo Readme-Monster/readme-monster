@@ -13,8 +13,6 @@ import { TabProvider } from "context/TabContext";
 
 const rootElement = document.getElementById("root");
 
-console.log(firebase);
-
 if (rootElement) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
@@ -30,7 +28,7 @@ if (rootElement) {
           </SectionProvider>
         </ThemeContextProvider>
       </AuthContextProvider>
-    </React.StrictMode>
+    </React.StrictMode>,
   );
 } else {
   console.error("Failed to find the root element");

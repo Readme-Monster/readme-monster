@@ -63,6 +63,7 @@ const RAW_RUNTIME_STATE =
           ["axios", "npm:1.6.8"],\
           ["bootstrap", "virtual:7d2ad2e1596ff55faac17f5b85cf536af705278ac4a9baa4d0052e925e60193bb9c41af7bf819cb2feefd4335a553cfc0767214ed5407aa8969b2394e9c3e9ff#npm:5.3.3"],\
           ["clsx", "npm:2.1.1"],\
+          ["dayjs", "npm:1.11.11"],\
           ["eslint", "npm:8.57.0"],\
           ["eslint-config-prettier", "virtual:7d2ad2e1596ff55faac17f5b85cf536af705278ac4a9baa4d0052e925e60193bb9c41af7bf819cb2feefd4335a553cfc0767214ed5407aa8969b2394e9c3e9ff#npm:9.1.0"],\
           ["eslint-plugin-react", "virtual:7d2ad2e1596ff55faac17f5b85cf536af705278ac4a9baa4d0052e925e60193bb9c41af7bf819cb2feefd4335a553cfc0767214ed5407aa8969b2394e9c3e9ff#npm:7.34.1"],\
@@ -12425,6 +12426,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["dayjs", [\
+      ["npm:1.11.11", {\
+        "packageLocation": "../../../../../.yarn/berry/cache/dayjs-npm-1.11.11-3555b1f819-10c0.zip/node_modules/dayjs/",\
+        "packageDependencies": [\
+          ["dayjs", "npm:1.11.11"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["debug", [\
       ["npm:2.6.9", {\
         "packageLocation": "../../../../../.yarn/berry/cache/debug-npm-2.6.9-7d4cb597dc-10c0.zip/node_modules/debug/",\
@@ -22810,6 +22820,7 @@ const RAW_RUNTIME_STATE =
           ["axios", "npm:1.6.8"],\
           ["bootstrap", "virtual:7d2ad2e1596ff55faac17f5b85cf536af705278ac4a9baa4d0052e925e60193bb9c41af7bf819cb2feefd4335a553cfc0767214ed5407aa8969b2394e9c3e9ff#npm:5.3.3"],\
           ["clsx", "npm:2.1.1"],\
+          ["dayjs", "npm:1.11.11"],\
           ["eslint", "npm:8.57.0"],\
           ["eslint-config-prettier", "virtual:7d2ad2e1596ff55faac17f5b85cf536af705278ac4a9baa4d0052e925e60193bb9c41af7bf819cb2feefd4335a553cfc0767214ed5407aa8969b2394e9c3e9ff#npm:9.1.0"],\
           ["eslint-plugin-react", "virtual:7d2ad2e1596ff55faac17f5b85cf536af705278ac4a9baa4d0052e925e60193bb9c41af7bf819cb2feefd4335a553cfc0767214ed5407aa8969b2394e9c3e9ff#npm:7.34.1"],\

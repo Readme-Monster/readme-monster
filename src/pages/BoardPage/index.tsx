@@ -21,7 +21,6 @@ const BoardPage = () => {
         const newComments: Comment[] = [];
         querySnapshot.forEach(doc => {
           const data = doc.data() as Comment;
-          console.log(data);
           newComments.push(data);
         });
         newComments.sort((a, b) => b.registrationDate.seconds - a.registrationDate.seconds);

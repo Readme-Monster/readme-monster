@@ -102,7 +102,6 @@ const LoginPage = () => {
     try {
       const result = await signInWithPopup(auth, provider);
       const additionalUserInfo = getAdditionalUserInfo(result);
-      console.log(result.user);
 
       if (additionalUserInfo?.isNewUser) {
         await addDoc(collection(db, "userInfo"), {
@@ -119,7 +118,6 @@ const LoginPage = () => {
     } catch (error: any) {
       console.error("Error signing in with Google:", error);
       handleFirebaseError(error);
-      console.log(error);
     }
   }
 

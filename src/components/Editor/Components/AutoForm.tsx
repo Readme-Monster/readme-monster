@@ -37,7 +37,7 @@ const AutoForm = () => {
       w-full h-[45px] p-[10px] ${link ? "pl-[40px]" : "pl-[10px]"}
       rounded-[8px] drop-shadow-[0_1px_1px_rgba(173,181,189,0.25)] border border-[#F1F3F5]
       focus:outline-none focus:ring-2 focus:ring-textBlue
-      placeholder-[#ADB5BD] placeholder:text-[14px]
+      placeholder-[#ADB5BD] placeholder:text-[14px] text-textPrimary
       ${value === "" ? "bg-red-100" : "bg-white"}
     `;
   };
@@ -48,9 +48,6 @@ const AutoForm = () => {
   const packageManagerInputStyle = createInputStyle(packageManager);
   const descriptionInputStyle = createInputStyle(description);
 
-  console.log("openAiKey", openAiKey);
-  console.log("githubAddress", githubAddress);
-  console.log("formList", formList);
   return (
     <div className="w-full h-full max-h-full rounded-[8px] bg-white border-solid border border-textTertiary p-[20px] flex flex-col gap-[30px]">
       <div className="w-full min-h-[140px] flex-Center flex-col text-center">
@@ -146,7 +143,7 @@ const AutoForm = () => {
               className="
               w-full h-[45px] p-[10px]
               focus:outline-none focus:ring-2 focus:ring-textBlue
-              rounded-[8px] border-solid border border-[#DEE2E6]
+              rounded-[8px] border-solid border border-[#DEE2E6] text-textPrimary
               placeholder-[#ADB5BD] placeholder:text-[14px]
               "
               placeholder={"값을 입력해주세요."}
