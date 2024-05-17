@@ -32,5 +32,12 @@ module.exports = {
     },
   },
   mode: "jit",
-  plugins: [],
+  plugins: [
+    function ({ addBase }) {
+      addBase({
+        ul: { "list-style": "disc" },
+        ol: { "list-style": "decimal" },
+      });
+    },
+  ],
 };
