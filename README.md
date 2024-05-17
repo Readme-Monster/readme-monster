@@ -6,7 +6,7 @@
 
 ## <img src="public/images/rm-logo.png" width="20" /> 링크
 
-- [서비스 바로가기](https://readme-monster.netlify.app/)
+- [서비스 바로가기](https://readme-monster.com/)
 - [디자인](https://framer.com/projects/Untitled--Xf9L3K5EqFYT1UxUF3f9-8hseT)
 - [Wiki](https://github.com/Readme-Monster/readme-monster/wiki)
 
