@@ -33,8 +33,6 @@ const UserPreviousList = ({
     const savedDate = new Date(seconds * 1000);
     const difference = Math.floor((currentDate.getTime() - savedDate.getTime()) / (1000 * 3600 * 24));
 
-    console.log(difference);
-
     if (difference === 0) {
       return "Today";
     } else if (difference === 1) {
