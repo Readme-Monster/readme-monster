@@ -53,10 +53,7 @@ const MyPage = () => {
       const querySnapshot = await getDocs(collection(db, "userInfo"));
       const userEmail = await handleGetUserEmail();
 
-      console.log(userEmail);
-
       querySnapshot.forEach(doc => {
-        console.log(doc.data());
         const { name, email, sections, image } = doc.data();
         if (email === userEmail) {
           setUserInfo(prev => ({

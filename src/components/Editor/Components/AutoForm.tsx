@@ -48,9 +48,6 @@ const AutoForm = () => {
   const packageManagerInputStyle = createInputStyle(packageManager);
   const descriptionInputStyle = createInputStyle(description);
 
-  console.log("openAiKey", openAiKey);
-  console.log("githubAddress", githubAddress);
-  console.log("formList", formList);
   return (
     <div className="w-full h-full max-h-full rounded-[8px] bg-white border-solid border border-textTertiary p-[20px] flex flex-col gap-[30px]">
       <div className="w-full min-h-[140px] flex-Center flex-col text-center">

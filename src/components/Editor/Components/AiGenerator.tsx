@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 import React, { useEffect, useRef, useState } from "react";
-import { Configuration, OpenAIApi } from "openai-edge";
 import axios from "axios";
+import dayjs from "dayjs";
 
 import LoadingSpinner from "components/Common/LoadingSpinner/LoadingSpinner";
 import { CallGPT } from "api/gpt";
@@ -52,7 +52,7 @@ const AiGenerator = ({
     if (description) {
       setDescriptionList(description);
     }
-  }, [githubAddress, openAiKey, techStack, packageManager]);
+  }, [githubAddress, openAiKey, techStack, packageManager, description]);
 
   useEffect(() => {
     if (formList) {
@@ -68,7 +68,7 @@ const AiGenerator = ({
 
   const getRepos = async () => {
     if (!githubRepo.length || !openAiToken) {
-      alert("Please enter the GitHub repository address and OpenAI key.");
+      alert("깃허브 레포지토리 주소와 OpenAI 키를 입력해주세요.");
       return;
     }
 
@@ -90,7 +90,6 @@ const AiGenerator = ({
           member?.data.map(ele => ele.login).join(),
           member?.data.map(ele => ele.avatar_url).join(),
         );
-        // console.log("aiResponse", aiResponse);
         // setResponseData(aiResponse.choices[0].message.content.trim());
       }
     } catch (error) {
@@ -116,7 +115,7 @@ const AiGenerator = ({
 
     setIsLoading(true);
     const stream = await CallGPT(repoData);
-    console.log(stream);
+
     await handleStreamResponse(stream, chunk => {
       if (responseContainerRef.current) {
         responseContainerRef.current.innerText += chunk;
@@ -125,18 +124,17 @@ const AiGenerator = ({
     });
   };
 
-  console.log(responseData);
-
   const handleCloseModal = () => {
     setIsModalOpen(false);
     if (prevResponseData.current !== responseData && responseData) {
       prevResponseData.current = responseData;
 
       const newSectionId = state.editSections.length + state.selectSections.length + 1;
+      const currentDateTime = dayjs().format("DD/MM/YY HH:mm");
       const newSection = {
         id: newSectionId,
-        name: "자동생성RM",
-        title: "자동생성RM",
+        name: `RM ${currentDateTime}`,
+        title: `RM ${currentDateTime}`,
         markdown: responseData,
       };
 

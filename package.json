@@ -68,6 +68,7 @@
     "axios": "^1.6.8",
     "bootstrap": "^5.3.3",
     "clsx": "^2.1.1",
+    "dayjs": "^1.11.11",
     "firebase": "^10.11.1",
     "openai": "^4.40.2",
     "openai-edge": "^1.2.2",

@@ -139,7 +139,6 @@ function SignupPage() {
 
     try {
       const result = await signInWithPopup(auth, provider);
-      console.log(result.user);
 
       await addDoc(collection(db, "userInfo"), {
         name: result.user.displayName,
