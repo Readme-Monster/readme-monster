@@ -6,6 +6,7 @@ import { useRouter } from "pages/routing";
 import { app, db } from "../../../firebaseApp";
 import { deleteDoc, doc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { Edit } from "@carbon/icons-react";
 
 const UserInfo = ({ userInfo }: { userInfo: UserInfoProps }) => {
   const auth = getAuth(app);
@@ -60,39 +61,37 @@ const UserInfo = ({ userInfo }: { userInfo: UserInfoProps }) => {
   }, []);
 
   return (
-    <>
-      <h2 className="text-textBlue font-semibold">마이페이지</h2>
-      <div className="flex flex-col md:flex-row items-center w-full">
-        <div className="w-full md:w-4/5 flex flex-col md:flex-row mb-4 md:mb-0">
+    <div className="w-full h-full p-[10px]">
+      <div className="w-full h-full flex flex-row items-center gap-[10px] mb-[10px]">
+        <div className="w-full flex flex-col">
+          <p className="text-textBlue font-semibold mb-0 text-xl">{userInfo.name}</p>
+          <p className="text-textPrimary dark:text-textWhite mb-0 text-lg">{userInfo.email}</p>
+          <p className="text-textSecondary dark:text-textWhite mb-0">
+            저장 섹션 수 : <b className="text-textPrimary dark:text-textWhite">{userInfo.sections.length ?? 0}</b>
+          </p>
+        </div>
+        <div className="max-w-[90px] h-[90px] relative">
           {userImg && (
             <label htmlFor="imageInput" className="cursor-pointer">
-              <img className="w-28 h-28 md:w-28 md:h-auto bg-slate-400 rounded-full" src={userImg} alt="Profile" />
+              <img className="min-w-[90px] min-h-[90px] bg-slate-400 rounded-full" src={userImg} alt="Profile" />
             </label>
           )}
-
           <input type="file" accept="image/*" onChange={handleImageChange} className="hidden" id="imageInput" />
-        </div>
-        <div className="w-full lg:w-1/5">
-          <div className="flex flex-row justify-between font-semibold">
-            <div className="flex flex-col items-center dark:text-textWhite">
-              <h5>생성(개수)</h5>
-              <p>{userInfo.sections.length ?? 0}</p>
-            </div>
+          <div
+            onClick={handleImageChange}
+            className="w-[25px] h-[25px] bg-white rounded-full border flex flex-Center absolute right-3 bottom-[-1px] cursor-pointer"
+          >
+            <Edit size={12} />
           </div>
         </div>
       </div>
-      <div className="w-full flex flex-col p-2">
-        <h4 className="text-textBlue font-semibold">{userInfo.name}</h4>
-        <h5 className="text-textPrimary dark:text-textWhite">{userInfo.email}</h5>
-      </div>
-
       <button
-        className="w-full h-12 border-1 border-[#FF4A50] hover:border-gray-500 text-center font-semibold text-[#FF4A50] hover:text-gray-500"
+        className="w-full h-12 border-1 border-[#FF4A50] hover:border-gray-500 text-center font-semibold text-[#FF4A50] hover:text-gray-500 rounded-[8px] mt-[20px]"
         onClick={handleDeleteUser}
       >
         탈퇴하기
       </button>
-    </>
+    </div>
   );
 };
 

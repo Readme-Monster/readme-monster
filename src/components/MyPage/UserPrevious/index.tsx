@@ -93,34 +93,35 @@ const UserPreviousList = ({
   }, [userSectionList]);
 
   return (
-    <div className="w-full h-full flex flex-col gap-2 pt-3 ">
+    <div className="w-full h-[100%]  overflow-scroll hide-scrollbar">
       {newUserSectionList?.length > 0 ? (
         newUserSectionList?.map((userData, i) => {
           const { dateType, data } = userData;
           return (
-            <div key={i} className="w-full flex flex-col gap-2 relative">
-              <div className="left-0 px-2 py-1 text-xs font-semibold dark:text-slate-50">{dateType}</div>
+            <div key={i} className="w-full max-h-[100] flex flex-col relative gap-[10px]">
+              <div className="left-0 px-2 py-1 font-semibold dark:text-slate-50">{dateType}</div>
               {data.map(list => {
                 return (
                   <div
                     key={list.id}
-                    className="relative w-full h-20 flex justify-center items-center bg-gray-800 dark:bg-slate-300 hover:scale-95 overflow-visible transition-transform ease-in-out duration-500 cursor-pointer z-0"
+                    className="
+                    w-full h-auto
+                     flex flex-row items-center justify-between
+                     bg-gray-50 dark:bg-slate-300 
+                    hover:bg-slate-100
+                     cursor-pointer z-0
+                     rounded-[8px] p-[20px]
+                     "
                     onClick={() => handleOnClick(list.id)}
                   >
-                    <h1
-                      className="text-2xl font-extrabold sm:text-2xl text-slate-50 dark:text-textPrimary truncate"
-                      data-testid="title"
-                    >
-                      {list.editSections[0].title}
-                    </h1>
-                    <div
-                      className="absolute top-2 right-1 px-2 py-1 text-xs text-white bg-gray-600 rounded-full z-10"
-                      onClick={event => handleDeleteClick(event, list.id)}
-                    >
-                      <TrashCan size={22} color="red" />
+                    <div>
+                      <p className="text-textSecondary">{handleConvertDate(list.saveDate?.seconds)}</p>
+                      <p className="text-lg text-textPrimary dark:text-textPrimary truncate mb-0" data-testid="title">
+                        {list.editSections[0].title}
+                      </p>
                     </div>
-                    <div className="absolute top-2 left-1 px-2 py-1 text-xs text-white bg-gray-600 rounded-full z-40">
-                      {handleConvertDate(list.saveDate?.seconds)}
+                    <div className=" text-xs text-white" onClick={event => handleDeleteClick(event, list.id)}>
+                      <TrashCan size={22} className="fill-textPrimary" />
                     </div>
                   </div>
                 );

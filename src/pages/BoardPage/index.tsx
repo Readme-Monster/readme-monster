@@ -92,7 +92,7 @@ const BoardPage = () => {
           </div>
         </div>
       </section>
-      <div className="max-w-screen-xl mx-auto px-4 py-14 flex flex-col gap-[15px]">
+      <div className="max-w-[1200px] mx-auto px-4 py-14 flex flex-col gap-[15px]">
         {comments.map((item, index) => (
           <div key={index} className="bg-gray-100 rounded p-4">
             <p className="text-gray-500 text-sm">{new Date(item.registrationDate.seconds * 1000).toLocaleString()}</p>

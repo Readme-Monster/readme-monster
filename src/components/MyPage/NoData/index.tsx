@@ -8,7 +8,7 @@ const NoData = () => {
     navigate("/editor");
   };
   return (
-    <div className="flex flex-col items-center justify-center h-full">
+    <div className="flex flex-col items-center justify-center mt-[30px]">
       <svg width="120" height="100" viewBox="0 0 184 152" aria-hidden focusable="false">
         <g fill="none" fillRule="evenodd">
           <g transform="translate(24 31.67)">
@@ -36,9 +36,9 @@ const NoData = () => {
           </g>
         </g>
       </svg>
-      <h3 className="text-textBlue font-semibold cursor-pointer" onClick={handleClickToBuild}>
+      <p className="text-textBlue font-semibold cursor-pointer mb-0" onClick={handleClickToBuild}>
         생성하러 가기
-      </h3>
+      </p>
     </div>
   );
 };

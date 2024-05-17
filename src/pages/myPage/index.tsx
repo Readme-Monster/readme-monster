@@ -76,12 +76,13 @@ const MyPage = () => {
   }, []);
 
   return (
-    <section className="w-full h-[calc(100vh_-_70px)] flex justify-center ">
-      <div className="flex flex-col items-center justify-center gap-1 p-10 w-2/5 h-full ">
-        <div className="w-full h-full flex flex-col items-center justify-center">
+    <section className="w-full h-[calc(100%_-_70px)] flex flex-Center">
+      <div className="w-[650px] max-h-full p-[24px]">
+        <h1 className="text-center text-xl dark:text-textWhite font-bold mb-[30px]">마이페이지</h1>
+        <div className="w-full flex flex-col items-center justify-center">
           <UserInfo userInfo={userInfo} />
         </div>
-        <div className="w-full h-full overflow-y-scroll hide-scrollbar">
+        <div className="w-full max-h-full my-[30px]">
           <UserPreviousList
             userInfo={userInfo}
             userSectionList={userInfo.sections}
