@@ -37,7 +37,7 @@ const AutoForm = () => {
       w-full h-[45px] p-[10px] ${link ? "pl-[40px]" : "pl-[10px]"}
       rounded-[8px] drop-shadow-[0_1px_1px_rgba(173,181,189,0.25)] border border-[#F1F3F5]
       focus:outline-none focus:ring-2 focus:ring-textBlue
-      placeholder-[#ADB5BD] placeholder:text-[14px]
+      placeholder-[#ADB5BD] placeholder:text-[14px] text-textPrimary
       ${value === "" ? "bg-red-100" : "bg-white"}
     `;
   };
@@ -146,7 +146,7 @@ const AutoForm = () => {
               className="
               w-full h-[45px] p-[10px]
               focus:outline-none focus:ring-2 focus:ring-textBlue
-              rounded-[8px] border-solid border border-[#DEE2E6]
+              rounded-[8px] border-solid border border-[#DEE2E6] text-textPrimary
               placeholder-[#ADB5BD] placeholder:text-[14px]
               "
               placeholder={"값을 입력해주세요."}
