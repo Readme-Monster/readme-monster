@@ -2,7 +2,7 @@
 ![제목을-입력해주세요_-001](https://github.com/Readme-Monster/readme-monster/assets/88364280/96e680e5-613f-4818-8603-8afbb0c9acb1)
 
 ## <img src="public/images/rm-logo.png" width="20" /> RM은 어떤 서비스인가요?
-- Readme Monster는 사용자가 직관적인 인터페이스를 통해 README 파일을 쉽게 구성할 수 있게 도와주고, OpenAI API를 활용하여 맞춤형 README 내용을 자동으로 생성해주는 온라인 플랫폼입니다. 
+- Readme Monster는 사용자가 직관적인 인터페이스를 통해 README 파일을 쉽게 구성할 수 있게 도와주고, OpenAI api를 활용하여 맞춤형 README 내용을 자동으로 생성해주는 온라인 플랫폼입니다. 
 
 ## <img src="public/images/rm-logo.png" width="20" /> 링크
 
