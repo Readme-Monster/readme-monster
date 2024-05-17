@@ -102,8 +102,18 @@ const AiGenerator = ({
 
   //gpt 호출
   const createReadmeCall = async (data, member, avatar_url) => {
-    const repoData = {data, member, avatar_url, techStackList, packageManagerList, descriptionList, aboutRepo, githubRepo, openAiKey};
-    
+    const repoData = {
+      data,
+      member,
+      avatar_url,
+      techStackList,
+      packageManagerList,
+      descriptionList,
+      aboutRepo,
+      githubRepo,
+      openAiKey,
+    };
+
     setIsLoading(true);
     const stream = await CallGPT(repoData);
     console.log(stream);
@@ -134,7 +144,7 @@ const AiGenerator = ({
       actions.setEditorMarkDown(prev => ({ ...prev, ...newSection }));
       actions.setFocusSection(newSection.id);
 
-      setTab("Builder");
+      setTab("builder");
     }
   };
 
